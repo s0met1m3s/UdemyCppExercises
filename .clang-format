@@ -15,7 +15,7 @@ BinPackArguments: true
 BinPackParameters: true
 BraceWrapping:
     AfterCaseLabel: true
-ColumnLimit: 120
+ColumnLimit: 100
 IndentCaseLabels: false
 MaxEmptyLinesToKeep: 2
 NamespaceIndentation: None

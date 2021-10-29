@@ -18,6 +18,8 @@ clang-modernize-*
 -cppcoreguidelines-pro-type-vararg,
 -cppcoreguidelines-special-member-functions,
 -cppcoreguidelines-non-private-member-variables-in-classes,
+-bugprone-exception-escape,
+-bugprone-narrowing-conversions
 '
 WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'

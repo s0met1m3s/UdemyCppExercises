@@ -75,17 +75,17 @@
 - Lambda
 - Map-Reduce
 
-## Chapter 11
+### Optional: Chapter 11
 
 - Move, Copy Constructor/Operator
 - Default
 - Delete
 
-## Chapter 12
+### Optional: Chapter 12
 
 - Unique, Shared, Weak Pointer
 
-## Chapter 13
+### Optional: Chapter 13
 
 - Threads
 - Exceptions
