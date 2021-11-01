@@ -19,7 +19,8 @@ clang-modernize-*
 -cppcoreguidelines-special-member-functions,
 -cppcoreguidelines-non-private-member-variables-in-classes,
 -bugprone-exception-escape,
--bugprone-narrowing-conversions
+-bugprone-narrowing-conversions,
+-bugprone-branch-clone
 '
 WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'
