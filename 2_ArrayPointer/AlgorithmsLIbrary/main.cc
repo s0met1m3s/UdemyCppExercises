@@ -84,7 +84,7 @@ std::size_t count(int *Array, std::size_t Length, int Value)
 
 int *inclusiveScan(int *Array, std::size_t Length)
 {
-    int *Result = new int[Length];
+    int *Result = new int[Length]{};
 
     Result[0] = Array[0];
 

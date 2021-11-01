@@ -11,13 +11,13 @@ std::vector<int> inclusiveScan(std::vector<int> &);
 
 int main()
 {
-    std::vector<int> Vector = {3, 1, 4, 1, 5, 9, 2, 6};
+    auto Vector = std::vector<int>{3, 1, 4, 1, 5, 9, 2, 6};
 
     std::cout << std::boolalpha;
     std::cout << "allOf: " << allOf(Vector, 5) << std::endl;
     std::cout << "anyOf: " << anyOf(Vector, 5) << std::endl;
     std::cout << "noneOf: " << noneOf(Vector, 5) << std::endl;
-    std::vector<int> ScanValues = inclusiveScan(Vector);
+    auto ScanValues = inclusiveScan(Vector);
     std::cout << "inclusiveScan: " << std::endl;
     printVector(ScanValues);
 
@@ -80,7 +80,7 @@ std::size_t count(std::vector<int> &Vector, int Value)
 
 std::vector<int> inclusiveScan(std::vector<int> &Vector)
 {
-    std::vector<int> Result(Vector.size(), 0);
+    auto Result = std::vector<int>(Vector.size(), 0);
 
     Result[0] = Vector[0];
 
