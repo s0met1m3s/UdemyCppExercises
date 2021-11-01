@@ -6,6 +6,7 @@
 void uniqueElements(int *, std::size_t);
 void removeDuplicates(int *, std::size_t &);
 void rotateLeft(int *, std::size_t);
+void rotateRight(int *, std::size_t);
 
 int main()
 {
@@ -19,6 +20,9 @@ int main()
     printArray(Values, Length);
 
     rotateLeft(Values, Length);
+    printArray(Values, Length);
+
+    rotateRight(Values, Length);
     printArray(Values, Length);
 
     return 0;
@@ -102,4 +106,16 @@ void rotateLeft(int *Array, std::size_t Length)
     }
 
     Array[Length - 1] = FirstElement;
+}
+
+void rotateRight(int *Array, std::size_t Length)
+{
+    int LastElement = Array[Length - 1];
+
+    for (std::size_t i = Length - 1; i > 0; i--)
+    {
+        Array[i] = Array[i - 1];
+    }
+
+    Array[0] = LastElement;
 }
