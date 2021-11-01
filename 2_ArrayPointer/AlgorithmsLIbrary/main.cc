@@ -10,14 +10,14 @@ int *inclusiveScan(int *, std::size_t);
 
 int main()
 {
-    int Values[] = {3, 1, 4, 1, 5, 9, 2, 6};
+    int Array[] = {3, 1, 4, 1, 5, 9, 2, 6};
     std::size_t Length = 8;
 
     std::cout << std::boolalpha;
-    std::cout << "allOf: " << allOf(Values, Length, 5) << std::endl;
-    std::cout << "anyOf: " << anyOf(Values, Length, 5) << std::endl;
-    std::cout << "noneOf: " << noneOf(Values, Length, 5) << std::endl;
-    int *ScanValues = inclusiveScan(Values, Length);
+    std::cout << "allOf: " << allOf(Array, Length, 5) << std::endl;
+    std::cout << "anyOf: " << anyOf(Array, Length, 5) << std::endl;
+    std::cout << "noneOf: " << noneOf(Array, Length, 5) << std::endl;
+    int *ScanValues = inclusiveScan(Array, Length);
     std::cout << "inclusiveScan: " << std::endl;
     printArray(ScanValues, Length);
 

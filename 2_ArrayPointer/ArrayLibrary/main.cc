@@ -10,32 +10,22 @@ void rotateRight(int *, std::size_t);
 
 int main()
 {
-    int Values[] = {1, 1, 2, 3, 3, 4};
+    int Array[] = {1, 1, 2, 3, 3, 4};
     std::size_t Length = 6;
 
     std::cout << "uniqueElements: " << std::endl;
-    uniqueElements(Values, Length);
+    uniqueElements(Array, Length);
 
-    removeDuplicates(Values, Length);
-    printArray(Values, Length);
+    removeDuplicates(Array, Length);
+    printArray(Array, Length);
 
-    rotateLeft(Values, Length);
-    printArray(Values, Length);
+    rotateLeft(Array, Length);
+    printArray(Array, Length);
 
-    rotateRight(Values, Length);
-    printArray(Values, Length);
+    rotateRight(Array, Length);
+    printArray(Array, Length);
 
     return 0;
-}
-
-void printArray(int *Array, std::size_t Length)
-{
-    for (std::size_t i = 0; i < Length; i++)
-    {
-        std::cout << Array[i] << std::endl;
-    }
-
-    std::cout << std::endl;
 }
 
 void uniqueElements(int *Array, std::size_t Length)
