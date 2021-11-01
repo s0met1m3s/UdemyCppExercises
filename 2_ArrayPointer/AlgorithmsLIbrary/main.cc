@@ -1,6 +1,6 @@
 #include <iostream>
 
-void printArray(int *, std::size_t);
+#include "utils.h"
 
 bool allOf(int *, std::size_t, int);
 bool anyOf(int *, std::size_t, int);
@@ -27,15 +27,6 @@ int main()
     return 0;
 }
 
-void printArray(int *Array, std::size_t Length)
-{
-    for (std::size_t i = 0; i < Length; i++)
-    {
-        std::cout << Array[i] << std::endl;
-    }
-
-    std::cout << std::endl;
-}
 
 bool allOf(int *Array, std::size_t Length, int Value)
 {

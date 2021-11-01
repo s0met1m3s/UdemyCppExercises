@@ -1,7 +1,7 @@
 #include <cstring>
 #include <iostream>
 
-void printArray(int *, std::size_t);
+#include "utils.h"
 
 void uniqueElements(int *, std::size_t);
 void removeDuplicates(int *, std::size_t &);
@@ -65,7 +65,7 @@ void removeDuplicates(int *Array, std::size_t &Length)
 {
     for (std::size_t i = 0; i < Length; i++)
     {
-        std::size_t duplicateIndex = -1;
+        std::size_t duplicateIndex = std::string::npos;
         int CurrentValue = Array[i];
 
         for (std::size_t j = i + 1; j < Length; j++)
