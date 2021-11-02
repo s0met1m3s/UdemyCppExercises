@@ -3,7 +3,9 @@
 #include <cstring>
 #include <iostream>
 
-#include "Image.h"
+#include "Image.hpp"
+#include "distance.hpp"
+
 
 Image::Image(const std::uint32_t width, const std::uint32_t height)
     : m_width(width), m_height(height),
@@ -118,43 +120,78 @@ void Image::draw_line(const std::uint32_t x1,
             }
         }
     }
-    else
+}
+
+void Image::draw_rectangle(const Rectangle &rectangle, const uchar value)
+{
+    Image::draw_line(rectangle.x1,
+                     rectangle.y1,
+                     rectangle.x1,
+                     rectangle.y2,
+                     value); // Left Vertical
+    Image::draw_line(rectangle.x2,
+                     rectangle.y1,
+                     rectangle.x2,
+                     rectangle.y2,
+                     value); // Right Vertical
+    Image::draw_line(rectangle.x1,
+                     rectangle.y1,
+                     rectangle.x2,
+                     rectangle.y1,
+                     value); // Upper Horizontal
+    Image::draw_line(rectangle.x1,
+                     rectangle.y2,
+                     rectangle.x2,
+                     rectangle.y2,
+                     value); // Lower Horizontal
+}
+
+void Image::fill_rectangle(const Rectangle &rectangle, const uchar value)
+{
+    for (auto i = rectangle.x1; i < rectangle.x2; i++)
     {
-        std::cout << "Line Error" << std::endl;
-        std::cout << x1 << " " << y1 << " " << x2 << " " << y2 << " " << std::endl;
+        for (auto j = rectangle.y1; j < rectangle.y2; j++)
+        {
+            set_pixel(i, j, value);
+        }
     }
 }
 
-void Image::draw_rectangle(const std::uint32_t x1,
-                           const std::uint32_t y1,
-                           const std::uint32_t x2,
-                           const std::uint32_t y2,
-                           const uchar value)
+void Image::draw_circle(const Circle &circle, const uchar value)
 {
-    Image::draw_line(x1, y1, x1, y2, value); // Left Vertical
-    Image::draw_line(x2, y1, x2, y2, value); // Right Vertical
-    Image::draw_line(x1, y1, x2, y1, value); // Upper Horizontal
-    Image::draw_line(x1, y2, x2, y2, value); // Lower Horizontal
+    const auto x_lower_bound = circle.x_midpoint - circle.radius;
+    const auto x_upper_bound = circle.x_midpoint + circle.radius;
+    const auto y_lower_bound = circle.x_midpoint - circle.radius;
+    const auto y_upper_bound = circle.x_midpoint + circle.radius;
+
+    for (auto i = x_lower_bound; i < x_upper_bound; i++)
+    {
+        for (auto j = y_lower_bound; j < y_upper_bound; j++)
+        {
+            auto distance = get_distance(i, j, circle.x_midpoint, circle.y_midpoint);
+
+            if ((std::ceil(distance) == circle.radius))
+            {
+                set_pixel(i, j, value);
+            }
+        }
+    }
 }
 
-void Image::draw_circle(const std::uint32_t mid_point_x,
-                        const std::uint32_t mid_point_y,
-                        const std::uint32_t radius,
-                        const uchar value)
+void Image::fill_circle(const Circle &circle, const uchar value)
 {
-    for (std::uint32_t i = mid_point_x - radius; i < mid_point_x + radius; i++)
+    const auto x_lower_bound = circle.x_midpoint - circle.radius;
+    const auto x_upper_bound = circle.x_midpoint + circle.radius;
+    const auto y_lower_bound = circle.x_midpoint - circle.radius;
+    const auto y_upper_bound = circle.x_midpoint + circle.radius;
+
+    for (auto i = x_lower_bound; i < x_upper_bound; i++)
     {
-        for (std::uint32_t j = mid_point_y - radius; j < mid_point_y + radius; j++)
+        for (auto j = y_lower_bound; j < y_upper_bound; j++)
         {
-            auto a_diff = static_cast<std::int32_t>(i) - static_cast<std::int32_t>(mid_point_x);
-            auto a_squared = std::pow(a_diff, 2);
-            auto b_diff = static_cast<std::int32_t>(j) - static_cast<std::int32_t>(mid_point_y);
-            auto b_squared = std::pow(b_diff, 2);
-            auto distance = std::sqrt(a_squared + b_squared);
+            auto distance = get_distance(i, j, circle.x_midpoint, circle.y_midpoint);
 
-            std::cout << i << " " << j << " " << distance << std::endl;
-
-            if (distance <= radius)
+            if (distance <= circle.radius)
             {
                 set_pixel(i, j, value);
             }
@@ -166,8 +203,8 @@ void Image::save_image(std::string_view file_name) const
 {
     FILE *f = nullptr;
 
-    std::uint32_t num_bytes = 3 * m_width * m_height;
-    uchar *img = new uchar[num_bytes]{};
+    auto num_bytes = 3 * m_width * m_height;
+    auto *img = new uchar[num_bytes]{};
 
     int filesize = 54 + 3 * m_width * m_height;
 

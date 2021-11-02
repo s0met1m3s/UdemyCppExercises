@@ -2,7 +2,7 @@
 #include <cstring>
 #include <iostream>
 
-#include "Image.h"
+#include "Image.hpp"
 
 Image::Image(const std::uint32_t width, const std::uint32_t height)
     : m_width(width), m_height(height),
@@ -117,19 +117,14 @@ void Image::draw_line(const std::uint32_t x1,
             }
         }
     }
-    else
-    {
-        std::cout << "Line Error" << std::endl;
-        std::cout << x1 << " " << y1 << " " << x2 << " " << y2 << " " << std::endl;
-    }
 }
 
 void Image::save_image(std::string_view file_name) const
 {
     FILE *f = nullptr;
 
-    std::uint32_t num_bytes = 3 * m_width * m_height;
-    uchar *img = new uchar[num_bytes]{};
+    auto num_bytes = 3 * m_width * m_height;
+    auto *img = new uchar[num_bytes]{};
 
     int filesize = 54 + 3 * m_width * m_height;
 

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Image.h"
+#include "Image.hpp"
 
 int main()
 {

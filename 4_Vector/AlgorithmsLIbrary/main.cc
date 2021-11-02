@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-#include "utils.h"
+#include "utils.hpp"
 
 bool allOf(const std::vector<int> &Vector, const int Value);
 bool anyOf(const std::vector<int> &Vector, const int Value);

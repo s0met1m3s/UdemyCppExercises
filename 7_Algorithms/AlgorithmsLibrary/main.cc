@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "algo.hpp"
-#include "utils.h"
+#include "utils.hpp"
 
 
 int main()

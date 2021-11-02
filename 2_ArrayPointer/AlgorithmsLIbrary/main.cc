@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "utils.h"
+#include "utils.hpp"
 
 bool allOf(int *Array, std::size_t Length, int Value);
 bool anyOf(int *Array, std::size_t Length, int Value);

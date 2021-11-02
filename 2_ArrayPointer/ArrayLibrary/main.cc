@@ -1,7 +1,7 @@
 #include <cstring>
 #include <iostream>
 
-#include "utils.h"
+#include "utils.hpp"
 
 void uniqueElements(int *Array, std::size_t Length);
 void removeDuplicates(int *Array, std::size_t &Length);

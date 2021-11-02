@@ -4,6 +4,8 @@
 #include <string_view>
 #include <vector>
 
+#include "Shape.hpp"
+
 using uchar = unsigned char;
 using GrayscaleMatrix = std::vector<std::vector<uchar>>;
 
@@ -29,16 +31,13 @@ public:
                    const std::uint32_t y2,
                    const uchar value);
 
-    void draw_rectangle(const std::uint32_t x1,
-                        const std::uint32_t y1,
-                        const std::uint32_t x2,
-                        const std::uint32_t y2,
-                        const uchar value);
+    void draw_rectangle(const Rectangle &rectangle, const uchar value);
 
-    void draw_circle(const std::uint32_t mid_point_x,
-                     const std::uint32_t mid_point_y,
-                     const std::uint32_t radius,
-                     const uchar value);
+    void fill_rectangle(const Rectangle &rectangle, const uchar value);
+
+    void draw_circle(const Circle &circle, const uchar value);
+
+    void fill_circle(const Circle &circle, const uchar value);
 
 private:
     std::uint32_t m_width;

@@ -2,10 +2,13 @@
 #define UTILS_H
 
 #include <array>
+#include <cmath>
 #include <iostream>
 #include <map>
 #include <unordered_map>
 #include <vector>
+
+constexpr double PI = 3.14159265358979311600;
 
 template <typename T>
 void printArray(const T *Array, const std::size_t Length)
