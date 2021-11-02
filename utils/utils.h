@@ -1,12 +1,14 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include <array>
 #include <iostream>
 #include <map>
 #include <unordered_map>
 #include <vector>
 
-template <typename T> void printArray(const T *const Array, const std::size_t Length)
+template <typename T>
+void printArray(const T *Array, const std::size_t Length)
 {
     for (std::size_t i = 0; i < Length - 1; i++)
     {
@@ -16,7 +18,19 @@ template <typename T> void printArray(const T *const Array, const std::size_t Le
     std::cout << Array[Length - 1] << std::endl;
 }
 
-template <typename T> void printVector(const std::vector<T> Vector)
+template <typename T, std::size_t S>
+void printArray(const std::array<T, S> Array)
+{
+    for (std::size_t i = 0; i < Array.size() - 1; i++)
+    {
+        std::cout << Array[i] << ", ";
+    }
+
+    std::cout << Array[Array.size() - 1] << std::endl;
+}
+
+template <typename T>
+void printVector(const std::vector<T> Vector)
 {
     for (std::size_t i = 0; i < Vector.size() - 1; i++)
     {
@@ -37,7 +51,8 @@ void printVector(const std::vector<std::pair<std::string, std::size_t>> Vector)
               << std::endl;
 }
 
-template <typename T, typename U> void printMap(const std::map<T, U> Map)
+template <typename T, typename U>
+void printMap(const std::map<T, U> Map)
 {
     for (const auto &[Key, Value] : Map)
     {
@@ -45,7 +60,8 @@ template <typename T, typename U> void printMap(const std::map<T, U> Map)
     }
 }
 
-template <typename T, typename U> void printMap(const std::unordered_map<T, U> Map)
+template <typename T, typename U>
+void printMap(const std::unordered_map<T, U> Map)
 {
     for (const auto &[Key, Value] : Map)
     {

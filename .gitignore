@@ -3,7 +3,7 @@
 ################################
 # Ignore all
 *
-# Unignore all with extensions
+# Unignore all With extensions
 !*.*
 # Unignore all dirs
 !*/

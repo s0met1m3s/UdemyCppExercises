@@ -1,12 +1,12 @@
 #include <iostream>
 
-float convertMillisecondsToSeconds(float);
-float convertSecondsToMinutes(float);
-float convertMinutesToHours(float);
+float convertMillisecondsToSeconds(float Millisconds);
+float convertSecondsToMinutes(float Seconds);
+float convertMinutesToHours(float Minutes);
 
-float convertMillisecondsToMinutes(float);
-float convertMillisecondsToHours(float);
-float convertSecondsToHours(float);
+float convertMillisecondsToMinutes(float Millisconds);
+float convertMillisecondsToHours(float Millisconds);
+float convertSecondsToHours(float Seconds);
 
 int main()
 {

@@ -9,7 +9,7 @@
  *
  * @return
  */
-double calculatePi(std::uint32_t);
+double calculatePi(std::uint32_t NumIterations);
 
 int main()
 {
@@ -24,12 +24,12 @@ int main()
 
 double calculatePi(std::uint32_t NumIterations)
 {
-    double result = 0.0;
+    double Result = 0.0;
 
-    for (uint32_t k = 0; k < NumIterations; k++)
+    for (std::uint32_t k = 0; k < NumIterations; k++)
     {
-        result += (1.0 / (4.0 * k + 1.0)) - (1.0 / (4.0 * k + 3.0));
+        Result += (1.0 / (4.0 * k + 1.0)) - (1.0 / (4.0 * k + 3.0));
     }
 
-    return result * 4.0;
+    return Result * 4.0;
 }

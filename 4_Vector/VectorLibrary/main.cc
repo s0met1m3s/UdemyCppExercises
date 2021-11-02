@@ -4,12 +4,12 @@
 
 #include "utils.h"
 
-void uniqueElements(std::vector<int> &);
-void removeDuplicates(std::vector<int> &);
-void rotateLeft(std::vector<int> &);
-void rotateRight(std::vector<int> &);
+void uniqueElements(const std::vector<int> &Vector);
+void removeDuplicates(std::vector<int> &Vector);
+void rotateLeft(std::vector<int> &Vector);
+void rotateRight(std::vector<int> &Vector);
 
-void swapBoundaryValues(std::vector<int> &);
+void swapBoundaryValues(std::vector<int> &Vector);
 
 int main()
 {
@@ -33,7 +33,7 @@ int main()
     return 0;
 }
 
-void uniqueElements(std::vector<int> &Vector)
+void uniqueElements(const std::vector<int> &Vector)
 {
     for (std::size_t i = 0; i < Vector.size(); i++)
     {

@@ -2,11 +2,11 @@
 
 #include "utils.h"
 
-bool allOf(int *, std::size_t, int);
-bool anyOf(int *, std::size_t, int);
-bool noneOf(int *, std::size_t, int);
-std::size_t count(int *, std::size_t, int);
-int *inclusiveScan(int *, std::size_t);
+bool allOf(int *Array, std::size_t Length, int Value);
+bool anyOf(int *Array, std::size_t Length, int Value);
+bool noneOf(int *Array, std::size_t Length, int Value);
+std::size_t count(int *Array, std::size_t Length, int Value);
+int *inclusiveScan(int *Array, std::size_t Length);
 
 int main()
 {
@@ -69,7 +69,7 @@ bool noneOf(int *Array, std::size_t Length, int Value)
 
 std::size_t count(int *Array, std::size_t Length, int Value)
 {
-    std::size_t Temp = 0U;
+    std::size_t Temp = 0;
 
     for (std::size_t i = 0; i < Length; i++)
     {

@@ -1,8 +1,8 @@
 #include <iostream>
 
-void printArray(const int *const, const std::size_t);
+void printArray(const int *Array, const std::size_t Length);
 
-void printArray(const char *);
+void printArray(const char *Array);
 
 int main()
 {
@@ -16,7 +16,7 @@ int main()
 }
 
 
-void printArray(const int *const Array, const std::size_t Length)
+void printArray(const int *Array, const std::size_t Length)
 {
     for (std::size_t i = 0; i < Length - 1; i++)
     {

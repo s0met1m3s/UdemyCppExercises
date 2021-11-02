@@ -3,10 +3,10 @@
 
 #include "utils.h"
 
-void uniqueElements(int *, std::size_t);
-void removeDuplicates(int *, std::size_t &);
-void rotateLeft(int *, std::size_t);
-void rotateRight(int *, std::size_t);
+void uniqueElements(int *Array, std::size_t Length);
+void removeDuplicates(int *Array, std::size_t &Length);
+void rotateLeft(int *Array, std::size_t Length);
+void rotateRight(int *Array, std::size_t Length);
 
 int main()
 {

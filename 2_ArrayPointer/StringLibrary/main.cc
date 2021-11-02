@@ -2,28 +2,28 @@
 
 /* CHARS */
 
-bool isNumeric(char);
-bool isAlpha(char);
-bool isAlphaNumeric(char);
-bool isUpperCase(char);
-bool isLowerCase(char);
+bool isNumeric(char Character);
+bool isAlpha(char Character);
+bool isAlphaNumeric(char Character);
+bool isUpperCase(char Character);
+bool isLowerCase(char Character);
 
-char toUpperCase(char);
-char toLowerCase(char);
+char toUpperCase(char Character);
+char toLowerCase(char Character);
 
 /* CHAR ARRAYS */
 
-char *toUpperCase(char *);
-char *toLowerCase(char *);
+char *toUpperCase(char *Text);
+char *toLowerCase(char *Text);
 
-std::size_t stringLength(char *);
-char *charSearch(char *, char);
+std::size_t stringLength(char *Text);
+char *charSearch(char *Text, char Character);
 
 int main()
 {
     char InputText[50] = {};
 
-    std::cout << "Please enter any text: ";
+    std::cout << "Please enter any Text: ";
     std::cin >> InputText;
 
     std::cout << "toUpperCase: " << toUpperCase(InputText) << std::endl;
@@ -139,7 +139,7 @@ char *toLowerCase(char *Text)
 
 std::size_t stringLength(char *Text)
 {
-    std::size_t Length = 0U;
+    std::size_t Length = 0;
 
     while (*Text != '\0')
     {

@@ -3,11 +3,11 @@
 
 #include "utils.h"
 
-bool allOf(std::vector<int> &, int);
-bool anyOf(std::vector<int> &, int);
-bool noneOf(std::vector<int> &, int);
-std::size_t count(std::vector<int> &, int);
-std::vector<int> inclusiveScan(std::vector<int> &);
+bool allOf(const std::vector<int> &Vector, const int Value);
+bool anyOf(const std::vector<int> &Vector, const int Value);
+bool noneOf(const std::vector<int> &Vector, const int Value);
+std::size_t count(const std::vector<int> &Vector, const int Value);
+std::vector<int> inclusiveScan(const std::vector<int> &Vector);
 
 int main()
 {
@@ -24,7 +24,7 @@ int main()
     return 0;
 }
 
-bool allOf(std::vector<int> &Vector, int Value)
+bool allOf(const std::vector<int> &Vector, const int Value)
 {
     for (std::size_t i = 0; i < Vector.size(); i++)
     {
@@ -37,7 +37,7 @@ bool allOf(std::vector<int> &Vector, int Value)
     return true;
 }
 
-bool anyOf(std::vector<int> &Vector, int Value)
+bool anyOf(const std::vector<int> &Vector, const int Value)
 {
     for (std::size_t i = 0; i < Vector.size(); i++)
     {
@@ -50,7 +50,7 @@ bool anyOf(std::vector<int> &Vector, int Value)
     return false;
 }
 
-bool noneOf(std::vector<int> &Vector, int Value)
+bool noneOf(const std::vector<int> &Vector, const int Value)
 {
     for (std::size_t i = 0; i < Vector.size(); i++)
     {
@@ -63,9 +63,9 @@ bool noneOf(std::vector<int> &Vector, int Value)
     return true;
 }
 
-std::size_t count(std::vector<int> &Vector, int Value)
+std::size_t count(const std::vector<int> &Vector, const int Value)
 {
-    std::size_t Temp = 0U;
+    std::size_t Temp = 0;
 
     for (std::size_t i = 0; i < Vector.size(); i++)
     {
@@ -78,7 +78,7 @@ std::size_t count(std::vector<int> &Vector, int Value)
     return Temp;
 }
 
-std::vector<int> inclusiveScan(std::vector<int> &Vector)
+std::vector<int> inclusiveScan(const std::vector<int> &Vector)
 {
     auto Result = std::vector<int>(Vector.size(), 0);
 

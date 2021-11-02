@@ -1,13 +1,13 @@
 #include <iostream>
 
-bool isNumeric(char);
-bool isAlpha(char);
-bool isAlphaNumeric(char);
-bool isUpperCase(char);
-bool isLowerCase(char);
+bool isNumeric(char Character);
+bool isAlpha(char Character);
+bool isAlphaNumeric(char Character);
+bool isUpperCase(char Character);
+bool isLowerCase(char Character);
 
-char toUpperCase(char);
-char toLowerCase(char);
+char toUpperCase(char Character);
+char toLowerCase(char Character);
 
 int main()
 {

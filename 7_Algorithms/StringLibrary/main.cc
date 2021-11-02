@@ -3,8 +3,8 @@
 #include <string>
 #include <string_view>
 
-std::string toUpperCase(const std::string &);
-std::string toLowerCase(const std::string &);
+std::string toUpperCase(std::string_view Text);
+std::string toLowerCase(std::string_view Text);
 
 int main()
 {
