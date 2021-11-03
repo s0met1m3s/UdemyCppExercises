@@ -1,10 +1,13 @@
 #pragma once
 
+#include <vector>
+
 namespace mystd
 {
 
-template <class InputIter1, class InputIter2>
-bool equal(InputIter1 first1, InputIter1 last1, InputIter2 first2)
+bool equal(std::vector<int>::iterator first1,
+           std::vector<int>::iterator last1,
+           std::vector<int>::iterator first2)
 {
     for (; first1 != last1; ++first1, ++first2)
     {
@@ -16,18 +19,18 @@ bool equal(InputIter1 first1, InputIter1 last1, InputIter2 first2)
     return true;
 }
 
-template <class OutputIter, class Size, class T>
-OutputIter fill_n(OutputIter first, Size count, const T &value)
+std::vector<int>::iterator fill_n(std::vector<int>::iterator first,
+                                  std::size_t count,
+                                  const int &value)
 {
-    for (Size i = 0; i < count; ++i)
+    for (std::size_t i = 0; i < count; ++i)
     {
         *first++ = value;
     }
     return first;
 }
 
-template <class ForwardIter, class T>
-void iota(ForwardIter first, ForwardIter last, T value)
+void iota(std::vector<int>::iterator first, std::vector<int>::iterator last, int value)
 {
     while (first != last)
     {
@@ -36,8 +39,9 @@ void iota(ForwardIter first, ForwardIter last, T value)
     }
 }
 
-template <class InputIter, class OutputIter>
-OutputIter copy(InputIter first, InputIter last, OutputIter d_first)
+std::vector<int>::iterator copy(std::vector<int>::iterator first,
+                                std::vector<int>::iterator last,
+                                std::vector<int>::iterator d_first)
 {
     while (first != last)
     {
@@ -46,8 +50,7 @@ OutputIter copy(InputIter first, InputIter last, OutputIter d_first)
     return d_first;
 }
 
-template <class InputIter, class T>
-T accumulate(InputIter first, InputIter last, T init)
+int accumulate(std::vector<int>::iterator first, std::vector<int>::iterator last, int init)
 {
     for (; first != last; ++first)
     {
@@ -56,8 +59,10 @@ T accumulate(InputIter first, InputIter last, T init)
     return init;
 }
 
-template <class InputIter1, class InputIter2, class T>
-T inner_product(InputIter1 first1, InputIter1 last1, InputIter2 first2, T init)
+int inner_product(std::vector<int>::iterator first1,
+                  std::vector<int>::iterator last1,
+                  std::vector<int>::iterator first2,
+                  int init)
 {
     for (; first1 != last1; ++first1, ++first2)
     {
