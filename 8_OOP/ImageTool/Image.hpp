@@ -7,7 +7,7 @@
 #include "Shape.hpp"
 
 using uchar = unsigned char;
-using GrayscaleMatrix = std::vector<std::vector<uchar>>;
+using GrayscaleImage = std::vector<std::vector<uchar>>;
 
 class Image
 {
@@ -42,5 +42,5 @@ public:
 private:
     std::uint32_t m_width;
     std::uint32_t m_height;
-    GrayscaleMatrix m_matrix;
+    GrayscaleImage m_matrix;
 };

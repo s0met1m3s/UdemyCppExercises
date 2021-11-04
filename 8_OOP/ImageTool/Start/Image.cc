@@ -6,7 +6,7 @@
 
 Image::Image(const std::uint32_t width, const std::uint32_t height)
     : m_width(width), m_height(height),
-      m_matrix(GrayscaleMatrix(m_width, std::vector<uchar>(m_height, 0)))
+      m_matrix(GrayscaleImage(m_width, std::vector<uchar>(m_height, 0)))
 {
     std::cout << "Created image object with shape=(" << m_width << "," << m_height << ")!"
               << std::endl;

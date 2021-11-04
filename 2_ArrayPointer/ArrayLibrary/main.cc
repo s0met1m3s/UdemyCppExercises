@@ -3,46 +3,46 @@
 
 #include "utils.hpp"
 
-void uniqueElements(int *Array, std::size_t Length);
-void removeDuplicates(int *Array, std::size_t &Length);
-void rotateLeft(int *Array, std::size_t Length);
-void rotateRight(int *Array, std::size_t Length);
+void unique_elements(int *array, std::size_t length);
+void remove_duplicates(int *array, std::size_t &length);
+void rotate_left(int *array, std::size_t length);
+void rotate_right(int *array, std::size_t length);
 
 int main()
 {
-    int Array[] = {1, 1, 2, 3, 3, 4};
-    std::size_t Length = 6;
+    int array[] = {1, 1, 2, 3, 3, 4};
+    std::size_t length = 6;
 
-    std::cout << "uniqueElements: " << std::endl;
-    uniqueElements(Array, Length);
+    std::cout << "unique_elements: " << std::endl;
+    unique_elements(array, length);
 
-    removeDuplicates(Array, Length);
-    printArray(Array, Length);
+    remove_duplicates(array, length);
+    print_array(array, length);
 
-    rotateLeft(Array, Length);
-    printArray(Array, Length);
+    rotate_left(array, length);
+    print_array(array, length);
 
-    rotateRight(Array, Length);
-    printArray(Array, Length);
+    rotate_right(array, length);
+    print_array(array, length);
 
     return 0;
 }
 
-void uniqueElements(int *Array, std::size_t Length)
+void unique_elements(int *array, std::size_t length)
 {
-    for (std::size_t i = 0; i < Length; i++)
+    for (std::size_t i = 0; i < length; i++)
     {
         bool unique = true;
-        int CurrentValue = Array[i];
+        int Current_value = array[i];
 
-        for (std::size_t j = 0; j < Length; j++)
+        for (std::size_t j = 0; j < length; j++)
         {
             if (i == j)
             {
                 continue;
             }
 
-            if (CurrentValue == Array[j])
+            if (Current_value == array[j])
             {
                 unique = false;
             }
@@ -50,62 +50,62 @@ void uniqueElements(int *Array, std::size_t Length)
 
         if (unique == true)
         {
-            std::cout << "unique element: " << CurrentValue << std::endl;
+            std::cout << "unique element: " << Current_value << std::endl;
         }
     }
 }
 
-void removeDuplicates(int *Array, std::size_t &Length)
+void remove_duplicates(int *array, std::size_t &length)
 {
-    for (std::size_t i = 0; i < Length; i++)
+    for (std::size_t i = 0; i < length; i++)
     {
-        std::size_t duplicateIndex = std::string::npos;
-        int CurrentValue = Array[i];
+        std::size_t duplicate_index = std::string::npos;
+        int Current_value = array[i];
 
-        for (std::size_t j = i + 1; j < Length; j++)
+        for (std::size_t j = i + 1; j < length; j++)
         {
-            if (CurrentValue == Array[j])
+            if (Current_value == array[j])
             {
-                duplicateIndex = j;
-                Length--;
+                duplicate_index = j;
+                length--;
                 break;
             }
         }
 
-        if (duplicateIndex == -1)
+        if (duplicate_index == -1)
         {
             continue;
         }
 
-        for (std::size_t j = duplicateIndex; j < Length; j++)
+        for (std::size_t j = duplicate_index; j < length; j++)
         {
-            Array[j] = Array[j + 1];
+            array[j] = array[j + 1];
         }
 
-        Array[Length] = 0;
+        array[length] = 0;
     }
 }
 
-void rotateLeft(int *Array, std::size_t Length)
+void rotate_left(int *array, std::size_t length)
 {
-    int FirstElement = Array[0];
+    int first_element = array[0];
 
-    for (std::size_t i = 1; i < Length; i++)
+    for (std::size_t i = 1; i < length; i++)
     {
-        Array[i - 1] = Array[i];
+        array[i - 1] = array[i];
     }
 
-    Array[Length - 1] = FirstElement;
+    array[length - 1] = first_element;
 }
 
-void rotateRight(int *Array, std::size_t Length)
+void rotate_right(int *array, std::size_t length)
 {
-    int LastElement = Array[Length - 1];
+    int Last_element = array[length - 1];
 
-    for (std::size_t i = Length - 1; i > 0; i--)
+    for (std::size_t i = length - 1; i > 0; i--)
     {
-        Array[i] = Array[i - 1];
+        array[i] = array[i - 1];
     }
 
-    Array[0] = LastElement;
+    array[0] = Last_element;
 }

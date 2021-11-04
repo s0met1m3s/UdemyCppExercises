@@ -16,20 +16,20 @@ struct VehicleType
 {
     std::int32_t Id;
     LaneAssociationType Lane;
-    float SpeedMps;
-    float LongitudinalDistanceM;
+    float speed_mps;
+    float longitudinal_distanceM;
 };
 
-struct NeighbourVehiclesType
+struct NeighborVehiclesType
 {
-    VehicleType VehiclesLeftLane[NUM_VEHICLES_ON_LANE];
-    VehicleType VehiclesCenterLane[NUM_VEHICLES_ON_LANE];
-    VehicleType VehiclesRightLane[NUM_VEHICLES_ON_LANE];
+    VehicleType vehicles_leftLane[NUM_VEHICLES_ON_LANE];
+    VehicleType vehicles_centerLane[NUM_VEHICLES_ON_LANE];
+    VehicleType vehicles_rightLane[NUM_VEHICLES_ON_LANE];
 };
 
 struct GapType
 {
-    float LengthM;
+    float length_m;
     LaneAssociationType Lane;
-    bool ValidFlag;
+    bool valid_flag;
 };

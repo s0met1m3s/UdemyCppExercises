@@ -21,14 +21,24 @@ fs::path link_files(FileVec source_files);
 
 void run(const fs::path &executable_path);
 
-int main()
+int main(int argc, char **argv)
 {
-    fs::path dir = fs::current_path();
-    dir /= "test";
+    fs::path dir;
+
+    if (argc != 2)
+    {
+        dir /= fs::current_path();
+        dir /= "test";
+    }
+    else
+    {
+        auto input_path = std::string(argv[1]);
+        dir = fs::path(input_path);
+    }
 
     auto files = get_files_in_dir(dir);
 
-    printVector(files);
+    print_vector(files);
 
     for (const auto &file : files)
     {
@@ -44,9 +54,15 @@ bool is_source_file(const fs::path &file)
 {
     const auto allowed_extensions = std::array<std::string, 3>{".cc", ".cxx", ".cpp"};
 
-    return std::any_of(allowed_extensions.begin(), allowed_extensions.end(), [&](auto extension) {
-        return file.extension() == extension;
-    });
+    for (const auto &extension : allowed_extensions)
+    {
+        if (file.extension() == extension)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 std::vector<fs::path> get_files_in_dir(const fs::path &dir)
@@ -55,9 +71,11 @@ std::vector<fs::path> get_files_in_dir(const fs::path &dir)
 
     for (auto it = fs::directory_iterator(dir); it != fs::directory_iterator{}; ++it)
     {
-        if (is_source_file((*it).path()) && fs::is_regular_file((*it).path()))
+        auto current_file = *it;
+
+        if (is_source_file(current_file.path()) && fs::is_regular_file(current_file.path()))
         {
-            files.push_back(*it);
+            files.push_back(current_file);
         }
     }
 
@@ -73,7 +91,7 @@ void compile_file(fs::path source_file)
     const std::string object_filename = source_file.string();
     command += " -o " + object_filename;
 
-    std::system(command.data());
+    std::system(command.c_str());
 }
 
 fs::path link_files(FileVec source_files)
@@ -99,5 +117,7 @@ fs::path link_files(FileVec source_files)
 
 void run(const fs::path &executable_path)
 {
-    std::system(reinterpret_cast<const char *>(executable_path.c_str()));
+    const auto executable_path_str = executable_path.string();
+
+    std::system(executable_path_str.c_str());
 }

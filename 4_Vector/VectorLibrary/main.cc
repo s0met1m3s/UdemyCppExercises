@@ -4,50 +4,50 @@
 
 #include "utils.hpp"
 
-void uniqueElements(const std::vector<int> &Vector);
-void removeDuplicates(std::vector<int> &Vector);
-void rotateLeft(std::vector<int> &Vector);
-void rotateRight(std::vector<int> &Vector);
+void unique_elements(const std::vector<int> &vector);
+void remove_duplicates(std::vector<int> &vector);
+void rotate_left(std::vector<int> &vector);
+void rotate_right(std::vector<int> &vector);
 
-void swapBoundaryValues(std::vector<int> &Vector);
+void swap_boundaryValues(std::vector<int> &vector);
 
 int main()
 {
-    auto Vector = std::vector<int>{1, 1, 2, 3, 3, 4};
+    auto vector = std::vector<int>{1, 1, 2, 3, 3, 4};
 
-    std::cout << "uniqueElements: " << std::endl;
-    uniqueElements(Vector);
+    std::cout << "unique_elements: " << std::endl;
+    unique_elements(vector);
 
-    std::cout << "removeDuplicates: " << std::endl;
-    removeDuplicates(Vector);
-    printVector(Vector);
+    std::cout << "remove_duplicates: " << std::endl;
+    remove_duplicates(vector);
+    print_vector(vector);
 
-    std::cout << "rotateLeft: " << std::endl;
-    rotateLeft(Vector);
-    printVector(Vector);
+    std::cout << "rotate_left: " << std::endl;
+    rotate_left(vector);
+    print_vector(vector);
 
-    std::cout << "rotateRight: " << std::endl;
-    rotateRight(Vector);
-    printVector(Vector);
+    std::cout << "rotate_right: " << std::endl;
+    rotate_right(vector);
+    print_vector(vector);
 
     return 0;
 }
 
-void uniqueElements(const std::vector<int> &Vector)
+void unique_elements(const std::vector<int> &vector)
 {
-    for (std::size_t i = 0; i < Vector.size(); i++)
+    for (std::size_t i = 0; i < vector.size(); i++)
     {
         auto unique = true;
-        auto CurrentValue = Vector[i];
+        auto Current_value = vector[i];
 
-        for (std::size_t j = 0; j < Vector.size(); j++)
+        for (std::size_t j = 0; j < vector.size(); j++)
         {
             if (i == j)
             {
                 continue;
             }
 
-            if (CurrentValue == Vector[j])
+            if (Current_value == vector[j])
             {
                 unique = false;
             }
@@ -55,72 +55,72 @@ void uniqueElements(const std::vector<int> &Vector)
 
         if (unique == true)
         {
-            std::cout << "unique element: " << CurrentValue << std::endl;
+            std::cout << "unique element: " << Current_value << std::endl;
         }
     }
 }
 
-void removeDuplicates(std::vector<int> &Vector)
+void remove_duplicates(std::vector<int> &vector)
 {
-    for (std::size_t i = 0; i < Vector.size(); i++)
+    for (std::size_t i = 0; i < vector.size(); i++)
     {
-        auto duplicateIndex = static_cast<std::size_t>(-1);
-        auto CurrentValue = Vector[i];
+        auto duplicate_index = static_cast<std::size_t>(-1);
+        auto Current_value = vector[i];
 
-        for (std::size_t j = i + 1; j < Vector.size(); j++)
+        for (std::size_t j = i + 1; j < vector.size(); j++)
         {
-            if (CurrentValue == Vector[j])
+            if (Current_value == vector[j])
             {
-                duplicateIndex = j;
-                Vector.pop_back();
+                duplicate_index = j;
+                vector.pop_back();
                 break;
             }
         }
 
-        if (duplicateIndex == static_cast<std::size_t>(-1))
+        if (duplicate_index == static_cast<std::size_t>(-1))
         {
             continue;
         }
 
-        for (std::size_t j = duplicateIndex; j < Vector.size(); j++)
+        for (std::size_t j = duplicate_index; j < vector.size(); j++)
         {
-            Vector[j] = Vector[j + 1];
+            vector[j] = vector[j + 1];
         }
 
-        Vector[Vector.size()] = 0;
+        vector[vector.size()] = 0;
     }
 }
 
-void rotateLeft(std::vector<int> &Vector)
+void rotate_left(std::vector<int> &vector)
 {
-    auto FirstElement = Vector[0];
+    auto first_element = vector[0];
 
-    for (std::size_t i = 1; i < Vector.size(); i++)
+    for (std::size_t i = 1; i < vector.size(); i++)
     {
-        Vector[i - 1] = Vector[i];
+        vector[i - 1] = vector[i];
     }
 
-    Vector[Vector.size() - 1] = FirstElement;
+    vector[vector.size() - 1] = first_element;
 }
 
-void rotateRight(std::vector<int> &Vector)
+void rotate_right(std::vector<int> &vector)
 {
-    auto LastElement = Vector[Vector.size() - 1];
+    auto Last_element = vector[vector.size() - 1];
 
-    for (std::size_t i = Vector.size() - 1; i > 0; i--)
+    for (std::size_t i = vector.size() - 1; i > 0; i--)
     {
-        Vector[i] = Vector[i - 1];
+        vector[i] = vector[i - 1];
     }
 
-    Vector[0] = LastElement;
+    vector[0] = Last_element;
 }
 
-void swapBoundaryValues(std::vector<int> &Vector)
+void swap_boundaryValues(std::vector<int> &vector)
 {
-    auto &FrontPointer = Vector.front();
-    auto &BackPointer = Vector.back();
+    auto &front_pointer = vector.front();
+    auto &back_pointer = vector.back();
 
-    const auto Temp = BackPointer;
-    BackPointer = FrontPointer;
-    FrontPointer = Temp;
+    const auto temp = back_pointer;
+    back_pointer = front_pointer;
+    front_pointer = temp;
 }

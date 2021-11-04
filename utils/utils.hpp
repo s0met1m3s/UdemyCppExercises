@@ -11,64 +11,64 @@
 constexpr double PI = 3.14159265358979311600;
 
 template <typename T>
-void printArray(const T *Array, const std::size_t Length)
+void print_array(const T *array, const std::size_t length)
 {
-    for (std::size_t i = 0; i < Length - 1; i++)
+    for (std::size_t i = 0; i < length - 1; i++)
     {
-        std::cout << Array[i] << ", ";
+        std::cout << array[i] << ", ";
     }
 
-    std::cout << Array[Length - 1] << std::endl;
+    std::cout << array[length - 1] << std::endl;
 }
 
 template <typename T, std::size_t S>
-void printArray(const std::array<T, S> Array)
+void print_array(const std::array<T, S> array)
 {
-    for (std::size_t i = 0; i < Array.size() - 1; i++)
+    for (std::size_t i = 0; i < array.size() - 1; i++)
     {
-        std::cout << Array[i] << ", ";
+        std::cout << array[i] << ", ";
     }
 
-    std::cout << Array[Array.size() - 1] << std::endl;
+    std::cout << array[array.size() - 1] << std::endl;
 }
 
 template <typename T>
-void printVector(const std::vector<T> Vector)
+void print_vector(const std::vector<T> vector)
 {
-    for (std::size_t i = 0; i < Vector.size() - 1; i++)
+    for (std::size_t i = 0; i < vector.size() - 1; i++)
     {
-        std::cout << Vector[i] << ", ";
+        std::cout << vector[i] << ", ";
     }
 
-    std::cout << Vector[Vector.size() - 1] << std::endl;
+    std::cout << vector[vector.size() - 1] << std::endl;
 }
 
-void printVector(const std::vector<std::pair<std::string, std::size_t>> Vector)
+void print_vector(const std::vector<std::pair<std::string, std::size_t>> vector)
 {
-    for (std::size_t i = 0; i < Vector.size() - 1; i++)
+    for (std::size_t i = 0; i < vector.size() - 1; i++)
     {
-        std::cout << Vector[i].first << ": " << Vector[i].second << ", ";
+        std::cout << vector[i].first << ": " << vector[i].second << ", ";
     }
 
-    std::cout << Vector[Vector.size() - 1].first << ": " << Vector[Vector.size() - 1].second
+    std::cout << vector[vector.size() - 1].first << ": " << vector[vector.size() - 1].second
               << std::endl;
 }
 
 template <typename T, typename U>
-void printMap(const std::map<T, U> Map)
+void print_map(const std::map<T, U> Map)
 {
-    for (const auto &[Key, Value] : Map)
+    for (const auto &[Key, value] : Map)
     {
-        std::cout << Key << ": " << Value << std::endl;
+        std::cout << Key << ": " << value << std::endl;
     }
 }
 
 template <typename T, typename U>
-void printMap(const std::unordered_map<T, U> Map)
+void print_map(const std::unordered_map<T, U> Map)
 {
-    for (const auto &[Key, Value] : Map)
+    for (const auto &[Key, value] : Map)
     {
-        std::cout << Key << ": " << Value << std::endl;
+        std::cout << Key << ": " << value << std::endl;
     }
 }
 

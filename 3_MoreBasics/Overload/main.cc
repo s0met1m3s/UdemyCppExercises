@@ -1,37 +1,37 @@
 #include <iostream>
 
-void printArray(const int *Array, const std::size_t Length);
+void print_array(const int *array, const std::size_t length);
 
-void printArray(const char *Array);
+void print_array(const char *array);
 
 int main()
 {
-    int Array[] = {1, 2, 3};
+    int array[] = {1, 2, 3};
     char String[] = "Jan";
 
-    printArray(Array, 3);
-    printArray(String);
+    print_array(array, 3);
+    print_array(String);
 
     return 0;
 }
 
 
-void printArray(const int *Array, const std::size_t Length)
+void print_array(const int *array, const std::size_t length)
 {
-    for (std::size_t i = 0; i < Length - 1; i++)
+    for (std::size_t i = 0; i < length - 1; i++)
     {
-        std::cout << Array[i] << ", ";
+        std::cout << array[i] << ", ";
     }
 
-    std::cout << Array[Length - 1] << std::endl;
+    std::cout << array[length - 1] << std::endl;
 }
 
-void printArray(const char *Array)
+void print_array(const char *array)
 {
-    while (*Array != '\0')
+    while (*array != '\0')
     {
-        std::cout << *Array;
-        Array++;
+        std::cout << *array;
+        array++;
     }
 
     std::cout << std::endl;

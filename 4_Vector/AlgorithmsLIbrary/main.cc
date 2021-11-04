@@ -3,32 +3,32 @@
 
 #include "utils.hpp"
 
-bool allOf(const std::vector<int> &Vector, const int Value);
-bool anyOf(const std::vector<int> &Vector, const int Value);
-bool noneOf(const std::vector<int> &Vector, const int Value);
-std::size_t count(const std::vector<int> &Vector, const int Value);
-std::vector<int> inclusiveScan(const std::vector<int> &Vector);
+bool all_of(const std::vector<int> &vector, const int value);
+bool any_of(const std::vector<int> &vector, const int value);
+bool none_of(const std::vector<int> &vector, const int value);
+std::size_t count(const std::vector<int> &vector, const int value);
+std::vector<int> inclusive_scan(const std::vector<int> &vector);
 
 int main()
 {
-    auto Vector = std::vector<int>{3, 1, 4, 1, 5, 9, 2, 6};
+    auto vector = std::vector<int>{3, 1, 4, 1, 5, 9, 2, 6};
 
     std::cout << std::boolalpha;
-    std::cout << "allOf: " << allOf(Vector, 5) << std::endl;
-    std::cout << "anyOf: " << anyOf(Vector, 5) << std::endl;
-    std::cout << "noneOf: " << noneOf(Vector, 5) << std::endl;
-    auto ScanValues = inclusiveScan(Vector);
-    std::cout << "inclusiveScan: " << std::endl;
-    printVector(ScanValues);
+    std::cout << "all_of: " << all_of(vector, 5) << std::endl;
+    std::cout << "any_of: " << any_of(vector, 5) << std::endl;
+    std::cout << "none_of: " << none_of(vector, 5) << std::endl;
+    auto Scan_values = inclusive_scan(vector);
+    std::cout << "inclusive_scan: " << std::endl;
+    print_vector(Scan_values);
 
     return 0;
 }
 
-bool allOf(const std::vector<int> &Vector, const int Value)
+bool all_of(const std::vector<int> &vector, const int value)
 {
-    for (std::size_t i = 0; i < Vector.size(); i++)
+    for (std::size_t i = 0; i < vector.size(); i++)
     {
-        if (Vector[i] != Value)
+        if (vector[i] != value)
         {
             return false;
         }
@@ -37,11 +37,11 @@ bool allOf(const std::vector<int> &Vector, const int Value)
     return true;
 }
 
-bool anyOf(const std::vector<int> &Vector, const int Value)
+bool any_of(const std::vector<int> &vector, const int value)
 {
-    for (std::size_t i = 0; i < Vector.size(); i++)
+    for (std::size_t i = 0; i < vector.size(); i++)
     {
-        if (Vector[i] == Value)
+        if (vector[i] == value)
         {
             return true;
         }
@@ -50,11 +50,11 @@ bool anyOf(const std::vector<int> &Vector, const int Value)
     return false;
 }
 
-bool noneOf(const std::vector<int> &Vector, const int Value)
+bool none_of(const std::vector<int> &vector, const int value)
 {
-    for (std::size_t i = 0; i < Vector.size(); i++)
+    for (std::size_t i = 0; i < vector.size(); i++)
     {
-        if (Vector[i] == Value)
+        if (vector[i] == value)
         {
             return false;
         }
@@ -63,30 +63,30 @@ bool noneOf(const std::vector<int> &Vector, const int Value)
     return true;
 }
 
-std::size_t count(const std::vector<int> &Vector, const int Value)
+std::size_t count(const std::vector<int> &vector, const int value)
 {
-    std::size_t Temp = 0;
+    std::size_t temp = 0;
 
-    for (std::size_t i = 0; i < Vector.size(); i++)
+    for (std::size_t i = 0; i < vector.size(); i++)
     {
-        if (Vector[i] == Value)
+        if (vector[i] == value)
         {
-            Temp++;
+            temp++;
         }
     }
 
-    return Temp;
+    return temp;
 }
 
-std::vector<int> inclusiveScan(const std::vector<int> &Vector)
+std::vector<int> inclusive_scan(const std::vector<int> &vector)
 {
-    auto Result = std::vector<int>(Vector.size(), 0);
+    auto Result = std::vector<int>(vector.size(), 0);
 
-    Result[0] = Vector[0];
+    Result[0] = vector[0];
 
-    for (std::size_t i = 1; i < Vector.size(); i++)
+    for (std::size_t i = 1; i < vector.size(); i++)
     {
-        Result[i] = Result[i - 1] + Vector[i];
+        Result[i] = Result[i - 1] + vector[i];
     }
 
     return Result;

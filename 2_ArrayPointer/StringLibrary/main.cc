@@ -2,43 +2,43 @@
 
 /* CHARS */
 
-bool isNumeric(char Character);
-bool isAlpha(char Character);
-bool isAlphaNumeric(char Character);
-bool isUpperCase(char Character);
-bool isLowerCase(char Character);
+bool is_numeric(char character);
+bool is_alpha(char character);
+bool is_alpha_numeric(char character);
+bool is_upper_case(char character);
+bool is_lower_case(char character);
 
-char toUpperCase(char Character);
-char toLowerCase(char Character);
+char to_upper_case(char character);
+char to_lower_case(char character);
 
 /* CHAR ARRAYS */
 
-char *toUpperCase(char *Text);
-char *toLowerCase(char *Text);
+char *to_upper_case(char *text);
+char *to_lower_case(char *text);
 
-std::size_t stringLength(char *Text);
-char *charSearch(char *Text, char Character);
+std::size_t string_length(char *text);
+char *char_search(char *text, char character);
 
 int main()
 {
-    char InputText[50] = {};
+    char input_text[50]{};
 
-    std::cout << "Please enter any Text: ";
-    std::cin >> InputText;
+    std::cout << "Please enter any text: ";
+    std::cin >> input_text;
 
-    std::cout << "toUpperCase: " << toUpperCase(InputText) << std::endl;
-    std::cout << "toLowerCase: " << toLowerCase(InputText) << std::endl;
-    std::cout << "stringLength: " << stringLength(InputText) << std::endl;
-    std::cout << "charSearch: " << charSearch(InputText, 'a') << std::endl;
+    std::cout << "to_upper_case: " << to_upper_case(input_text) << std::endl;
+    std::cout << "to_lower_case: " << to_lower_case(input_text) << std::endl;
+    std::cout << "string_length: " << string_length(input_text) << std::endl;
+    std::cout << "char_search: " << char_search(input_text, 'a') << std::endl;
 
     return 0;
 }
 
 /* CHARS */
 
-bool isNumeric(char Character)
+bool is_numeric(char character)
 {
-    if ((Character >= '0') && (Character <= '9'))
+    if ((character >= '0') && (character <= '9'))
     {
         return true;
     }
@@ -46,9 +46,9 @@ bool isNumeric(char Character)
     return false;
 }
 
-bool isAlpha(char Character)
+bool is_alpha(char character)
 {
-    if (isUpperCase(Character) || isLowerCase(Character))
+    if (is_upper_case(character) || is_lower_case(character))
     {
         return true;
     }
@@ -56,14 +56,14 @@ bool isAlpha(char Character)
     return false;
 }
 
-bool isAlphaNumeric(char Character)
+bool is_alpha_numeric(char character)
 {
-    return isNumeric(Character) || isAlpha(Character);
+    return is_numeric(character) || is_alpha(character);
 }
 
-bool isUpperCase(char Character)
+bool is_upper_case(char character)
 {
-    if ((Character >= 'A') && (Character <= 'Z'))
+    if ((character >= 'A') && (character <= 'Z'))
     {
         return true;
     }
@@ -71,9 +71,9 @@ bool isUpperCase(char Character)
     return false;
 }
 
-bool isLowerCase(char Character)
+bool is_lower_case(char character)
 {
-    if ((Character >= 'a') && (Character <= 'z'))
+    if ((character >= 'a') && (character <= 'z'))
     {
         return true;
     }
@@ -81,81 +81,81 @@ bool isLowerCase(char Character)
     return false;
 }
 
-char toUpperCase(char Character)
+char to_upper_case(char character)
 {
-    if (isLowerCase(Character))
+    if (is_lower_case(character))
     {
-        return Character - 32;
+        return character - 32;
     }
 
-    return Character;
+    return character;
 }
 
-char toLowerCase(char Character)
+char to_lower_case(char character)
 {
-    if (isUpperCase(Character))
+    if (is_upper_case(character))
     {
-        return Character + 32;
+        return character + 32;
     }
 
-    return Character;
+    return character;
 }
 
 /* CHAR ARRAYS */
 
-char *toUpperCase(char *Text)
+char *to_upper_case(char *text)
 {
-    char *CurrentCharacter = Text;
+    char *current_character = text;
 
-    while (*CurrentCharacter != '\0')
+    while (*current_character != '\0')
     {
-        if (isLowerCase(*CurrentCharacter))
+        if (is_lower_case(*current_character))
         {
-            *CurrentCharacter = *CurrentCharacter - 32;
+            *current_character = *current_character - 32;
         }
 
-        CurrentCharacter++;
+        current_character++;
     }
 
-    return Text;
+    return text;
 }
 
-char *toLowerCase(char *Text)
+char *to_lower_case(char *text)
 {
-    char *CurrentCharacter = Text;
+    char *current_character = text;
 
-    while (*CurrentCharacter != '\0')
+    while (*current_character != '\0')
     {
-        if (isUpperCase(*CurrentCharacter))
+        if (is_upper_case(*current_character))
         {
-            *CurrentCharacter = *CurrentCharacter + 32;
+            *current_character = *current_character + 32;
         }
 
-        CurrentCharacter++;
+        current_character++;
     }
 
-    return Text;
+    return text;
 }
 
-std::size_t stringLength(char *Text)
+std::size_t string_length(char *text)
 {
-    std::size_t Length = 0;
+    std::size_t length = 0;
 
-    while (*Text != '\0')
+    while (*text != '\0')
     {
-        Length++;
-        Text++;
+        length++;
+        text++;
     }
 
-    return Length;
+    return length;
 }
 
-char *charSearch(char *Text, char Character)
+char *char_search(char *text, char character)
 {
-    while ((*Text != Character) && (*Text != '\0'))
+    while ((*text != character) && (*text != '\0'))
     {
-        Text++;
+        text++;
     }
 
-    return Text;
+    return text;
 }

@@ -1,37 +1,37 @@
 #include <iostream>
 
-bool isNumeric(char Character);
-bool isAlpha(char Character);
-bool isAlphaNumeric(char Character);
-bool isUpperCase(char Character);
-bool isLowerCase(char Character);
+bool is_numeric(char character);
+bool is_alpha(char character);
+bool is_alpha_numeric(char character);
+bool is_upper_case(char character);
+bool is_lower_case(char character);
 
-char toUpperCase(char Character);
-char toLowerCase(char Character);
+char to_upper_case(char character);
+char to_lower_case(char character);
 
 int main()
 {
-    char InputCharacter;
+    char input_character;
 
     std::cout << "Please enter any ASCII character: ";
-    std::cin >> InputCharacter;
+    std::cin >> input_character;
 
     std::cout << std::boolalpha;
-    std::cout << "isNumeric: " << isNumeric(InputCharacter) << std::endl;
-    std::cout << "isAlpha: " << isAlpha(InputCharacter) << std::endl;
-    std::cout << "isAlphaNumeric: " << isAlphaNumeric(InputCharacter) << std::endl;
-    std::cout << "isUpperCase: " << isUpperCase(InputCharacter) << std::endl;
-    std::cout << "isLowerCase: " << isLowerCase(InputCharacter) << std::endl;
+    std::cout << "is_numeric: " << is_numeric(input_character) << std::endl;
+    std::cout << "is_alpha: " << is_alpha(input_character) << std::endl;
+    std::cout << "is_alpha_numeric: " << is_alpha_numeric(input_character) << std::endl;
+    std::cout << "is_upper_case: " << is_upper_case(input_character) << std::endl;
+    std::cout << "is_lower_case: " << is_lower_case(input_character) << std::endl;
     std::cout << std::dec;
-    std::cout << "toUpperCase: " << toUpperCase(InputCharacter) << std::endl;
-    std::cout << "toLowerCase: " << toLowerCase(InputCharacter) << std::endl;
+    std::cout << "to_upper_case: " << to_upper_case(input_character) << std::endl;
+    std::cout << "to_lower_case: " << to_lower_case(input_character) << std::endl;
 
     return 0;
 }
 
-bool isNumeric(char Character)
+bool is_numeric(char character)
 {
-    if ((Character >= '0') && (Character <= '9'))
+    if ((character >= '0') && (character <= '9'))
     {
         return true;
     }
@@ -39,9 +39,9 @@ bool isNumeric(char Character)
     return false;
 }
 
-bool isAlpha(char Character)
+bool is_alpha(char character)
 {
-    if (isUpperCase(Character) || isLowerCase(Character))
+    if (is_upper_case(character) || is_lower_case(character))
     {
         return true;
     }
@@ -49,14 +49,14 @@ bool isAlpha(char Character)
     return false;
 }
 
-bool isAlphaNumeric(char Character)
+bool is_alpha_numeric(char character)
 {
-    return isNumeric(Character) || isAlpha(Character);
+    return is_numeric(character) || is_alpha(character);
 }
 
-bool isUpperCase(char Character)
+bool is_upper_case(char character)
 {
-    if ((Character >= 'A') && (Character <= 'Z'))
+    if ((character >= 'A') && (character <= 'Z'))
     {
         return true;
     }
@@ -64,9 +64,9 @@ bool isUpperCase(char Character)
     return false;
 }
 
-bool isLowerCase(char Character)
+bool is_lower_case(char character)
 {
-    if ((Character >= 'a') && (Character <= 'z'))
+    if ((character >= 'a') && (character <= 'z'))
     {
         return true;
     }
@@ -75,22 +75,22 @@ bool isLowerCase(char Character)
 }
 
 
-char toUpperCase(char Character)
+char to_upper_case(char character)
 {
-    if (isLowerCase(Character))
+    if (is_lower_case(character))
     {
-        return Character - 32;
+        return character - 32;
     }
 
-    return Character;
+    return character;
 }
 
-char toLowerCase(char Character)
+char to_lower_case(char character)
 {
-    if (isUpperCase(Character))
+    if (is_upper_case(character))
     {
-        return Character + 32;
+        return character + 32;
     }
 
-    return Character;
+    return character;
 }

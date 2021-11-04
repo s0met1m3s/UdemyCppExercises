@@ -2,37 +2,37 @@
 
 #include "utils.hpp"
 
-bool allOf(int *Array, std::size_t Length, int Value);
-bool anyOf(int *Array, std::size_t Length, int Value);
-bool noneOf(int *Array, std::size_t Length, int Value);
-std::size_t count(int *Array, std::size_t Length, int Value);
-int *inclusiveScan(int *Array, std::size_t Length);
+bool all_of(int *array, std::size_t length, int value);
+bool any_of(int *array, std::size_t length, int value);
+bool none_of(int *array, std::size_t length, int value);
+std::size_t count(int *array, std::size_t length, int value);
+int *inclusive_scan(int *array, std::size_t length);
 
 int main()
 {
-    int Array[] = {3, 1, 4, 1, 5, 9, 2, 6};
-    std::size_t Length = 8;
+    int array[] = {3, 1, 4, 1, 5, 9, 2, 6};
+    std::size_t length = 8;
 
     std::cout << std::boolalpha;
-    std::cout << "allOf: " << allOf(Array, Length, 5) << std::endl;
-    std::cout << "anyOf: " << anyOf(Array, Length, 5) << std::endl;
-    std::cout << "noneOf: " << noneOf(Array, Length, 5) << std::endl;
-    int *ScanValues = inclusiveScan(Array, Length);
-    std::cout << "inclusiveScan: " << std::endl;
-    printArray(ScanValues, Length);
+    std::cout << "all_of: " << all_of(array, length, 5) << std::endl;
+    std::cout << "any_of: " << any_of(array, length, 5) << std::endl;
+    std::cout << "none_of: " << none_of(array, length, 5) << std::endl;
+    int *Scan_values = inclusive_scan(array, length);
+    std::cout << "inclusive_scan: " << std::endl;
+    print_array(Scan_values, length);
 
-    delete[] ScanValues;
-    ScanValues = nullptr;
+    delete[] Scan_values;
+    Scan_values = nullptr;
 
     return 0;
 }
 
 
-bool allOf(int *Array, std::size_t Length, int Value)
+bool all_of(int *array, std::size_t length, int value)
 {
-    for (std::size_t i = 0; i < Length; i++)
+    for (std::size_t i = 0; i < length; i++)
     {
-        if (Array[i] != Value)
+        if (array[i] != value)
         {
             return false;
         }
@@ -41,11 +41,11 @@ bool allOf(int *Array, std::size_t Length, int Value)
     return true;
 }
 
-bool anyOf(int *Array, std::size_t Length, int Value)
+bool any_of(int *array, std::size_t length, int value)
 {
-    for (std::size_t i = 0; i < Length; i++)
+    for (std::size_t i = 0; i < length; i++)
     {
-        if (Array[i] == Value)
+        if (array[i] == value)
         {
             return true;
         }
@@ -54,11 +54,11 @@ bool anyOf(int *Array, std::size_t Length, int Value)
     return false;
 }
 
-bool noneOf(int *Array, std::size_t Length, int Value)
+bool none_of(int *array, std::size_t length, int value)
 {
-    for (std::size_t i = 0; i < Length; i++)
+    for (std::size_t i = 0; i < length; i++)
     {
-        if (Array[i] == Value)
+        if (array[i] == value)
         {
             return false;
         }
@@ -67,30 +67,30 @@ bool noneOf(int *Array, std::size_t Length, int Value)
     return true;
 }
 
-std::size_t count(int *Array, std::size_t Length, int Value)
+std::size_t count(int *array, std::size_t length, int value)
 {
-    std::size_t Temp = 0;
+    std::size_t temp = 0;
 
-    for (std::size_t i = 0; i < Length; i++)
+    for (std::size_t i = 0; i < length; i++)
     {
-        if (Array[i] == Value)
+        if (array[i] == value)
         {
-            Temp++;
+            temp++;
         }
     }
 
-    return Temp;
+    return temp;
 }
 
-int *inclusiveScan(int *Array, std::size_t Length)
+int *inclusive_scan(int *array, std::size_t length)
 {
-    int *Result = new int[Length]{};
+    int *Result = new int[length]{};
 
-    Result[0] = Array[0];
+    Result[0] = array[0];
 
-    for (std::size_t i = 1; i < Length; i++)
+    for (std::size_t i = 1; i < length; i++)
     {
-        Result[i] = Result[i - 1] + Array[i];
+        Result[i] = Result[i - 1] + array[i];
     }
 
     return Result;
