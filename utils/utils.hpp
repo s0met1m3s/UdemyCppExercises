@@ -3,8 +3,10 @@
 
 #include <array>
 #include <cmath>
+#include <fstream>
 #include <iostream>
 #include <map>
+#include <sstream>
 #include <unordered_map>
 #include <vector>
 
@@ -70,6 +72,27 @@ void print_map(const std::unordered_map<T, U> Map)
     {
         std::cout << Key << ": " << value << std::endl;
     }
+}
+
+std::string readFile(std::string_view file_path)
+{
+    auto str = std::string{};
+    auto text = std::string{};
+
+    auto iffile = std::ifstream{};
+    iffile.open(file_path.data());
+
+    if (iffile.is_open())
+    {
+        while (std::getline(iffile, str))
+        {
+            text += str + '\n';
+        }
+    }
+
+    iffile.close();
+
+    return text;
 }
 
 #endif /* UTILS_H */

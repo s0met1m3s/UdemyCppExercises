@@ -10,5 +10,9 @@ int main()
     std::cout << b1 << std::endl;
     std::cout << b2 << std::endl;
 
+    std::cout << std::boolalpha;
+    std::cout << (b1 == b2) << std::endl;
+    std::cout << (b1 == b1) << std::endl;
+
     return 0;
 }

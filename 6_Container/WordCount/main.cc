@@ -1,5 +1,5 @@
 #include <algorithm>
-#include <fstream>
+#include <filesystem>
 #include <iostream>
 #include <map>
 #include <sstream>
@@ -9,11 +9,11 @@
 
 #include "utils.hpp"
 
+namespace fs = std::filesystem;
+
 using WordCountPair = std::pair<std::string, std::size_t>;
 using WordCountVec = std::vector<WordCountPair>;
 using counted_wordsMap = std::map<std::string, std::size_t>;
-
-std::string reAdFile(std::string_view file_path);
 
 void clean_text(std::string &text);
 
@@ -32,8 +32,10 @@ void sortword_counts(WordCountVec &word_counts);
 
 int main()
 {
-    auto text =
-        reAdFile("C:/Users/Jan/Dropbox/_Coding/udemy_cppExt/6_Container/word_count/text.txt");
+    auto current_path = fs::current_path();
+    current_path /= "text.txt";
+
+    auto text = readFile(current_path.string());
     std::cout << text << std::endl << std::endl;
 
     clean_text(text);
@@ -51,27 +53,6 @@ int main()
     print_vector(countedwords_vector);
 
     return 0;
-}
-
-std::string reAdFile(std::string_view file_path)
-{
-    auto str = std::string{};
-    auto text = std::string{};
-
-    auto iffile = std::ifstream{};
-    iffile.open(file_path.data());
-
-    if (iffile.is_open())
-    {
-        while (std::getline(iffile, str))
-        {
-            text += str + '\n';
-        }
-    }
-
-    iffile.close();
-
-    return text;
 }
 
 void clean_text(std::string &text)

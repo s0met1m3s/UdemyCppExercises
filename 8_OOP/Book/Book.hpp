@@ -7,14 +7,14 @@ class Book
 {
     friend std::istream &operator>>(std::istream &, Book &);
     friend std::ostream &operator<<(std::ostream &, const Book &);
-    friend bool operator==(const Book &, const Book &);
-    friend bool operator!=(const Book &, const Book &);
 
 public:
-    Book() = delete;
+    Book() = default;
     Book(std::string name_, std::string author_, std::uint32_t pubyear_);
-    Book(std::istream &in);
     ~Book() = default;
+
+    bool operator==(const Book &other) const;
+    bool operator!=(const Book &other) const;
 
 private:
     std::string name;
@@ -24,5 +24,3 @@ private:
 
 std::istream &operator>>(std::istream &, Book &);
 std::ostream &operator<<(std::ostream &, const Book &);
-bool operator==(const Book &, const Book &);
-bool operator!=(const Book &, const Book &);
