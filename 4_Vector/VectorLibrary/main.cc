@@ -1,19 +1,20 @@
+#include <cstdint>
 #include <cstring>
 #include <iostream>
 #include <vector>
 
 #include "utils.hpp"
 
-void unique_elements(const std::vector<int> &vector);
-void remove_duplicates(std::vector<int> &vector);
-void rotate_left(std::vector<int> &vector);
-void rotate_right(std::vector<int> &vector);
+void unique_elements(const std::vector<std::int32_t> &vector);
+void remove_duplicates(std::vector<std::int32_t> &vector);
+void rotate_left(std::vector<std::int32_t> &vector);
+void rotate_right(std::vector<std::int32_t> &vector);
 
-void swap_boundaryValues(std::vector<int> &vector);
+void swap_boundaryValues(std::vector<std::int32_t> &vector);
 
 int main()
 {
-    auto vector = std::vector<int>{1, 1, 2, 3, 3, 4};
+    auto vector = std::vector<std::int32_t>{1, 1, 2, 3, 3, 4};
 
     std::cout << "unique_elements: " << std::endl;
     unique_elements(vector);
@@ -33,12 +34,12 @@ int main()
     return 0;
 }
 
-void unique_elements(const std::vector<int> &vector)
+void unique_elements(const std::vector<std::int32_t> &vector)
 {
     for (std::size_t i = 0; i < vector.size(); i++)
     {
         auto unique = true;
-        auto Current_value = vector[i];
+        auto current_value = vector[i];
 
         for (std::size_t j = 0; j < vector.size(); j++)
         {
@@ -47,7 +48,7 @@ void unique_elements(const std::vector<int> &vector)
                 continue;
             }
 
-            if (Current_value == vector[j])
+            if (current_value == vector[j])
             {
                 unique = false;
             }
@@ -55,21 +56,21 @@ void unique_elements(const std::vector<int> &vector)
 
         if (unique == true)
         {
-            std::cout << "unique element: " << Current_value << std::endl;
+            std::cout << "unique element: " << current_value << std::endl;
         }
     }
 }
 
-void remove_duplicates(std::vector<int> &vector)
+void remove_duplicates(std::vector<std::int32_t> &vector)
 {
     for (std::size_t i = 0; i < vector.size(); i++)
     {
         auto duplicate_index = static_cast<std::size_t>(-1);
-        auto Current_value = vector[i];
+        auto current_value = vector[i];
 
         for (std::size_t j = i + 1; j < vector.size(); j++)
         {
-            if (Current_value == vector[j])
+            if (current_value == vector[j])
             {
                 duplicate_index = j;
                 vector.pop_back();
@@ -91,7 +92,7 @@ void remove_duplicates(std::vector<int> &vector)
     }
 }
 
-void rotate_left(std::vector<int> &vector)
+void rotate_left(std::vector<std::int32_t> &vector)
 {
     auto first_element = vector[0];
 
@@ -103,7 +104,7 @@ void rotate_left(std::vector<int> &vector)
     vector[vector.size() - 1] = first_element;
 }
 
-void rotate_right(std::vector<int> &vector)
+void rotate_right(std::vector<std::int32_t> &vector)
 {
     auto Last_element = vector[vector.size() - 1];
 
@@ -115,7 +116,7 @@ void rotate_right(std::vector<int> &vector)
     vector[0] = Last_element;
 }
 
-void swap_boundaryValues(std::vector<int> &vector)
+void swap_boundaryValues(std::vector<std::int32_t> &vector)
 {
     auto &front_pointer = vector.front();
     auto &back_pointer = vector.back();

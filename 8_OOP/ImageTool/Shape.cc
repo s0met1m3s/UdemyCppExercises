@@ -6,10 +6,10 @@
 
 double Shape::midpoint_distance(const Shape *other) const
 {
-    auto [x_midpoint1, y_midpoint1] = this->get_midpoint();
-    auto [x_midpoint2, y_midpoint2] = other->get_midpoint();
+    const auto [x_midpoint1, y_midpoint1] = this->get_midpoint();
+    const auto [x_midpoint2, y_midpoint2] = other->get_midpoint();
 
-    auto distance = get_distance(x_midpoint1, y_midpoint1, x_midpoint2, y_midpoint2);
+    const auto distance = get_distance(x_midpoint1, y_midpoint1, x_midpoint2, y_midpoint2);
 
     return distance;
 }
@@ -43,8 +43,8 @@ double Rectangle::get_area() const
 
 Coordiante Rectangle::get_midpoint() const
 {
-    auto x_midpoint = (x1 + x2) / 2;
-    auto y_midpoint = (y1 + y2) / 2;
+    const auto x_midpoint = (x1 + x2) / 2;
+    const auto y_midpoint = (y1 + y2) / 2;
 
     return std::make_pair(x_midpoint, y_midpoint);
 }

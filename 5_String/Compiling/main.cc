@@ -11,7 +11,7 @@ namespace fs = std::filesystem;
 
 using FileVec = std::vector<fs::path>;
 
-FileVec get_files_in_dir(const fs::path &dir);
+FileVec get_source_files_in_dir(const fs::path &dir);
 
 bool is_source_file(const fs::path &file);
 
@@ -36,7 +36,7 @@ int main(int argc, char **argv)
         dir = fs::path(input_path);
     }
 
-    auto files = get_files_in_dir(dir);
+    auto files = get_source_files_in_dir(dir);
 
     print_vector(files);
 
@@ -65,7 +65,7 @@ bool is_source_file(const fs::path &file)
     return false;
 }
 
-std::vector<fs::path> get_files_in_dir(const fs::path &dir)
+std::vector<fs::path> get_source_files_in_dir(const fs::path &dir)
 {
     auto files = std::vector<fs::path>{};
 

@@ -3,14 +3,14 @@
 
 #include "utils.hpp"
 
-void unique_elements(int *array, std::size_t length);
-void remove_duplicates(int *array, std::size_t &length);
-void rotate_left(int *array, std::size_t length);
-void rotate_right(int *array, std::size_t length);
+void unique_elements(std::int32_t *array, std::size_t length);
+void remove_duplicates(std::int32_t *array, std::size_t &length);
+void rotate_left(std::int32_t *array, std::size_t length);
+void rotate_right(std::int32_t *array, std::size_t length);
 
 int main()
 {
-    int array[] = {1, 1, 2, 3, 3, 4};
+    std::int32_t array[]{1, 1, 2, 3, 3, 4};
     std::size_t length = 6;
 
     std::cout << "unique_elements: " << std::endl;
@@ -28,12 +28,12 @@ int main()
     return 0;
 }
 
-void unique_elements(int *array, std::size_t length)
+void unique_elements(std::int32_t *array, std::size_t length)
 {
     for (std::size_t i = 0; i < length; i++)
     {
         bool unique = true;
-        int Current_value = array[i];
+        std::int32_t current_value = array[i];
 
         for (std::size_t j = 0; j < length; j++)
         {
@@ -42,7 +42,7 @@ void unique_elements(int *array, std::size_t length)
                 continue;
             }
 
-            if (Current_value == array[j])
+            if (current_value == array[j])
             {
                 unique = false;
             }
@@ -50,21 +50,21 @@ void unique_elements(int *array, std::size_t length)
 
         if (unique == true)
         {
-            std::cout << "unique element: " << Current_value << std::endl;
+            std::cout << "unique element: " << current_value << std::endl;
         }
     }
 }
 
-void remove_duplicates(int *array, std::size_t &length)
+void remove_duplicates(std::int32_t *array, std::size_t &length)
 {
     for (std::size_t i = 0; i < length; i++)
     {
         std::size_t duplicate_index = std::string::npos;
-        int Current_value = array[i];
+        std::int32_t current_value = array[i];
 
         for (std::size_t j = i + 1; j < length; j++)
         {
-            if (Current_value == array[j])
+            if (current_value == array[j])
             {
                 duplicate_index = j;
                 length--;
@@ -86,9 +86,9 @@ void remove_duplicates(int *array, std::size_t &length)
     }
 }
 
-void rotate_left(int *array, std::size_t length)
+void rotate_left(std::int32_t *array, std::size_t length)
 {
-    int first_element = array[0];
+    std::int32_t first_element = array[0];
 
     for (std::size_t i = 1; i < length; i++)
     {
@@ -98,9 +98,9 @@ void rotate_left(int *array, std::size_t length)
     array[length - 1] = first_element;
 }
 
-void rotate_right(int *array, std::size_t length)
+void rotate_right(std::int32_t *array, std::size_t length)
 {
-    int Last_element = array[length - 1];
+    std::int32_t Last_element = array[length - 1];
 
     for (std::size_t i = length - 1; i > 0; i--)
     {

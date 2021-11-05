@@ -1,13 +1,14 @@
 #pragma once
 
+#include <cstdint>
 #include <vector>
 
 namespace mystd
 {
 
-bool equal(std::vector<int>::iterator first1,
-           std::vector<int>::iterator last1,
-           std::vector<int>::iterator first2)
+bool equal(std::vector<std::int32_t>::iterator first1,
+           std::vector<std::int32_t>::iterator last1,
+           std::vector<std::int32_t>::iterator first2)
 {
     for (; first1 != last1; ++first1, ++first2)
     {
@@ -19,9 +20,9 @@ bool equal(std::vector<int>::iterator first1,
     return true;
 }
 
-std::vector<int>::iterator fill_n(std::vector<int>::iterator first,
-                                  std::size_t count,
-                                  const int &value)
+std::vector<std::int32_t>::iterator fill_n(std::vector<std::int32_t>::iterator first,
+                                           std::size_t count,
+                                           const std::int32_t &value)
 {
     for (std::size_t i = 0; i < count; ++i)
     {
@@ -30,7 +31,9 @@ std::vector<int>::iterator fill_n(std::vector<int>::iterator first,
     return first;
 }
 
-void iota(std::vector<int>::iterator first, std::vector<int>::iterator last, int value)
+void iota(std::vector<std::int32_t>::iterator first,
+          std::vector<std::int32_t>::iterator last,
+          std::int32_t value)
 {
     while (first != last)
     {
@@ -39,9 +42,9 @@ void iota(std::vector<int>::iterator first, std::vector<int>::iterator last, int
     }
 }
 
-std::vector<int>::iterator copy(std::vector<int>::iterator first,
-                                std::vector<int>::iterator last,
-                                std::vector<int>::iterator d_first)
+std::vector<std::int32_t>::iterator copy(std::vector<std::int32_t>::iterator first,
+                                         std::vector<std::int32_t>::iterator last,
+                                         std::vector<std::int32_t>::iterator d_first)
 {
     while (first != last)
     {
@@ -50,7 +53,9 @@ std::vector<int>::iterator copy(std::vector<int>::iterator first,
     return d_first;
 }
 
-int accumulate(std::vector<int>::iterator first, std::vector<int>::iterator last, int init)
+std::int32_t accumulate(std::vector<std::int32_t>::iterator first,
+                        std::vector<std::int32_t>::iterator last,
+                        std::int32_t init)
 {
     for (; first != last; ++first)
     {
@@ -59,10 +64,10 @@ int accumulate(std::vector<int>::iterator first, std::vector<int>::iterator last
     return init;
 }
 
-int inner_product(std::vector<int>::iterator first1,
-                  std::vector<int>::iterator last1,
-                  std::vector<int>::iterator first2,
-                  int init)
+std::int32_t inner_product(std::vector<std::int32_t>::iterator first1,
+                           std::vector<std::int32_t>::iterator last1,
+                           std::vector<std::int32_t>::iterator first2,
+                           std::int32_t init)
 {
     for (; first1 != last1; ++first1, ++first2)
     {

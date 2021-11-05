@@ -1,12 +1,13 @@
+#include <cstdint>
 #include <iostream>
 
-void print_array(const int *array, const std::size_t length);
+void print_array(const std::int32_t *array, const std::size_t length);
 
 void print_array(const char *array);
 
 int main()
 {
-    int array[] = {1, 2, 3};
+    std::int32_t array[]{1, 2, 3};
     char String[] = "Jan";
 
     print_array(array, 3);
@@ -16,7 +17,7 @@ int main()
 }
 
 
-void print_array(const int *array, const std::size_t length)
+void print_array(const std::int32_t *array, const std::size_t length)
 {
     for (std::size_t i = 0; i < length - 1; i++)
     {

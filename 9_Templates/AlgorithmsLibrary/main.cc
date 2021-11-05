@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cstdint>
 #include <cstring>
 #include <iostream>
 #include <vector>
@@ -9,8 +10,8 @@
 
 int main()
 {
-    auto vec1 = std::vector<int>(5, 0);
-    auto vec2 = std::vector<int>(5, 0);
+    auto vec1 = std::vector<std::uint32_t>(5, 0);
+    auto vec2 = std::vector<std::uint32_t>(5, 0);
 
     std::cout << std::boolalpha << mystd::equal(vec1.begin(), vec1.end(), vec2.begin()) << std::dec
               << std::endl;
@@ -29,10 +30,10 @@ int main()
     std::cout << std::boolalpha << mystd::equal(vec1.begin(), vec1.end(), vec2.begin()) << std::dec
               << std::endl;
 
-    auto sum = mystd::accumulate(vec1.begin(), vec1.end(), 0);
+    const auto sum = mystd::accumulate(vec1.begin(), vec1.end(), 0);
     std::cout << sum << std::endl;
 
-    auto inner_product = mystd::inner_product(vec1.begin(), vec1.end(), vec2.begin(), 0);
+    const auto inner_product = mystd::inner_product(vec1.begin(), vec1.end(), vec2.begin(), 0);
     std::cout << inner_product << std::endl;
 
     return 0;

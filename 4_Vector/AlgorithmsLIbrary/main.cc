@@ -1,17 +1,18 @@
+#include <cstdint>
 #include <iostream>
 #include <vector>
 
 #include "utils.hpp"
 
-bool all_of(const std::vector<int> &vector, const int value);
-bool any_of(const std::vector<int> &vector, const int value);
-bool none_of(const std::vector<int> &vector, const int value);
-std::size_t count(const std::vector<int> &vector, const int value);
-std::vector<int> inclusive_scan(const std::vector<int> &vector);
+bool all_of(const std::vector<std::int32_t> &vector, const std::int32_t value);
+bool any_of(const std::vector<std::int32_t> &vector, const std::int32_t value);
+bool none_of(const std::vector<std::int32_t> &vector, const std::int32_t value);
+std::size_t count(const std::vector<std::int32_t> &vector, const std::int32_t value);
+std::vector<std::int32_t> inclusive_scan(const std::vector<std::int32_t> &vector);
 
 int main()
 {
-    auto vector = std::vector<int>{3, 1, 4, 1, 5, 9, 2, 6};
+    auto vector = std::vector<std::int32_t>{3, 1, 4, 1, 5, 9, 2, 6};
 
     std::cout << std::boolalpha;
     std::cout << "all_of: " << all_of(vector, 5) << std::endl;
@@ -24,7 +25,7 @@ int main()
     return 0;
 }
 
-bool all_of(const std::vector<int> &vector, const int value)
+bool all_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
 {
     for (std::size_t i = 0; i < vector.size(); i++)
     {
@@ -37,7 +38,7 @@ bool all_of(const std::vector<int> &vector, const int value)
     return true;
 }
 
-bool any_of(const std::vector<int> &vector, const int value)
+bool any_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
 {
     for (std::size_t i = 0; i < vector.size(); i++)
     {
@@ -50,7 +51,7 @@ bool any_of(const std::vector<int> &vector, const int value)
     return false;
 }
 
-bool none_of(const std::vector<int> &vector, const int value)
+bool none_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
 {
     for (std::size_t i = 0; i < vector.size(); i++)
     {
@@ -63,7 +64,7 @@ bool none_of(const std::vector<int> &vector, const int value)
     return true;
 }
 
-std::size_t count(const std::vector<int> &vector, const int value)
+std::size_t count(const std::vector<std::int32_t> &vector, const std::int32_t value)
 {
     std::size_t temp = 0;
 
@@ -78,9 +79,9 @@ std::size_t count(const std::vector<int> &vector, const int value)
     return temp;
 }
 
-std::vector<int> inclusive_scan(const std::vector<int> &vector)
+std::vector<std::int32_t> inclusive_scan(const std::vector<std::int32_t> &vector)
 {
-    auto Result = std::vector<int>(vector.size(), 0);
+    auto Result = std::vector<std::int32_t>(vector.size(), 0);
 
     Result[0] = vector[0];
 
