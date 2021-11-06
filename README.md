@@ -9,8 +9,6 @@
 - Boolean logic
 - For/While Loop
 - Functions
-- Header, Compilation-Units
-- Recursive Functions
 
 ## Chapter 2
 
@@ -38,22 +36,21 @@
 
 - Strings
 - Read/Write operations
-- Binary, Hex values
 - SSO, String View
+- Filesystem
 
 ## Chapter 6
 
 - Array
-- Pair, Tuple
-- Map
+- Map, Pair, Tuple
 - Iterator, Inserter
 
 ## Chapter 7
 
 - Random
 - Chrono
-- Numeric Limits
 - Algorithms
+- Numeric
 
 ## Chapter 8
 
@@ -70,22 +67,8 @@
 - Class template
 - Operator overloading
 
-## Chapter 10
+## Advanced
 
 - Lambda
-- Map-Reduce
-
-### Optional: Chapter 11
-
-- Move, Copy Constructor/Operator
-- Default
-- Delete
-
-### Optional: Chapter 12
-
-- Unique, Shared, Weak Pointer
-
-### Optional: Chapter 13
-
 - Threads
 - Exceptions
