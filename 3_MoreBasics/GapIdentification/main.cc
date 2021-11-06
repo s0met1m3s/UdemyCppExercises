@@ -8,19 +8,19 @@
 int main()
 {
     VehicleType ego_vehicle{};
-    NeighborVehiclesType Vehicles{};
+    NeighborVehiclesType vehicles{};
 
-    initego_vehicle(ego_vehicle);
-    initVehicles(Vehicles);
+    init_ego_vehicle(ego_vehicle);
+    init_vehicles(vehicles);
 
-    printVehicle(ego_vehicle);
-    printneighbor_vehicles(Vehicles);
+    print_vehicle(ego_vehicle);
+    print_neighbor_vehicles(vehicles);
 
-    GapType Gap =
-        computetarget_gap(ego_vehicle, Vehicles, LaneAssociationType::LANE_ASSOCIATION_LEFT);
-    printGap(Gap);
+    GapType gap =
+        compute_target_gap(ego_vehicle, vehicles, LaneAssociationType::LANE_ASSOCIATION_LEFT);
+    print_gap(gap);
 
-    printScene(ego_vehicle, Vehicles);
+    print_scene(ego_vehicle, vehicles);
 
     std::cout << "Compute forward (1sec)?: ";
     char Input;
@@ -28,8 +28,8 @@ int main()
 
     while (Input == 'y')
     {
-        computefuture_state(ego_vehicle, Vehicles, 1);
-        printScene(ego_vehicle, Vehicles);
+        compute_future_state(ego_vehicle, vehicles, 1);
+        print_scene(ego_vehicle, vehicles);
 
         std::cout << "Compute forward (1sec)?: ";
         std::cin >> Input;

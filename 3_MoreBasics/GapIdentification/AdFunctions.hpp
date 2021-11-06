@@ -4,24 +4,30 @@
 
 #include "AdTypes.hpp"
 
-void initego_vehicle(VehicleType &);
+void init_ego_vehicle(VehicleType &ego_vehicle);
 
-void initVehicles(NeighborVehiclesType &);
+void init_vehicles(NeighborVehiclesType &vehicles);
 
-void printVehicle(const VehicleType &);
+void print_vehicle(const VehicleType &vehicle);
 
-void printneighbor_vehicles(const NeighborVehiclesType &);
+void print_neighbor_vehicles(const NeighborVehiclesType &vehicles);
 
-bool checkvalid_gap(const VehicleType &, const VehicleType &, const VehicleType &);
+bool check_valid_gap(const VehicleType &front_vehicle,
+                     const VehicleType &rear_vehicle,
+                     const VehicleType &ego_vehicle);
 
-GapType computetarget_gap(const VehicleType &,
-                          const NeighborVehiclesType &,
-                          const LaneAssociationType);
+GapType compute_target_gap(const VehicleType &ego_vehicle,
+                           const NeighborVehiclesType &vehicles,
+                           const LaneAssociationType target_lane);
 
-void printGap(const GapType &);
+void print_gap(const GapType &gap);
 
-void printScene(const VehicleType &, const NeighborVehiclesType &);
+void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles);
 
-void computefuture_distance(VehicleType &, const float, const std::uint32_t);
+void compute_future_distance(VehicleType &vehicle,
+                             const float ego_driven_distance,
+                             const float seconds);
 
-void computefuture_state(const VehicleType &, NeighborVehiclesType &, const std::uint32_t);
+void compute_future_state(const VehicleType &ego_vehicle,
+                          NeighborVehiclesType &vehicles,
+                          const float seconds);

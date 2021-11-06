@@ -85,7 +85,7 @@ std::size_t count(std::int32_t *array, std::size_t length, std::int32_t value)
 
 std::int32_t *inclusive_scan(std::int32_t *array, std::size_t length)
 {
-    auto *Result = new std::int32_t[length]{};
+    std::int32_t *Result = new std::int32_t[length]{};
 
     Result[0] = array[0];
 

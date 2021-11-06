@@ -1,12 +1,12 @@
 #include <iostream>
 
 float convert_millisecondsTo_seconds(float Millisconds);
-float convert_secondsTo_minutes(float Seconds);
+float convert_secondsTo_minutes(float seconds);
 float convert_minutesTo_hours(float Minutes);
 
 float convert_millisecondsTo_minutes(float Millisconds);
 float convert_millisecondsTo_hours(float Millisconds);
-float convert_secondsTo_hours(float Seconds);
+float convert_secondsTo_hours(float seconds);
 
 int main()
 {
@@ -15,15 +15,15 @@ int main()
     std::cout << "Please enter a millisecond value: ";
     std::cin >> Input_milliseconds;
 
-    float Seconds = convert_millisecondsTo_seconds(Input_milliseconds);
-    float Minutes = convert_secondsTo_minutes(Seconds);
+    float seconds = convert_millisecondsTo_seconds(Input_milliseconds);
+    float Minutes = convert_secondsTo_minutes(seconds);
     float Hours = convert_minutesTo_hours(Minutes);
 
     float Minutes2 = convert_millisecondsTo_minutes(Input_milliseconds);
     float Hours2 = convert_millisecondsTo_hours(Input_milliseconds);
-    float Hours3 = convert_secondsTo_hours(Seconds);
+    float Hours3 = convert_secondsTo_hours(seconds);
 
-    std::cout << "Seconds: " << Seconds << std::endl;
+    std::cout << "seconds: " << seconds << std::endl;
     std::cout << "Minutes: " << Minutes << std::endl;
     std::cout << "Hours: " << Hours << std::endl;
 
@@ -39,9 +39,9 @@ float convert_millisecondsTo_seconds(float Millisconds)
     return Millisconds / 1000.0F;
 }
 
-float convert_secondsTo_minutes(float Seconds)
+float convert_secondsTo_minutes(float seconds)
 {
-    return Seconds / 60.0F;
+    return seconds / 60.0F;
 }
 
 float convert_minutesTo_hours(float Minutes)
@@ -51,25 +51,25 @@ float convert_minutesTo_hours(float Minutes)
 
 float convert_millisecondsTo_minutes(float Millisconds)
 {
-    float Seconds = convert_millisecondsTo_seconds(Millisconds);
-    float Minutes = convert_secondsTo_minutes(Seconds);
+    float seconds = convert_millisecondsTo_seconds(Millisconds);
+    float Minutes = convert_secondsTo_minutes(seconds);
 
     return Minutes;
 }
 
 float convert_millisecondsTo_hours(float Millisconds)
 {
-    float Seconds = convert_millisecondsTo_seconds(Millisconds);
-    float Minutes = convert_secondsTo_minutes(Seconds);
+    float seconds = convert_millisecondsTo_seconds(Millisconds);
+    float Minutes = convert_secondsTo_minutes(seconds);
     float Hours = convert_minutesTo_hours(Minutes);
 
     return Hours;
 }
 
 
-float convert_secondsTo_hours(float Seconds)
+float convert_secondsTo_hours(float seconds)
 {
-    float Minutes = convert_secondsTo_minutes(Seconds);
+    float Minutes = convert_secondsTo_minutes(seconds);
     float Hours = convert_minutesTo_hours(Minutes);
 
     return Hours;

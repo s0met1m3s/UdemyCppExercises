@@ -1,10 +1,10 @@
+#include <algorithm>
+#include <future>
 #include <iostream>
+#include <numeric>
+#include <random>
 #include <thread>
 #include <vector>
-#include <random>
-#include <algorithm>
-#include <numeric>
-#include <future>
 
 #include "omp.h"
 #include <Timer.hpp>
@@ -110,10 +110,22 @@ int main()
     auto split3 = my_vector.begin() + half + quarter;
     double time4 = 0.0;
     cpptiming::Timer t4;
-    std::thread thread1(range_sum_thread<decltype(my_vector)::iterator>, my_vector.begin(), split1, std::ref(sum4));
-    std::thread thread2(range_sum_thread<decltype(my_vector)::iterator>, split1, split2, std::ref(sum4));
-    std::thread thread3(range_sum_thread<decltype(my_vector)::iterator>, split2, split3, std::ref(sum4));
-    std::thread thread4(range_sum_thread<decltype(my_vector)::iterator>, split3, my_vector.end(), std::ref(sum4));
+    std::thread thread1(range_sum_thread<decltype(my_vector)::iterator>,
+                        my_vector.begin(),
+                        split1,
+                        std::ref(sum4));
+    std::thread thread2(range_sum_thread<decltype(my_vector)::iterator>,
+                        split1,
+                        split2,
+                        std::ref(sum4));
+    std::thread thread3(range_sum_thread<decltype(my_vector)::iterator>,
+                        split2,
+                        split3,
+                        std::ref(sum4));
+    std::thread thread4(range_sum_thread<decltype(my_vector)::iterator>,
+                        split3,
+                        my_vector.end(),
+                        std::ref(sum4));
     thread1.join();
     thread2.join();
     thread3.join();
