@@ -10,7 +10,7 @@
 #include <unordered_map>
 #include <vector>
 
-constexpr double PI = 3.14159265358979311600;
+constexpr double pi = 3.14159265358979311600;
 
 template <typename T>
 void print_array(const T *array, const std::size_t length)

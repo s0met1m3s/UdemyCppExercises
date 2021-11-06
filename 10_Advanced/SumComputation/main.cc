@@ -79,7 +79,7 @@ int main()
         sum1 = range_sum_asyn(my_vector.begin(), my_vector.end());
         time1 += t1.elapsed_time<cpptiming::millisecs, double>();
     }
-    std::cout << "Mean Async: " << time1 / NUM_RUNS << "ms Sum: " << sum1 << std::endl;
+    std::cout << "Mean Async: " << time1 / NUM_RUNS << "ms sum: " << sum1 << std::endl;
 
     double time2 = 0.0;
     volatile auto sum2 = 0;
@@ -89,7 +89,7 @@ int main()
         sum2 = std::accumulate(my_vector.begin(), my_vector.end(), 0);
         time2 += t2.elapsed_time<cpptiming::millisecs, double>();
     }
-    std::cout << "Mean Serial: " << time2 / NUM_RUNS << "ms Sum: " << sum2 << std::endl;
+    std::cout << "Mean Serial: " << time2 / NUM_RUNS << "ms sum: " << sum2 << std::endl;
 
     double time3 = 0.0;
     volatile auto sum3 = 0;
@@ -99,7 +99,7 @@ int main()
         sum3 = parallel_sum_omp(my_vector);
         time3 += t3.elapsed_time<cpptiming::millisecs, double>();
     }
-    std::cout << "Mean OpenMP: " << time3 / NUM_RUNS << "ms Sum: " << sum3 << std::endl;
+    std::cout << "Mean OpenMP: " << time3 / NUM_RUNS << "ms sum: " << sum3 << std::endl;
 
     auto sum4 = 0;
     auto length = my_vector.size();
@@ -131,7 +131,7 @@ int main()
     thread3.join();
     thread4.join();
     time4 += t4.elapsed_time<cpptiming::millisecs, double>();
-    std::cout << "Mean Threadding: " << time4 / 1 << "ms Sum: " << sum4 << std::endl;
+    std::cout << "Mean Threadding: " << time4 / 1 << "ms sum: " << sum4 << std::endl;
 
     return 0;
 }

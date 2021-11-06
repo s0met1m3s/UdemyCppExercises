@@ -1,55 +1,60 @@
 #include <iostream>
+#include <cmath>
 
-std::uint32_t Modulo(std::uint32_t number_a, std::uint32_t number_b);
-std::uint32_t Sum_of_digits(std::uint32_t number);
-std::uint32_t Cross_sum(std::uint32_t number);
+std::uint32_t modulo(std::uint32_t number_a, std::uint32_t number_b);
+
+std::uint32_t sum_of_digits(std::uint32_t number);
+
+std::uint32_t cross_sum(std::uint32_t number);
+
+void print_dec_to_bin(std::uint8_t value);
 
 int main()
 {
-    std::uint32_t Input_number = 0;
+    std::uint32_t input_number = 0;
 
     std::cout << "Please enter a unsinged integer: ";
-    std::cin >> Input_number;
+    std::cin >> input_number;
 
-    std::cout << Input_number << " % 3: " << Modulo(Input_number, 3) << std::endl;
-    std::cout << "Sum_of_digits: " << Sum_of_digits(Input_number) << std::endl;
-    std::cout << "Cross_sum: " << Cross_sum(Input_number) << std::endl;
+    std::cout << input_number << " % 3: " << modulo(input_number, 3) << std::endl;
+    std::cout << "sum_of_digits: " << sum_of_digits(input_number) << std::endl;
+    std::cout << "cross_sum: " << cross_sum(input_number) << std::endl;
 }
 
-std::uint32_t Modulo(std::uint32_t number_a, std::uint32_t number_b)
+std::uint32_t modulo(std::uint32_t number_a, std::uint32_t number_b)
 {
     std::uint32_t result = 0;
-    std::uint32_t Divisor = number_a / number_b;
+    std::uint32_t divisor = number_a / number_b;
 
-    result = number_a - number_b * Divisor;
+    result = number_a - number_b * divisor;
 
     return result;
 }
 
-std::uint32_t Sum_of_digits(std::uint32_t number)
+std::uint32_t sum_of_digits(std::uint32_t number)
 {
-    std::uint32_t Num_digits = 0;
+    std::uint32_t num_digits = 0;
 
     while (number > 0)
     {
         number /= 10;
-        Num_digits++;
+        num_digits++;
     }
 
-    return Num_digits;
+    return num_digits;
 }
 
-std::uint32_t Cross_sum(std::uint32_t number)
+std::uint32_t cross_sum(std::uint32_t number)
 {
-    std::uint32_t Sum = 0;
+    std::uint32_t sum = 0;
 
     while (number > 0)
     {
-        std::uint32_t Current_digit = number % 10;
+        std::uint32_t current_digit = number % 10;
 
-        Sum += Current_digit;
+        sum += current_digit;
         number /= 10;
     }
 
-    return Sum;
+    return sum;
 }

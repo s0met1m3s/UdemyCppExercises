@@ -21,7 +21,7 @@ Circle::Circle(std::uint32_t x_midpoint_, std::uint32_t y_midpoint_, std::uint32
 
 double Circle::get_area() const
 {
-    return PI * std::pow(radius, 2.0);
+    return pi * std::pow(radius, 2.0);
 }
 
 
