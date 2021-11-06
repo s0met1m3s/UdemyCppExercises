@@ -6,13 +6,13 @@
 
 namespace fs = std::filesystem;
 
-auto replace_with(std::string &s, std::string const &oldVal, std::string const &newVal)
+auto replace_with(std::string &s, std::string const &old_substr, std::string const &new_substr)
 {
-    for (std::size_t pos = 0; pos <= s.size() - oldVal.size();)
+    for (std::size_t pos = 0; pos <= s.size() - old_substr.size();)
     {
-        if (s[pos] == oldVal[0] && s.substr(pos, oldVal.size()) == oldVal)
+        if (s[pos] == old_substr[0] && s.substr(pos, old_substr.size()) == old_substr)
         {
-            s.replace(pos, oldVal.size(), newVal), pos += newVal.size();
+            s.replace(pos, old_substr.size(), new_substr), pos += new_substr.size();
         }
         else
         {

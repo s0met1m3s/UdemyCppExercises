@@ -11,7 +11,7 @@ class Image
 public:
     Image() = delete;
     Image(const std::uint32_t width, const std::uint32_t height);
-    ~Image() = default;
+    ~Image() noexcept = default;
 
     std::uint32_t get_width() const;
     std::uint32_t get_height() const;

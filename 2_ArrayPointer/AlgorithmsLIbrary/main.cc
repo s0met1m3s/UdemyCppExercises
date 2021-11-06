@@ -4,9 +4,13 @@
 #include "utils.hpp"
 
 bool all_of(std::int32_t *array, std::size_t length, std::int32_t value);
+
 bool any_of(std::int32_t *array, std::size_t length, std::int32_t value);
+
 bool none_of(std::int32_t *array, std::size_t length, std::int32_t value);
+
 std::size_t count(std::int32_t *array, std::size_t length, std::int32_t value);
+
 std::int32_t *inclusive_scan(std::int32_t *array, std::size_t length);
 
 int main()
@@ -85,14 +89,14 @@ std::size_t count(std::int32_t *array, std::size_t length, std::int32_t value)
 
 std::int32_t *inclusive_scan(std::int32_t *array, std::size_t length)
 {
-    std::int32_t *Result = new std::int32_t[length]{};
+    std::int32_t *result = new std::int32_t[length]{};
 
-    Result[0] = array[0];
+    result[0] = array[0];
 
     for (std::size_t i = 1; i < length; i++)
     {
-        Result[i] = Result[i - 1] + array[i];
+        result[i] = result[i - 1] + array[i];
     }
 
-    return Result;
+    return result;
 }

@@ -35,7 +35,7 @@ void print_array(const std::array<T, S> array)
 }
 
 template <typename T>
-void print_vector(const std::vector<T> vector)
+void print_vector(const std::vector<T> &vector)
 {
     for (std::size_t i = 0; i < vector.size() - 1; i++)
     {
@@ -45,7 +45,8 @@ void print_vector(const std::vector<T> vector)
     std::cout << vector[vector.size() - 1] << std::endl;
 }
 
-void print_vector(const std::vector<std::pair<std::string, std::size_t>> vector)
+template <>
+void print_vector(const std::vector<std::pair<std::string, std::size_t>> &vector)
 {
     for (std::size_t i = 0; i < vector.size() - 1; i++)
     {
@@ -58,15 +59,6 @@ void print_vector(const std::vector<std::pair<std::string, std::size_t>> vector)
 
 template <typename T, typename U>
 void print_map(const std::map<T, U> Map)
-{
-    for (const auto &[Key, value] : Map)
-    {
-        std::cout << Key << ": " << value << std::endl;
-    }
-}
-
-template <typename T, typename U>
-void print_map(const std::unordered_map<T, U> Map)
 {
     for (const auto &[Key, value] : Map)
     {

@@ -6,8 +6,11 @@
 #include "utils.hpp"
 
 void unique_elements(const std::vector<std::int32_t> &vector);
+
 void remove_duplicates(std::vector<std::int32_t> &vector);
+
 void rotate_left(std::vector<std::int32_t> &vector);
+
 void rotate_right(std::vector<std::int32_t> &vector);
 
 void swap_boundaryValues(std::vector<std::int32_t> &vector);

@@ -11,7 +11,7 @@ class Book
 public:
     Book() = default;
     Book(std::string name_, std::string author_, std::uint32_t pubyear_);
-    ~Book() = default;
+    ~Book() noexcept = default;
 
     bool operator==(const Book &other) const;
     bool operator!=(const Book &other) const;

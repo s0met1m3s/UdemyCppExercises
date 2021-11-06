@@ -5,14 +5,18 @@
 #include "utils.hpp"
 
 bool all_of(const std::vector<std::int32_t> &vector, const std::int32_t value);
+
 bool any_of(const std::vector<std::int32_t> &vector, const std::int32_t value);
+
 bool none_of(const std::vector<std::int32_t> &vector, const std::int32_t value);
+
 std::size_t count(const std::vector<std::int32_t> &vector, const std::int32_t value);
+
 std::vector<std::int32_t> inclusive_scan(const std::vector<std::int32_t> &vector);
 
 int main()
 {
-    auto vector = std::vector<std::int32_t>{3, 1, 4, 1, 5, 9, 2, 6};
+    const auto vector = std::vector<std::int32_t>{3, 1, 4, 1, 5, 9, 2, 6};
 
     std::cout << std::boolalpha;
     std::cout << "all_of: " << all_of(vector, 5) << std::endl;
@@ -81,14 +85,14 @@ std::size_t count(const std::vector<std::int32_t> &vector, const std::int32_t va
 
 std::vector<std::int32_t> inclusive_scan(const std::vector<std::int32_t> &vector)
 {
-    auto Result = std::vector<std::int32_t>(vector.size(), 0);
+    auto result = std::vector<std::int32_t>(vector.size(), 0);
 
-    Result[0] = vector[0];
+    result[0] = vector[0];
 
     for (std::size_t i = 1; i < vector.size(); i++)
     {
-        Result[i] = Result[i - 1] + vector[i];
+        result[i] = result[i - 1] + vector[i];
     }
 
-    return Result;
+    return result;
 }

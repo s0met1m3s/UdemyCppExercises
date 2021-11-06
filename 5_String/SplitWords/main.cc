@@ -10,16 +10,14 @@
 
 using WordCountPair = std::pair<std::string, std::size_t>;
 
-std::string readFile(std::string_view file_path);
-
 void cleanText(std::string &text);
 
-void replaceAll(std::string &text, std::string_view What, std::string_view With);
+void replaceAll(std::string &text, std::string_view what, std::string_view with);
 
 template <typename T>
-void splitText(const std::string &text, char Delimiter, T Result);
+void splitText(const std::string &text, char delimiter, T result);
 
-std::vector<std::string> splitText(const std::string &text, char Delimiter);
+std::vector<std::string> splitText(const std::string &text, char delimiter);
 
 int main()
 {
@@ -36,27 +34,6 @@ int main()
     return 0;
 }
 
-std::string readFile(std::string_view file_path)
-{
-    auto str = std::string{};
-    auto text = std::string{};
-
-    auto iffile = std::ifstream{};
-    iffile.open(file_path.data());
-
-    if (iffile.is_open())
-    {
-        while (std::getline(iffile, str))
-        {
-            text += str + '\n';
-        }
-    }
-
-    iffile.close();
-
-    return text;
-}
-
 void cleanText(std::string &text)
 {
     replaceAll(text, ".", "");
@@ -67,31 +44,31 @@ void cleanText(std::string &text)
     replaceAll(text, "\t", "");
 }
 
-void replaceAll(std::string &text, std::string_view What, std::string_view With)
+void replaceAll(std::string &text, std::string_view what, std::string_view with)
 {
-    for (std::size_t pos = 0; std::string::npos != pos; pos += With.length())
+    for (std::size_t pos = 0; std::string::npos != pos; pos += with.length())
     {
-        text.replace(pos, What.length(), With.data(), With.length());
-        pos = text.find(What.data(), pos, What.length());
+        text.replace(pos, what.length(), with.data(), with.length());
+        pos = text.find(what.data(), pos, what.length());
     }
 }
 
 template <typename T>
-void splitText(const std::string &text, char Delimiter, T Result)
+void splitText(const std::string &text, char delimiter, T result)
 {
     auto iss = std::istringstream{text};
     auto item = std::string{};
 
-    while (std::getline(iss, item, Delimiter))
+    while (std::getline(iss, item, delimiter))
     {
-        *Result++ = item;
+        *result++ = item;
     }
 }
 
-std::vector<std::string> splitText(const std::string &text, char Delimiter)
+std::vector<std::string> splitText(const std::string &text, char delimiter)
 {
     auto elems = std::vector<std::string>{};
-    splitText(text, Delimiter, std::back_inserter(elems));
+    splitText(text, delimiter, std::back_inserter(elems));
 
     return elems;
 }

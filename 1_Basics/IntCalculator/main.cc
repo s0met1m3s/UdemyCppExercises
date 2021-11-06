@@ -18,12 +18,12 @@ int main()
 
 std::uint32_t Modulo(std::uint32_t number_a, std::uint32_t number_b)
 {
-    std::uint32_t Result = 0;
+    std::uint32_t result = 0;
     std::uint32_t Divisor = number_a / number_b;
 
-    Result = number_a - number_b * Divisor;
+    result = number_a - number_b * Divisor;
 
-    return Result;
+    return result;
 }
 
 std::uint32_t Sum_of_digits(std::uint32_t number)

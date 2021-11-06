@@ -9,7 +9,7 @@ struct Shape
 {
 public:
     Shape() = default;
-    ~Shape() = default;
+    ~Shape() noexcept = default;
 
     virtual double get_area() const = 0;
     double midpoint_distance(const Shape *other) const;
@@ -19,7 +19,7 @@ public:
 struct Circle : Shape
 {
     Circle(std::uint32_t x_midpoint_, std::uint32_t y_midpoint_, std::uint32_t radius_);
-    ~Circle() = default;
+    ~Circle() noexcept = default;
 
     virtual double get_area() const final;
     virtual Coordiante get_midpoint() const final;
@@ -32,7 +32,7 @@ struct Circle : Shape
 struct Rectangle : Shape
 {
     Rectangle(std::uint32_t x1_, std::uint32_t y1_, std::uint32_t x2_, std::uint32_t y2_);
-    ~Rectangle() = default;
+    ~Rectangle() noexcept = default;
 
     virtual double get_area() const final;
     virtual Coordiante get_midpoint() const final;

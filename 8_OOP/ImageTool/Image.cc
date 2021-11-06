@@ -11,10 +11,6 @@ Image::Image(const std::uint32_t width, const std::uint32_t height)
     : m_width(width), m_height(height),
       m_matrix(GrayscaleImage(m_width, std::vector<std::uint8_t>(m_height, 0)))
 {
-    std::cout << "Created image object with shape=(" << m_width << "," << m_height << ")!"
-              << std::endl;
-    std::cout << "Matrix size: (" << m_matrix.size() << "," << m_matrix[0].size() << ")"
-              << std::endl;
 }
 
 std::uint32_t Image::get_width() const

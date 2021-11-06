@@ -43,8 +43,8 @@ double Rectangle::get_area() const
 
 Coordiante Rectangle::get_midpoint() const
 {
-    const auto x_midpoint = (x1 + x2) / 2;
-    const auto y_midpoint = (y1 + y2) / 2;
+    const auto x_midpoint = (x1 + x2) / 2U;
+    const auto y_midpoint = (y1 + y2) / 2U;
 
     return std::make_pair(x_midpoint, y_midpoint);
 }

@@ -24,12 +24,12 @@ int main()
 
 double calculate_pi(std::uint32_t Num_iterations)
 {
-    double Result = 0.0;
+    double result = 0.0;
 
     for (std::uint32_t k = 0; k < Num_iterations; k++)
     {
-        Result += (1.0 / (4.0 * k + 1.0)) - (1.0 / (4.0 * k + 3.0));
+        result += (1.0 / (4.0 * k + 1.0)) - (1.0 / (4.0 * k + 3.0));
     }
 
-    return Result * 4.0;
+    return result * 4.0;
 }
