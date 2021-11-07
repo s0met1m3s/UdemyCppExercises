@@ -14,6 +14,8 @@ std::size_t count(const std::vector<std::int32_t> &vector, const std::int32_t va
 std::vector<std::int32_t> inclusive_scan(const std::vector<std::int32_t> &vector);
 ```
 
+Adapt the functions from Chapter 2 such that you use a for each loop to iterate over the vectors (except the inclusive_scan function).
+
 ## Main Function
 
 ```cpp

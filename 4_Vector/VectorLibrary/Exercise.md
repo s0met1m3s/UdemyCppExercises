@@ -14,6 +14,10 @@ void rotate_right(std::vector<std::int32_t> &vector);
 void swap_boundaryValues(std::vector<std::int32_t> &vector);
 ```
 
+Adapt the functions from Chapter 2 such that you use vectors as an input.
+
+- Swap Boundary Values: Swap the first and the last value of the array
+
 ## Main Function
 
 ```cpp

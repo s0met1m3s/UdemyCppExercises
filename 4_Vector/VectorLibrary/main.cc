@@ -13,7 +13,7 @@ void rotate_left(std::vector<std::int32_t> &vector);
 
 void rotate_right(std::vector<std::int32_t> &vector);
 
-void swap_boundaryValues(std::vector<std::int32_t> &vector);
+void swap_boundary_values(std::vector<std::int32_t> &vector);
 
 int main()
 {
@@ -119,7 +119,7 @@ void rotate_right(std::vector<std::int32_t> &vector)
     vector[0] = Last_element;
 }
 
-void swap_boundaryValues(std::vector<std::int32_t> &vector)
+void swap_boundary_values(std::vector<std::int32_t> &vector)
 {
     auto &front_pointer = vector.front();
     auto &back_pointer = vector.back();

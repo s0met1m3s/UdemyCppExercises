@@ -31,9 +31,9 @@ int main()
 
 bool all_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
 {
-    for (std::size_t i = 0; i < vector.size(); i++)
+    for (const auto &current_val : vector)
     {
-        if (vector[i] != value)
+        if (current_val != value)
         {
             return false;
         }
@@ -44,9 +44,9 @@ bool all_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
 
 bool any_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
 {
-    for (std::size_t i = 0; i < vector.size(); i++)
+    for (const auto &current_val : vector)
     {
-        if (vector[i] == value)
+        if (current_val == value)
         {
             return true;
         }
@@ -57,9 +57,9 @@ bool any_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
 
 bool none_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
 {
-    for (std::size_t i = 0; i < vector.size(); i++)
+    for (const auto &current_val : vector)
     {
-        if (vector[i] == value)
+        if (current_val == value)
         {
             return false;
         }
@@ -72,9 +72,9 @@ std::size_t count(const std::vector<std::int32_t> &vector, const std::int32_t va
 {
     std::size_t temp = 0;
 
-    for (std::size_t i = 0; i < vector.size(); i++)
+    for (const auto &current_val : vector)
     {
-        if (vector[i] == value)
+        if (current_val == value)
         {
             temp++;
         }
