@@ -7,7 +7,6 @@
 #include "algo.hpp"
 #include "utils.hpp"
 
-
 int main()
 {
     auto vec1 = std::vector<std::uint32_t>(5, 0);

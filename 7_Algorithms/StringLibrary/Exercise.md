@@ -1,8 +1,8 @@
-#include <algorithm>
-#include <iostream>
-#include <string>
-#include <string_view>
+# Exercise
 
+Implement the following functions:
+
+```cpp
 std::string to_upper_case(std::string_view text);
 
 std::string to_lower_case(std::string_view text);
@@ -12,7 +12,11 @@ std::size_t string_length(std::string_view text);
 const char *char_search(std::string_view text, char character);
 
 bool string_equal(std::string_view string1, std::string_view string2);
+```
 
+## Main Function
+
+```cpp
 int main()
 {
     auto input_text = std::string{};
@@ -32,32 +36,4 @@ int main()
 
     return 0;
 }
-
-std::string to_upper_case(std::string_view text)
-{
-    auto result = std::string(text);
-    std::transform(std::begin(result), std::end(result), std::begin(result), to_upper);
-    return result;
-}
-
-std::string to_lower_case(std::string_view text)
-{
-    auto result = std::string(text);
-    std::transform(std::begin(result), std::end(result), std::begin(result), to_lower);
-    return result;
-}
-
-std::size_t string_length(std::string_view text)
-{
-    return static_cast<std::size_t>(std::distance(text.begin(), text.end()));
-}
-
-const char *char_search(std::string_view text, char character)
-{
-    return std::find(text.begin(), text.end(), character);
-}
-
-bool string_equal(std::string_view string1, std::string_view string2)
-{
-    return std::equal(string1.begin(), string1.end(), string2.begin());
-}
+```

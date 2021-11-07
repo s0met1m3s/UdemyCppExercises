@@ -1,16 +1,34 @@
-#include <algorithm>
-#include <cstdint>
-#include <cstring>
-#include <iostream>
-#include <vector>
+# Exercise
 
-#include "algo.hpp"
-#include "utils.hpp"
+Implement the following functions:
 
+```cpp
+template <class InputIter1, class InputIter2>
+bool equal(InputIter1 first1, InputIter1 last1, InputIter2 first2);
+
+template <class OutputIter, class Size, class T>
+OutputIter fill_n(OutputIter first, Size count, const T &value);
+
+template <class ForwardIter, class T>
+void iota(ForwardIter first, ForwardIter last, T value);
+
+template <class InputIter, class OutputIter>
+OutputIter copy(InputIter first, InputIter last, OutputIter d_first);
+
+template <class InputIter, class T>
+T accumulate(InputIter first, InputIter last, T init);
+
+template <class InputIter1, class InputIter2, class T>
+T inner_product(InputIter1 first1, InputIter1 last1, InputIter2 first2, T init);
+```
+
+## Main Function
+
+```cpp
 int main()
 {
-    auto vec1 = std::vector<std::int32_t>(5, 0);
-    auto vec2 = std::vector<std::int32_t>(5, 0);
+    auto vec1 = std::vector<std::uint32_t>(5, 0);
+    auto vec2 = std::vector<std::uint32_t>(5, 0);
 
     std::cout << std::boolalpha << mystd::equal(vec1.begin(), vec1.end(), vec2.begin()) << std::dec
               << std::endl;
@@ -37,3 +55,4 @@ int main()
 
     return 0;
 }
+```
