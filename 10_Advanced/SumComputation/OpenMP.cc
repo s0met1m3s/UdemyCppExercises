@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <assert.h>
 #include <chrono>
+#include <cstdint>
 #include <iostream>
 #include <random>
 #include <thread>
@@ -8,15 +9,15 @@
 
 #include "omp.h"
 
-constexpr unsigned int NUM_THREADS = 8;
-constexpr unsigned int NUM_RUNS = 100;
+constexpr std::uint32_t NUM_THREADS = 8;
+constexpr std::uint32_t NUM_RUNS = 100;
 
-long long serial_sum(std::vector<int> &vec)
+std::int64_t serial_sum(std::vector<std::int32_t> &vec)
 {
-    long long sum = 0;
-    int n = static_cast<int>(vec.size());
+    std::int64_t sum = 0;
+    std::int32_t n = static_cast<std::int32_t>(vec.size());
 
-    for (int i = 0; i != n; ++i)
+    for (std::int32_t i = 0; i != n; ++i)
     {
         sum = sum + vec[i];
     }
@@ -24,12 +25,12 @@ long long serial_sum(std::vector<int> &vec)
     return sum;
 }
 
-long long parallel_sum_omp(std::vector<int> &vec)
+std::int64_t parallel_sum_omp(std::vector<std::int32_t> &vec)
 {
-    long long final_sum = 0;
-    long long sum = 0;
-    int i = 0;
-    int n = static_cast<int>(vec.size());
+    std::int64_t final_sum = 0;
+    std::int64_t sum = 0;
+    std::int32_t i = 0;
+    std::int32_t n = static_cast<std::int32_t>(vec.size());
 
 #pragma omp parallel for reduction(+ : sum) num_threads(NUM_THREADS)
     for (i = 0; i < n; ++i)
@@ -54,18 +55,18 @@ long long parallel_sum_omp(std::vector<int> &vec)
 int _main()
 {
     // SETUP
-    constexpr unsigned int seed = 42;
-    constexpr long long expected_sum = -5570;
-    long long sum_vector = 0L;
+    constexpr std::uint32_t seed = 42;
+    constexpr std::int64_t expected_sum = -5570;
+    std::int64_t sum_vector = 0L;
 
     std::mt19937 gen(seed);
-    std::uniform_int_distribution<int> dist(-10, 10);
-    std::vector<int> vector_a(10'000'000, 0);
+    std::uniform_int_distribution<std::int32_t> dist(-10, 10);
+    std::vector<std::int32_t> vector_a(10'000'000, 0);
     std::generate(vector_a.begin(), vector_a.end(), [&]() { return dist(gen); });
 
     // SERIELL
     auto start = std::chrono::high_resolution_clock::now();
-    for (unsigned int i = 0; i < NUM_RUNS; ++i)
+    for (std::uint32_t i = 0; i < NUM_RUNS; ++i)
     {
         sum_vector = serial_sum(vector_a);
     }
@@ -78,7 +79,7 @@ int _main()
 
     // OPENMP
     start = std::chrono::high_resolution_clock::now();
-    for (unsigned int i = 0; i < NUM_RUNS; ++i)
+    for (std::int32_t i = 0; i < NUM_RUNS; ++i)
     {
         sum_vector = parallel_sum_omp(vector_a);
     }

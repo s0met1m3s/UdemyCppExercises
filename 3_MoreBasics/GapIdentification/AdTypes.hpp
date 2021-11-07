@@ -22,14 +22,7 @@ struct VehicleType
 
 struct NeighborVehiclesType
 {
-    VehicleType vehicles_leftLane[NUM_VEHICLES_ON_LANE];
-    VehicleType vehicles_centerLane[NUM_VEHICLES_ON_LANE];
-    VehicleType vehicles_rightLane[NUM_VEHICLES_ON_LANE];
-};
-
-struct GapType
-{
-    float length_m;
-    LaneAssociationType Lane;
-    bool valid_flag;
+    VehicleType vehicles_left_lane[NUM_VEHICLES_ON_LANE];
+    VehicleType vehicles_center_lane[NUM_VEHICLES_ON_LANE];
+    VehicleType vehicles_right_lane[NUM_VEHICLES_ON_LANE];
 };

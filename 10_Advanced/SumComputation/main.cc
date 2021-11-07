@@ -11,10 +11,10 @@
 constexpr std::uint32_t NUM_THREADS = 2;
 constexpr std::uint32_t NUM_RUNS = 100;
 
-void random_vector(std::vector<int> &vec)
+void random_vector(std::vector<std::int32_t> &vec)
 {
     std::mt19937 random_generator(22);
-    std::uniform_int_distribution<int> random_distribution(-10, 10);
+    std::uniform_int_distribution<std::int32_t> random_distribution(-10, 10);
 
     for (auto &val : vec)
     {
@@ -35,17 +35,17 @@ auto range_sum_asyn(RandomIter start, RandomIter stop)
 
     auto handle = std::async(std::launch::async, range_sum_asyn<RandomIter>, mid, stop);
 
-    int sum = range_sum_asyn(start, mid);
+    std::int32_t sum = range_sum_asyn(start, mid);
     return sum + handle.get();
 }
 
 template <typename RandomIter>
-void range_sum_thread_helper(RandomIter start, RandomIter stop, int &sum)
+void range_sum_thread_helper(RandomIter start, RandomIter stop, std::int32_t &sum)
 {
     sum += std::accumulate(start, stop, 0);
 }
 
-double range_sum_thread(const std::vector<int> &my_vector)
+double range_sum_thread(const std::vector<std::int32_t> &my_vector)
 {
     auto sum = 0;
     auto length = my_vector.size();
@@ -54,19 +54,19 @@ double range_sum_thread(const std::vector<int> &my_vector)
     auto split1 = my_vector.begin() + quarter;
     auto split2 = my_vector.begin() + half;
     auto split3 = my_vector.begin() + half + quarter;
-    std::thread thread1(range_sum_thread_helper<std::vector<int>::iterator>,
+    std::thread thread1(range_sum_thread_helper<std::vector<std::int32_t>::iterator>,
                         my_vector.begin(),
                         split1,
                         std::ref(sum));
-    std::thread thread2(range_sum_thread_helper<std::vector<int>::iterator>,
+    std::thread thread2(range_sum_thread_helper<std::vector<std::int32_t>::iterator>,
                         split1,
                         split2,
                         std::ref(sum));
-    std::thread thread3(range_sum_thread_helper<std::vector<int>::iterator>,
+    std::thread thread3(range_sum_thread_helper<std::vector<std::int32_t>::iterator>,
                         split2,
                         split3,
                         std::ref(sum));
-    std::thread thread4(range_sum_thread_helper<std::vector<int>::iterator>,
+    std::thread thread4(range_sum_thread_helper<std::vector<std::int32_t>::iterator>,
                         split3,
                         my_vector.end(),
                         std::ref(sum));
@@ -80,7 +80,7 @@ double range_sum_thread(const std::vector<int> &my_vector)
 
 int main()
 {
-    std::vector<int> my_vector(30'000'000, 0);
+    std::vector<std::int32_t> my_vector(30'000'000, 0);
     random_vector(my_vector);
 
     double time1 = 0.0;

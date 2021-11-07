@@ -14,6 +14,12 @@ char *char_search(char *text, char character);
 bool string_equal(char *string1, char *string2);
 ```
 
+- To Upper Case: Upper case all characters of the string
+- To Lower Case: Lower case all characters of the string
+- String Length: Return the length of the string
+- Char Search: Return the pointer to the position where the **character** is found in the string
+- String Equal: Return if both strings have the same characters
+
 ## Main Function
 
 ```cpp

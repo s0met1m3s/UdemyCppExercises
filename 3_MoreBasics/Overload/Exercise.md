@@ -8,6 +8,9 @@ void print_array(const std::int32_t *array, const std::size_t length);
 void print_array(const char *array);
 ```
 
+- Print Array (int array): Overloaded function to print out all values
+- Print Array (char array):  Overloaded function to print out all characters
+
 ## Main Function
 
 ```cpp

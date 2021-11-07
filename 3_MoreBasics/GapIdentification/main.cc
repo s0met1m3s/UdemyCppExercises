@@ -16,10 +16,6 @@ int main()
     print_vehicle(ego_vehicle);
     print_neighbor_vehicles(vehicles);
 
-    GapType gap =
-        compute_target_gap(ego_vehicle, vehicles, LaneAssociationType::LANE_ASSOCIATION_LEFT);
-    print_gap(gap);
-
     print_scene(ego_vehicle, vehicles);
 
     std::cout << "Compute forward (1sec)?: ";

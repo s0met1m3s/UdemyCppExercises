@@ -14,35 +14,35 @@ void init_ego_vehicle(VehicleType &ego_vehicle)
 
 void init_vehicles(NeighborVehiclesType &vehicles)
 {
-    vehicles.vehicles_leftLane[0].Id = 0;
-    vehicles.vehicles_leftLane[0].speed_mps = 130.0F / 3.6F;
-    vehicles.vehicles_leftLane[0].longitudinal_distanceM = 80.0F;
-    vehicles.vehicles_leftLane[0].Lane = LaneAssociationType::LANE_ASSOCIATION_LEFT;
+    vehicles.vehicles_left_lane[0].Id = 0;
+    vehicles.vehicles_left_lane[0].speed_mps = 130.0F / 3.6F;
+    vehicles.vehicles_left_lane[0].longitudinal_distanceM = 80.0F;
+    vehicles.vehicles_left_lane[0].Lane = LaneAssociationType::LANE_ASSOCIATION_LEFT;
 
-    vehicles.vehicles_leftLane[1].Id = 1;
-    vehicles.vehicles_leftLane[1].speed_mps = 80.0F / 3.6F;
-    vehicles.vehicles_leftLane[1].longitudinal_distanceM = -20.0F;
-    vehicles.vehicles_leftLane[1].Lane = LaneAssociationType::LANE_ASSOCIATION_LEFT;
+    vehicles.vehicles_left_lane[1].Id = 1;
+    vehicles.vehicles_left_lane[1].speed_mps = 80.0F / 3.6F;
+    vehicles.vehicles_left_lane[1].longitudinal_distanceM = -20.0F;
+    vehicles.vehicles_left_lane[1].Lane = LaneAssociationType::LANE_ASSOCIATION_LEFT;
 
-    vehicles.vehicles_centerLane[0].Id = 2;
-    vehicles.vehicles_centerLane[0].speed_mps = 120.0F / 3.6F;
-    vehicles.vehicles_centerLane[0].longitudinal_distanceM = 50.0F;
-    vehicles.vehicles_centerLane[0].Lane = LaneAssociationType::LANE_ASSOCIATION_CENTER;
+    vehicles.vehicles_center_lane[0].Id = 2;
+    vehicles.vehicles_center_lane[0].speed_mps = 120.0F / 3.6F;
+    vehicles.vehicles_center_lane[0].longitudinal_distanceM = 50.0F;
+    vehicles.vehicles_center_lane[0].Lane = LaneAssociationType::LANE_ASSOCIATION_CENTER;
 
-    vehicles.vehicles_centerLane[1].Id = 3;
-    vehicles.vehicles_centerLane[1].speed_mps = 110.0F / 3.6F;
-    vehicles.vehicles_centerLane[1].longitudinal_distanceM = -50.0F;
-    vehicles.vehicles_centerLane[1].Lane = LaneAssociationType::LANE_ASSOCIATION_CENTER;
+    vehicles.vehicles_center_lane[1].Id = 3;
+    vehicles.vehicles_center_lane[1].speed_mps = 110.0F / 3.6F;
+    vehicles.vehicles_center_lane[1].longitudinal_distanceM = -50.0F;
+    vehicles.vehicles_center_lane[1].Lane = LaneAssociationType::LANE_ASSOCIATION_CENTER;
 
-    vehicles.vehicles_rightLane[0].Id = 4;
-    vehicles.vehicles_rightLane[0].speed_mps = 90.0F / 3.6F;
-    vehicles.vehicles_rightLane[0].longitudinal_distanceM = 30.0F;
-    vehicles.vehicles_rightLane[0].Lane = LaneAssociationType::LANE_ASSOCIATION_RIGHT;
+    vehicles.vehicles_right_lane[0].Id = 4;
+    vehicles.vehicles_right_lane[0].speed_mps = 90.0F / 3.6F;
+    vehicles.vehicles_right_lane[0].longitudinal_distanceM = 30.0F;
+    vehicles.vehicles_right_lane[0].Lane = LaneAssociationType::LANE_ASSOCIATION_RIGHT;
 
-    vehicles.vehicles_rightLane[1].Id = 5;
-    vehicles.vehicles_rightLane[1].speed_mps = 130.0F / 3.6F;
-    vehicles.vehicles_rightLane[1].longitudinal_distanceM = -30.0F;
-    vehicles.vehicles_rightLane[1].Lane = LaneAssociationType::LANE_ASSOCIATION_RIGHT;
+    vehicles.vehicles_right_lane[1].Id = 5;
+    vehicles.vehicles_right_lane[1].speed_mps = 130.0F / 3.6F;
+    vehicles.vehicles_right_lane[1].longitudinal_distanceM = -30.0F;
+    vehicles.vehicles_right_lane[1].Lane = LaneAssociationType::LANE_ASSOCIATION_RIGHT;
 }
 
 void print_vehicle(const VehicleType &vehicle)
@@ -62,78 +62,14 @@ void print_vehicle(const VehicleType &vehicle)
 
 void print_neighbor_vehicles(const NeighborVehiclesType &vehicles)
 {
-    print_vehicle(vehicles.vehicles_leftLane[0]);
-    print_vehicle(vehicles.vehicles_leftLane[1]);
+    print_vehicle(vehicles.vehicles_left_lane[0]);
+    print_vehicle(vehicles.vehicles_left_lane[1]);
 
-    print_vehicle(vehicles.vehicles_centerLane[0]);
-    print_vehicle(vehicles.vehicles_centerLane[1]);
+    print_vehicle(vehicles.vehicles_center_lane[0]);
+    print_vehicle(vehicles.vehicles_center_lane[1]);
 
-    print_vehicle(vehicles.vehicles_rightLane[0]);
-    print_vehicle(vehicles.vehicles_rightLane[1]);
-}
-
-bool check_valid_gap(const VehicleType &front_vehicle,
-                     const VehicleType &rear_vehicle,
-                     const VehicleType &ego_vehicle)
-{
-    const float ego_speed_kmh = ego_vehicle.speed_mps * 3.6F;
-    const float min_distance_m = ego_speed_kmh / 2.0F;
-    const bool distance_tofront_valid =
-        std::abs(front_vehicle.longitudinal_distanceM) > min_distance_m ? true : false;
-    const bool distance_torear_valid =
-        std::abs(rear_vehicle.longitudinal_distanceM) > min_distance_m ? true : false;
-
-    return (distance_tofront_valid && distance_torear_valid);
-}
-
-GapType compute_target_gap(const VehicleType &ego_vehicle,
-                           const NeighborVehiclesType &vehicles,
-                           const LaneAssociationType target_lane)
-{
-    GapType gap{};
-
-    switch (target_lane)
-    {
-    case LaneAssociationType::LANE_ASSOCIATION_LEFT:
-    {
-        const VehicleType &front_vehicle = vehicles.vehicles_leftLane[0];
-        const VehicleType &rear_vehicle = vehicles.vehicles_leftLane[1];
-        const float gap_lengthM =
-            front_vehicle.longitudinal_distanceM - rear_vehicle.longitudinal_distanceM;
-
-        gap.length_m = gap_lengthM;
-        gap.valid_flag = check_valid_gap(front_vehicle, rear_vehicle, ego_vehicle);
-        gap.Lane = LaneAssociationType::LANE_ASSOCIATION_LEFT;
-        break;
-    }
-    case LaneAssociationType::LANE_ASSOCIATION_RIGHT:
-    {
-        const VehicleType &front_vehicle = vehicles.vehicles_rightLane[0];
-        const VehicleType &rear_vehicle = vehicles.vehicles_rightLane[1];
-        float gap_lengthM =
-            front_vehicle.longitudinal_distanceM - rear_vehicle.longitudinal_distanceM;
-
-        gap.length_m = gap_lengthM;
-        gap.valid_flag = check_valid_gap(front_vehicle, rear_vehicle, ego_vehicle);
-        gap.Lane = LaneAssociationType::LANE_ASSOCIATION_RIGHT;
-        break;
-    }
-    case LaneAssociationType::LANE_ASSOCIATION_UNKNOWN:
-    case LaneAssociationType::LANE_ASSOCIATION_CENTER:
-    default:
-    {
-        break;
-    }
-    }
-
-    return gap;
-}
-
-void print_gap(const GapType &gap)
-{
-    std::cout << "Lane: " << static_cast<std::int32_t>(gap.Lane) << std::endl;
-    std::cout << "length_m: " << gap.length_m << std::endl;
-    std::cout << "valid_flag: " << gap.valid_flag << std::endl << std::endl;
+    print_vehicle(vehicles.vehicles_right_lane[0]);
+    print_vehicle(vehicles.vehicles_right_lane[1]);
 }
 
 void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles)
@@ -148,9 +84,9 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
 
     for (std::int32_t i = 100; i >= -100; i -= Offset)
     {
-        const VehicleType &left_vehicle = vehicles.vehicles_leftLane[left_idx];
-        const VehicleType &center_vehicle = vehicles.vehicles_centerLane[center_idx];
-        const VehicleType &right_vehicle = vehicles.vehicles_rightLane[right_idx];
+        const VehicleType &left_vehicle = vehicles.vehicles_left_lane[left_idx];
+        const VehicleType &center_vehicle = vehicles.vehicles_center_lane[center_idx];
+        const VehicleType &right_vehicle = vehicles.vehicles_right_lane[right_idx];
 
         char left_string[]{"   "};
         char center_string[]{"   "};
@@ -205,12 +141,12 @@ void compute_future_state(const VehicleType &ego_vehicle,
 {
     const float ego_driven_distance = ego_vehicle.speed_mps * seconds;
 
-    compute_future_distance(vehicles.vehicles_leftLane[0], ego_driven_distance, seconds);
-    compute_future_distance(vehicles.vehicles_leftLane[1], ego_driven_distance, seconds);
+    compute_future_distance(vehicles.vehicles_left_lane[0], ego_driven_distance, seconds);
+    compute_future_distance(vehicles.vehicles_left_lane[1], ego_driven_distance, seconds);
 
-    compute_future_distance(vehicles.vehicles_centerLane[0], ego_driven_distance, seconds);
-    compute_future_distance(vehicles.vehicles_centerLane[1], ego_driven_distance, seconds);
+    compute_future_distance(vehicles.vehicles_center_lane[0], ego_driven_distance, seconds);
+    compute_future_distance(vehicles.vehicles_center_lane[1], ego_driven_distance, seconds);
 
-    compute_future_distance(vehicles.vehicles_rightLane[0], ego_driven_distance, seconds);
-    compute_future_distance(vehicles.vehicles_rightLane[1], ego_driven_distance, seconds);
+    compute_future_distance(vehicles.vehicles_right_lane[0], ego_driven_distance, seconds);
+    compute_future_distance(vehicles.vehicles_right_lane[1], ego_driven_distance, seconds);
 }

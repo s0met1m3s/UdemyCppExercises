@@ -11,16 +11,6 @@ void print_vehicle(const VehicleType &vehicle);
 
 void print_neighbor_vehicles(const NeighborVehiclesType &vehicles);
 
-bool check_valid_gap(const VehicleType &front_vehicle,
-                     const VehicleType &rear_vehicle,
-                     const VehicleType &ego_vehicle);
-
-GapType compute_target_gap(const VehicleType &ego_vehicle,
-                           const NeighborVehiclesType &vehicles,
-                           const LaneAssociationType target_lane);
-
-void print_gap(const GapType &gap);
-
 void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles);
 
 void compute_future_distance(VehicleType &vehicle,
@@ -31,6 +21,8 @@ void compute_future_state(const VehicleType &ego_vehicle,
                           NeighborVehiclesType &vehicles,
                           const float seconds);
 ```
+
+![vehicle](../../media/vehicle.png)
 
 ## Main Function
 
@@ -45,10 +37,6 @@ int main()
 
     print_vehicle(ego_vehicle);
     print_neighbor_vehicles(vehicles);
-
-    GapType gap =
-        compute_target_gap(ego_vehicle, vehicles, LaneAssociationType::LANE_ASSOCIATION_LEFT);
-    print_gap(gap);
 
     print_scene(ego_vehicle, vehicles);
 
