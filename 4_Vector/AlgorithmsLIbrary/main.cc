@@ -22,9 +22,9 @@ int main()
     std::cout << "all_of: " << all_of(vector, 5) << std::endl;
     std::cout << "any_of: " << any_of(vector, 5) << std::endl;
     std::cout << "none_of: " << none_of(vector, 5) << std::endl;
-    auto Scan_values = inclusive_scan(vector);
+    auto scan_values = inclusive_scan(vector);
     std::cout << "inclusive_scan: " << std::endl;
-    print_vector(Scan_values);
+    print_vector(scan_values);
 
     return 0;
 }

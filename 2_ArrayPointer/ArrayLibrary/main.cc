@@ -4,8 +4,11 @@
 #include "utils.hpp"
 
 void unique_elements(std::int32_t *array, std::size_t length);
+
 void remove_duplicates(std::int32_t *array, std::size_t &length);
+
 void rotate_left(std::int32_t *array, std::size_t length);
+
 void rotate_right(std::int32_t *array, std::size_t length);
 
 int main()
@@ -59,7 +62,7 @@ void remove_duplicates(std::int32_t *array, std::size_t &length)
 {
     for (std::size_t i = 0; i < length; i++)
     {
-        std::size_t duplicate_index = std::string::npos;
+        std::size_t duplicate_index = static_cast<std::size_t>(-1);
         std::int32_t current_value = array[i];
 
         for (std::size_t j = i + 1; j < length; j++)
@@ -72,7 +75,7 @@ void remove_duplicates(std::int32_t *array, std::size_t &length)
             }
         }
 
-        if (duplicate_index == -1)
+        if (duplicate_index == static_cast<std::size_t>(-1))
         {
             continue;
         }

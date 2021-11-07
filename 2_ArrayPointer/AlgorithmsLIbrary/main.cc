@@ -22,12 +22,12 @@ int main()
     std::cout << "all_of: " << all_of(array, length, 5) << std::endl;
     std::cout << "any_of: " << any_of(array, length, 5) << std::endl;
     std::cout << "none_of: " << none_of(array, length, 5) << std::endl;
-    std::int32_t *Scan_values = inclusive_scan(array, length);
+    auto scan_values = inclusive_scan(array, length);
     std::cout << "inclusive_scan: " << std::endl;
-    print_array(Scan_values, length);
+    print_array(scan_values, length);
 
-    delete[] Scan_values;
-    Scan_values = nullptr;
+    delete[] scan_values;
+    scan_values = nullptr;
 
     return 0;
 }

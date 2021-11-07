@@ -9,7 +9,7 @@
  *
  * @return
  */
-double calculate_pi(std::uint32_t Num_iterations);
+double calculate_pi(std::uint32_t num_iterations);
 
 void print_dec_to_bin(std::uint8_t value);
 
@@ -17,9 +17,9 @@ void print_dec_to_hex(std::uint8_t value);
 
 int main()
 {
-    std::uint32_t Num_iterations = 100'000'000;
+    std::uint32_t num_iterations = 1'000'000;
     double pi = 3.14159265358979323846;
-    double pi_calculated = calculate_pi(Num_iterations);
+    double pi_calculated = calculate_pi(num_iterations);
 
     std::cout << std::setprecision(30);
     std::cout << "pi (calculated): " << pi_calculated << std::endl;
@@ -32,11 +32,11 @@ int main()
     print_dec_to_hex(hex);
 }
 
-double calculate_pi(std::uint32_t Num_iterations)
+double calculate_pi(std::uint32_t num_iterations)
 {
     double result = 0.0;
 
-    for (std::uint32_t k = 0; k < Num_iterations; k++)
+    for (std::uint32_t k = 0; k < num_iterations; k++)
     {
         result += (1.0 / (4.0 * k + 1.0)) - (1.0 / (4.0 * k + 3.0));
     }

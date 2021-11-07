@@ -35,6 +35,5 @@ int main()
         std::cin >> Input;
     }
 
-
     return 0;
 }

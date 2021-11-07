@@ -39,7 +39,6 @@ void init_vehicles(NeighborVehiclesType &vehicles)
     vehicles.vehicles_rightLane[0].longitudinal_distanceM = 30.0F;
     vehicles.vehicles_rightLane[0].Lane = LaneAssociationType::LANE_ASSOCIATION_RIGHT;
 
-
     vehicles.vehicles_rightLane[1].Id = 5;
     vehicles.vehicles_rightLane[1].speed_mps = 130.0F / 3.6F;
     vehicles.vehicles_rightLane[1].longitudinal_distanceM = -30.0F;
@@ -63,20 +62,14 @@ void print_vehicle(const VehicleType &vehicle)
 
 void print_neighbor_vehicles(const NeighborVehiclesType &vehicles)
 {
-    for (std::size_t i = 0; i < NUM_VEHICLES_ON_LANE; i++)
-    {
-        print_vehicle(vehicles.vehicles_leftLane[i]);
-    }
+    print_vehicle(vehicles.vehicles_leftLane[0]);
+    print_vehicle(vehicles.vehicles_leftLane[1]);
 
-    for (std::size_t i = 0; i < NUM_VEHICLES_ON_LANE; i++)
-    {
-        print_vehicle(vehicles.vehicles_centerLane[i]);
-    }
+    print_vehicle(vehicles.vehicles_centerLane[0]);
+    print_vehicle(vehicles.vehicles_centerLane[1]);
 
-    for (std::size_t i = 0; i < NUM_VEHICLES_ON_LANE; i++)
-    {
-        print_vehicle(vehicles.vehicles_rightLane[i]);
-    }
+    print_vehicle(vehicles.vehicles_rightLane[0]);
+    print_vehicle(vehicles.vehicles_rightLane[1]);
 }
 
 bool check_valid_gap(const VehicleType &front_vehicle,
@@ -159,9 +152,9 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
         const VehicleType &center_vehicle = vehicles.vehicles_centerLane[center_idx];
         const VehicleType &right_vehicle = vehicles.vehicles_rightLane[right_idx];
 
-        char left_string[] = "   ";
-        char center_string[] = "   ";
-        char right_string[] = "   ";
+        char left_string[]{"   "};
+        char center_string[]{"   "};
+        char right_string[]{"   "};
 
         float range_m = static_cast<float>(i);
 

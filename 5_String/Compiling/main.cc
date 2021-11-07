@@ -45,7 +45,7 @@ int main(int argc, char **argv)
         compile_file(file);
     }
 
-    auto executable_path = link_files(files);
+    const auto executable_path = link_files(files);
 
     run(executable_path);
 }
@@ -71,7 +71,7 @@ std::vector<fs::path> get_source_files_in_dir(const fs::path &dir)
 
     for (auto it = fs::directory_iterator(dir); it != fs::directory_iterator{}; ++it)
     {
-        auto current_file = *it;
+        const auto current_file = *it;
 
         if (is_source_file(current_file.path()) && fs::is_regular_file(current_file.path()))
         {

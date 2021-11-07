@@ -26,9 +26,13 @@ std::size_t string_length(char *text);
 
 char *char_search(char *text, char character);
 
+bool string_equal(char *string1, char *string2);
+
 int main()
 {
     char input_text[50]{};
+    char compare_text1[50]{"jan"};
+    char compare_text2[50]{"ja"};
 
     std::cout << "Please enter any text: ";
     std::cin >> input_text;
@@ -37,6 +41,9 @@ int main()
     std::cout << "to_lower_case: " << to_lower_case(input_text) << std::endl;
     std::cout << "string_length: " << string_length(input_text) << std::endl;
     std::cout << "char_search: " << char_search(input_text, 'a') << std::endl;
+    std::cout << std::boolalpha;
+    std::cout << "equal(jan, jan): " << string_equal(input_text, compare_text1) << std::endl;
+    std::cout << "equal(jan, ja): " << string_equal(input_text, compare_text2) << std::endl;
 
     return 0;
 }
@@ -165,4 +172,28 @@ char *char_search(char *text, char character)
     }
 
     return text;
+}
+
+bool string_equal(char *string1, char *string2)
+{
+    std::size_t len1 = string_length(string1);
+    std::size_t len2 = string_length(string2);
+
+    if (len1 != len2)
+    {
+        return false;
+    }
+
+    while (*string1 != '\0')
+    {
+        if (*string1 != *string2)
+        {
+            return false;
+        }
+
+        string1++;
+        string2++;
+    }
+
+    return true;
 }

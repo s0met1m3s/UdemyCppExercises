@@ -28,7 +28,7 @@ int main()
     cleanText(text);
     std::cout << text << std::endl << std::endl;
 
-    auto splittedText = splitText(text, ' ');
+    const auto splittedText = splitText(text, ' ');
     print_vector(splittedText);
 
     return 0;

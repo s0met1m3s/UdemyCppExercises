@@ -6,7 +6,7 @@
 
 namespace fs = std::filesystem;
 
-auto replace_with(std::string &s, std::string const &old_substr, std::string const &new_substr)
+auto replace_with(std::string &s, const std::string &old_substr, const std::string &new_substr)
 {
     for (std::size_t pos = 0; pos <= s.size() - old_substr.size();)
     {
