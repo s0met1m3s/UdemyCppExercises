@@ -25,6 +25,10 @@ Meaning of the function names:
 - Upper Case: A-Z
 - Lower Case: a-z
 
+Note:
+
+The shift from Upper Case to Lower Case is 32.  
+
 Afterwards, implement following conversion functions:
 
 ```cpp
@@ -34,3 +38,27 @@ char to_lower_case(char character);
 ```
 
 These should return the **converted** character.
+
+## Main Function
+
+```cpp
+int main()
+{
+    char input_character;
+
+    std::cout << "Please enter any ASCII character: ";
+    std::cin >> input_character;
+
+    std::cout << std::boolalpha;
+    std::cout << "is_numeric: " << is_numeric(input_character) << std::endl;
+    std::cout << "is_alpha: " << is_alpha(input_character) << std::endl;
+    std::cout << "is_alpha_numeric: " << is_alpha_numeric(input_character) << std::endl;
+    std::cout << "is_upper_case: " << is_upper_case(input_character) << std::endl;
+    std::cout << "is_lower_case: " << is_lower_case(input_character) << std::endl;
+    std::cout << std::dec;
+    std::cout << "to_upper_case: " << to_upper_case(input_character) << std::endl;
+    std::cout << "to_lower_case: " << to_lower_case(input_character) << std::endl;
+
+    return 0;
+}
+```

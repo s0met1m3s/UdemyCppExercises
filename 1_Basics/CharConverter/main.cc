@@ -56,7 +56,7 @@ bool is_alpha(char character)
 
 bool is_alpha_numeric(char character)
 {
-    return is_numeric(character) || is_alpha(character);
+    return (is_numeric(character) || is_alpha(character));
 }
 
 bool is_upper_case(char character)

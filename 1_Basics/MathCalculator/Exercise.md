@@ -20,7 +20,7 @@ Implement the formula in the function with $n$ = **num_iterations**.
 Then use a for-loop to sum up the value.
 At the end multiply with 4 before you return the value.
 
-$\frac{\pi}{4} = \sum_0^n: \frac{1}{(4k + 1)) - (1 / (4k + 3))}$
+$\frac{\pi}{4} = \sum_0^n: \frac{1}{(4k + 1)} - \frac{1}{(4k + 3)}$
 
 ## Decimal to Binary
 
@@ -41,3 +41,24 @@ std::cout << std::hex << std::uppercase << static_cast<std::uint32_t>(j) << std:
 ```
 
 E.g. the decimal number 142 would be 8E in hexa-decimal.
+
+## Main Function
+
+```cpp
+int main()
+{
+    std::uint32_t num_iterations = 1'000'000;
+    double pi = 3.14159265358979323846;
+    double pi_calculated = calculate_pi(num_iterations);
+
+    std::cout << std::setprecision(30);
+    std::cout << "pi (calculated): " << pi_calculated << std::endl;
+    std::cout << "pi (correct): " << pi << std::endl;
+
+    std::uint8_t dec = 0b10001110;
+    print_dec_to_bin(dec);
+
+    std::uint8_t hex = 0x8E;
+    print_dec_to_hex(hex);
+}
+```

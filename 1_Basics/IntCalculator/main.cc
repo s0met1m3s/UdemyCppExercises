@@ -1,5 +1,6 @@
-#include <iostream>
 #include <cmath>
+#include <cstdint>
+#include <iostream>
 
 std::uint32_t modulo(std::uint32_t number_a, std::uint32_t number_b);
 
@@ -51,6 +52,7 @@ std::uint32_t cross_sum(std::uint32_t number)
         std::uint32_t current_digit = number % 10;
 
         sum += current_digit;
+
         number /= 10;
     }
 

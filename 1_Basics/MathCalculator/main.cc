@@ -2,13 +2,6 @@
 #include <iomanip>
 #include <iostream>
 
-/**
- * @brief Calculates a series that converges to pi / 4.
- *
- * pi / 4 = sum from 0 to n: (1 / (4k + 1)) - (1 / (4k + 3))
- *
- * @return
- */
 double calculate_pi(std::uint32_t num_iterations);
 
 void print_dec_to_bin(std::uint8_t value);
