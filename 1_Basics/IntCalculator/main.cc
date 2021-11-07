@@ -1,5 +1,5 @@
-#include <cmath>
 #include <iostream>
+#include <cmath>
 
 std::uint32_t modulo(std::uint32_t number_a, std::uint32_t number_b);
 
