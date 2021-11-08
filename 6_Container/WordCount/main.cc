@@ -13,7 +13,7 @@ namespace fs = std::filesystem;
 
 using WordCountPair = std::pair<std::string, std::size_t>;
 using WordCountVec = std::vector<WordCountPair>;
-using counted_wordsMap = std::map<std::string, std::size_t>;
+using CountedWordsMap = std::map<std::string, std::size_t>;
 
 void clean_text(std::string &text);
 
@@ -21,9 +21,9 @@ void replace_all(std::string &text, std::string_view what, std::string_view with
 
 std::vector<std::string> split_text(const std::string &text, char delimiter);
 
-counted_wordsMap count_words(const std::vector<std::string> &words);
+CountedWordsMap count_words(const std::vector<std::string> &words);
 
-WordCountVec map_to_vector(counted_wordsMap counted_words);
+WordCountVec map_to_vector(CountedWordsMap counted_words);
 
 void sort_word_counts(WordCountVec &word_counts);
 
@@ -64,31 +64,35 @@ void clean_text(std::string &text)
 
 void replace_all(std::string &text, std::string_view what, std::string_view with)
 {
-    for (std::size_t pos = 0; std::string::npos != pos; pos += with.length())
+    for (std::size_t pos = 0; pos != std::string::npos; pos += with.length())
     {
-        text.replace(pos, what.length(), with.data(), with.length());
         pos = text.find(what.data(), pos, what.length());
+
+        if (pos != std::string::npos)
+        {
+            text.replace(pos, what.length(), with.data(), with.length());
+        }
     }
 }
 
 std::vector<std::string> split_text(const std::string &text, char delimiter)
 {
-    auto elems = std::vector<std::string>{};
+    auto words = std::vector<std::string>{};
 
     auto iss = std::istringstream{text};
     auto item = std::string{};
 
     while (std::getline(iss, item, delimiter))
     {
-        *std::back_inserter(elems)++ = item;
+        words.push_back(item);
     }
 
-    return elems;
+    return words;
 }
 
-counted_wordsMap count_words(const std::vector<std::string> &words)
+CountedWordsMap count_words(const std::vector<std::string> &words)
 {
-    auto result = counted_wordsMap{};
+    auto result = CountedWordsMap{};
 
     for (const auto &word : words)
     {
@@ -98,11 +102,11 @@ counted_wordsMap count_words(const std::vector<std::string> &words)
     return result;
 }
 
-WordCountVec map_to_vector(counted_wordsMap counted_words)
+WordCountVec map_to_vector(CountedWordsMap counted_words)
 {
     auto countedwords_vector = WordCountVec(counted_words.size());
 
-    auto i = std::size_t{};
+    auto i = std::size_t{0};
     for (const auto &pair : counted_words)
     {
         countedwords_vector[i] = pair;
@@ -112,9 +116,12 @@ WordCountVec map_to_vector(counted_wordsMap counted_words)
     return countedwords_vector;
 }
 
+bool compare(WordCountPair const &a, WordCountPair const &b)
+{
+    return a.second > b.second;
+}
+
 void sort_word_counts(WordCountVec &word_counts)
 {
-    auto cmp = [](WordCountPair const &a, WordCountPair const &b) { return a.second > b.second; };
-
-    std::sort(word_counts.begin(), word_counts.end(), cmp);
+    std::sort(word_counts.begin(), word_counts.end(), compare);
 }

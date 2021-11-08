@@ -31,9 +31,9 @@ int main()
 
 bool all_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
 {
-    for (const auto &current_val : vector)
+    for (const auto &current_value : vector)
     {
-        if (current_val != value)
+        if (current_value != value)
         {
             return false;
         }
@@ -44,9 +44,9 @@ bool all_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
 
 bool any_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
 {
-    for (const auto &current_val : vector)
+    for (const auto &current_value : vector)
     {
-        if (current_val == value)
+        if (current_value == value)
         {
             return true;
         }
@@ -57,9 +57,9 @@ bool any_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
 
 bool none_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
 {
-    for (const auto &current_val : vector)
+    for (const auto &current_value : vector)
     {
-        if (current_val == value)
+        if (current_value == value)
         {
             return false;
         }
@@ -70,22 +70,22 @@ bool none_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
 
 std::size_t count(const std::vector<std::int32_t> &vector, const std::int32_t value)
 {
-    std::size_t temp = 0;
+    std::size_t counter = 0;
 
-    for (const auto &current_val : vector)
+    for (const auto &current_value : vector)
     {
-        if (current_val == value)
+        if (current_value == value)
         {
-            temp++;
+            counter++;
         }
     }
 
-    return temp;
+    return counter;
 }
 
 std::vector<std::int32_t> inclusive_scan(const std::vector<std::int32_t> &vector)
 {
-    auto result = std::vector<std::int32_t>(vector.size(), 0);
+    auto result = std::vector<std::int32_t>(vector);
 
     result[0] = vector[0];
 

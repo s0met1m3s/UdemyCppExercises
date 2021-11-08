@@ -123,7 +123,7 @@ void rotate_right(std::int32_t *array, std::size_t length)
         return;
     }
 
-    std::int32_t last_element = array[0];
+    std::int32_t last_element = array[vector.size() - 1];
 
     for (std::size_t i = length - 1; i > 0; i--)
     {

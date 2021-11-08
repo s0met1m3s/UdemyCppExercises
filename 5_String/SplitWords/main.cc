@@ -45,24 +45,28 @@ void clean_text(std::string &text)
 
 void replace_all(std::string &text, std::string_view what, std::string_view with)
 {
-    for (std::size_t pos = 0; std::string::npos != pos; pos += with.length())
+    for (std::size_t pos = 0; pos != std::string::npos; pos += with.length())
     {
-        text.replace(pos, what.length(), with.data(), with.length());
         pos = text.find(what.data(), pos, what.length());
+
+        if (pos != std::string::npos)
+        {
+            text.replace(pos, what.length(), with.data(), with.length());
+        }
     }
 }
 
 std::vector<std::string> split_text(const std::string &text, char delimiter)
 {
-    auto elems = std::vector<std::string>{};
+    auto words = std::vector<std::string>{};
 
     auto iss = std::istringstream{text};
     auto item = std::string{};
 
     while (std::getline(iss, item, delimiter))
     {
-        *std::back_inserter(elems)++ = item;
+        words.push_back(item);
     }
 
-    return elems;
+    return words;
 }

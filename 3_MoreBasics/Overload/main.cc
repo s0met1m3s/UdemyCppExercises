@@ -18,7 +18,12 @@ int main()
 
 void print_array(const std::int32_t *array, const std::size_t length)
 {
-    for (std::size_t i = 0; i < length - 1; i++)
+    if (array == nullptr)
+    {
+        return;
+    }
+
+    for (size_t i = 0; i < length - 1; i++)
     {
         std::cout << array[i] << ", ";
     }
@@ -28,6 +33,11 @@ void print_array(const std::int32_t *array, const std::size_t length)
 
 void print_array(const char *array)
 {
+    if (array == nullptr)
+    {
+        return;
+    }
+
     while (*array != '\0')
     {
         std::cout << *array;

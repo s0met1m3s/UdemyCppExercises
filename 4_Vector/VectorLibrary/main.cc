@@ -59,7 +59,7 @@ void unique_elements(const std::vector<std::int32_t> &vector)
 
         if (unique == true)
         {
-            std::cout << "unique element: " << current_value << std::endl;
+            std::cout << "unique: " << current_value << std::endl;
         }
     }
 }
@@ -109,22 +109,22 @@ void rotate_left(std::vector<std::int32_t> &vector)
 
 void rotate_right(std::vector<std::int32_t> &vector)
 {
-    auto Last_element = vector[vector.size() - 1];
+    auto last_element = vector[vector.size() - 1];
 
     for (std::size_t i = vector.size() - 1; i > 0; i--)
     {
         vector[i] = vector[i - 1];
     }
 
-    vector[0] = Last_element;
+    vector[0] = last_element;
 }
 
 void swap_boundary_values(std::vector<std::int32_t> &vector)
 {
-    auto &front_pointer = vector.front();
-    auto &back_pointer = vector.back();
+    auto &front_value = vector.front();
+    auto &back_value = vector.back();
 
-    const auto temp = back_pointer;
-    back_pointer = front_pointer;
-    front_pointer = temp;
+    const auto temp = back_value;
+    back_value = front_value;
+    front_value = temp;
 }
