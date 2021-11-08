@@ -1,6 +1,4 @@
 clean:
-	rm -rf **/*.exe
-	rm -rf **/*.o
-	rm -rf **/build/*
+	find . -name build -type d -print0|xargs -0 rm -r --
 
 .phony: clean

@@ -9,44 +9,7 @@ double get_distance(const std::uint32_t x1,
                     const std::uint32_t y2);
 ```
 
-```cpp
-class Image
-{
-public:
-    Image() = delete;
-    Image(const std::uint32_t width, const std::uint32_t height);
-    ~Image() noexcept = default;
-
-    std::uint32_t get_width() const;
-    std::uint32_t get_height() const;
-
-    void save_image(std::string_view file_name) const;
-
-    void clear_image();
-    void set_pixel(const std::uint32_t x, const std::uint32_t y, const std::uint8_t value);
-    void resize_image(const std::uint32_t new_width, const std::uint32_t new_height);
-    void fill_image(const std::uint8_t value);
-    void draw_line(const std::uint32_t x1,
-                   const std::uint32_t y1,
-                   const std::uint32_t x2,
-                   const std::uint32_t y2,
-                   const std::uint8_t value);
-
-    void draw_rectangle(const Rectangle &rectangle, const std::uint8_t value);
-
-    void fill_rectangle(const Rectangle &rectangle, const std::uint8_t value);
-
-    void draw_circle(const Circle &circle, const std::uint8_t value);
-
-    void fill_circle(const Circle &circle, const std::uint8_t value);
-
-private:
-    std::uint32_t m_width;
-    std::uint32_t m_height;
-    GrayscaleImage m_matrix;
-};
-
-```
+Implement this function to compute the distance of two pixels: p1=(x1, y1), p2=(x2, y2).
 
 ```cpp
 struct Shape
@@ -87,6 +50,55 @@ struct Rectangle : Shape
     std::uint32_t y2;
 };
 ```
+
+Implement the member functions for the Shape, Rectangle, and Circle class.
+
+```cpp
+class Image
+{
+public:
+    Image() = delete;
+    Image(const std::uint32_t width, const std::uint32_t height);
+    ~Image() noexcept = default;
+
+    std::uint32_t get_width() const;
+    std::uint32_t get_height() const;
+
+    void save_image(std::string_view file_name) const;
+
+    void clear_image();
+    void set_pixel(const std::uint32_t x, const std::uint32_t y, const std::uint8_t value);
+    void resize_image(const std::uint32_t new_width, const std::uint32_t new_height);
+    void fill_image(const std::uint8_t value);
+    void draw_line(const std::uint32_t x1,
+                   const std::uint32_t y1,
+                   const std::uint32_t x2,
+                   const std::uint32_t y2,
+                   const std::uint8_t value);
+
+    void draw_rectangle(const Rectangle &rectangle, const std::uint8_t value);
+
+    void fill_rectangle(const Rectangle &rectangle, const std::uint8_t value);
+
+    void draw_circle(const Circle &circle, const std::uint8_t value);
+
+    void fill_circle(const Circle &circle, const std::uint8_t value);
+
+private:
+    std::uint32_t m_width;
+    std::uint32_t m_height;
+    GrayscaleImage m_matrix;
+};
+
+```
+
+Here we extend the Image class from the main course.
+We will add the following functions:
+
+- draw_rectangle: Draw (only) the border of a rectangle with the color **value**
+- fill_rectangle:  Draw the border of a rectangle with the color **value** and also fill all pixels inside the rectangle with the color
+- draw_circle: Draw (only) the border of a circle with the color **value**
+- fill_circle: Draw the border of a circle with the color **value** and also fill all pixels inside the circle with the color
 
 ## Main Function
 

@@ -22,12 +22,13 @@ std::vector<std::int32_t>::iterator copy(std::vector<std::int32_t>::iterator fir
 std::int32_t accumulate(std::vector<std::int32_t>::iterator first,
                         std::vector<std::int32_t>::iterator last,
                         std::int32_t init);
-
-std::int32_t inner_product(std::vector<std::int32_t>::iterator first1,
-                           std::vector<std::int32_t>::iterator last1,
-                           std::vector<std::int32_t>::iterator first2,
-                           std::int32_t init);
 ```
+
+- equal: Return true if all elements of both vectors are the same
+- fill_n: Fill the vector **n** times with the value **value** within the range $[first, last)$
+- iota: Fill the vector with incrementing the value **value** within the range $[first, last)$
+- copy: Copy the elements from one vector to the other vector
+- accumulate: Compute the sum of the vecotr within the range $[first, last)$
 
 ## Main Function
 
@@ -56,9 +57,6 @@ int main()
 
     const auto sum = mystd::accumulate(vec1.begin(), vec1.end(), 0);
     std::cout << sum << std::endl;
-
-    const auto inner_product = mystd::inner_product(vec1.begin(), vec1.end(), vec2.begin(), 0);
-    std::cout << inner_product << std::endl;
 
     return 0;
 }

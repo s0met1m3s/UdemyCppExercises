@@ -14,6 +14,8 @@ const char *char_search(std::string_view text, char character);
 bool string_equal(std::string_view string1, std::string_view string2);
 ```
 
+Update the functions from chapter 2 regarding using string, string_view, and algorithms from the std.
+
 ## Main Function
 
 ```cpp

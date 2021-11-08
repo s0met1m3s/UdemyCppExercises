@@ -5,7 +5,6 @@ Implement the following functions:
 ```cpp
 class Book
 {
-    friend std::istream &operator>>(std::istream &, Book &);
     friend std::ostream &operator<<(std::ostream &, const Book &);
 
 public:
@@ -22,9 +21,13 @@ private:
     std::uint32_t pubyear;
 };
 
-std::istream &operator>>(std::istream &, Book &);
 std::ostream &operator<<(std::ostream &, const Book &);
 ```
+
+Implement (define) the member functions of the Book class.  
+
+==, !=: A book is equal if all member variables are the same.  
+<<: Print out all member variables  
 
 ## Main Function
 

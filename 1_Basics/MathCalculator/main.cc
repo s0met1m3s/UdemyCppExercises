@@ -73,8 +73,7 @@ void print_dec_to_hex(std::uint8_t value)
 
             if (temp <= value)
             {
-                std::cout << std::hex << std::uppercase << static_cast<std::uint32_t>(j)
-                          << std::dec;
+                std::cout << std::hex << std::uppercase << static_cast<std::uint32_t>(j) << std::dec;
 
                 value -= temp;
                 break;

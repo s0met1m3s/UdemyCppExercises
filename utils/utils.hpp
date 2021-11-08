@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <random>
 #include <sstream>
 #include <unordered_map>
 #include <vector>
@@ -86,5 +87,19 @@ std::string readFile(std::string_view file_path)
 
     return text;
 }
+
+
+template <typename T>
+void random_vector(std::vector<T> &vec)
+{
+    std::mt19937 random_generator(22);
+    std::uniform_int_distribution<T> random_distribution(-10, 10);
+
+    for (auto &val : vec)
+    {
+        val = random_distribution(random_generator);
+    }
+}
+
 
 #endif /* UTILS_H */

@@ -7,8 +7,6 @@ namespace fs = std::filesystem;
 
 using FileVec = std::vector<fs::path>;
 
-FileVec get_source_files_in_dir(const fs::path &dir);
-
 bool is_c_source_file(const fs::path &file);
 
 bool is_cpp_source_file(const fs::path &file);
@@ -17,16 +15,19 @@ bool is_c_header_file(const fs::path &file);
 
 bool is_cpp_header_file(const fs::path &file);
 
-void compile_file(fs::path source_file);
-
-fs::path link_files(FileVec source_files);
-
-void run(const fs::path &executable_path);
-
 auto number_of_source_files(const FileVec &files);
 
 auto number_of_header_files(const FileVec &files);
 ```
+
+- is_c_header_file: Return the number of C header files in a directory
+- is_c_source_file: Return the number of C source files in a directory
+- is_cpp_header_file: Return the number of C++ header files in a directory
+- is_cpp_source_file: Return the number of C++ source files in a directory
+- number_of_header_files: Return the number of C/C++ header files in a directory
+- number_of_source_files: Return the number of C/C++ source files in a directory
+
+Use lambda expressions for these functions!
 
 ## Main Function
 
@@ -46,19 +47,6 @@ int main(int argc, char **argv)
         dir = fs::path(input_path);
     }
 
-    auto files = get_source_files_in_dir(dir);
-
-    print_vector(files);
-
-    for (const auto &file : files)
-    {
-        compile_file(file);
-    }
-
-    const auto executable_path = link_files(files);
-
-    run(executable_path);
-
     auto all_files = FileVec{};
     for (auto it = fs::directory_iterator(dir); it != fs::directory_iterator{}; ++it)
     {
@@ -70,5 +58,15 @@ int main(int argc, char **argv)
 
     std::cout << number_sources << std::endl;
     std::cout << number_headers << std::endl;
+
+    for (const auto &file : all_files)
+    {
+        std::cout << "File: " << file << std::endl;
+        std::cout << std::boolalpha;
+        std::cout << "is_c_header_file: " << is_c_header_file(file) << std::endl;
+        std::cout << "is_c_source_file: " << is_c_source_file(file) << std::endl;
+        std::cout << "is_cpp_header_file: " << is_cpp_header_file(file) << std::endl;
+        std::cout << "is_cpp_source_file: " << is_cpp_source_file(file) << std::endl << std::endl;
+    }
 }
 ```

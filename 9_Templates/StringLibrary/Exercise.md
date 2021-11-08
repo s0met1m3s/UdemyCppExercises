@@ -1,6 +1,20 @@
 # Exercise
 
-Implement the following functions:
+In the C++ std, there are different string/string_view types.
+
+```cpp
+// Type             Definition
+std::string         std::basic_string<char>;
+std::wstring        std::basic_string<wchar_t>;
+std::u8string       std::basic_string<char8_t>;
+std::u16string      std::basic_string<char16_t>;
+std::u32string      std::basic_string<char32_t>;
+```
+
+We only want to allow std::string and std::wstring for our *library*.  
+For that, you have to create type_traits that will check whether the string/string_view is based on char/wchar.  
+
+Afterwards, implement the following template functions that will use the type_trait internally with a static_assert:
 
 ```cpp
 template <typename StringType, typename ViewType>

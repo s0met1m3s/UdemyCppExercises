@@ -120,24 +120,19 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
             right_idx++;
         }
 
-        std::cout << i << "\t| " << left_string << " |" << center_string << " |" << right_string
-                  << " |\n";
+        std::cout << i << "\t| " << left_string << " |" << center_string << " |" << right_string << " |\n";
     }
 
     std::cout << std::endl;
 }
 
-void compute_future_distance(VehicleType &vehicle,
-                             const float ego_driven_distance,
-                             const float seconds)
+void compute_future_distance(VehicleType &vehicle, const float ego_driven_distance, const float seconds)
 {
     const float front_leftdriven_distance = vehicle.speed_mps * seconds;
     vehicle.longitudinal_distanceM += front_leftdriven_distance - ego_driven_distance;
 }
 
-void compute_future_state(const VehicleType &ego_vehicle,
-                          NeighborVehiclesType &vehicles,
-                          const float seconds)
+void compute_future_state(const VehicleType &ego_vehicle, NeighborVehiclesType &vehicles, const float seconds)
 {
     const float ego_driven_distance = ego_vehicle.speed_mps * seconds;
 

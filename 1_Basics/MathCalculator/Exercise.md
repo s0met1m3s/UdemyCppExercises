@@ -1,6 +1,6 @@
 # Exercise
 
-In this exercise you have to use the datatype **double** and **std::uint8_t** for certain computations.
+In this exercise, you have to use the datatype **double** and **std::uint8_t** for certain computations.
 
 Implement the following functions:
 
@@ -15,9 +15,9 @@ void print_dec_to_hex(std::uint8_t value);
 
 ## Calculate Pi
 
-With the following formula you can compute $\frac{\pi}{4}$.  
+With the following formula, you can compute $\frac{\pi}{4}$.  
 Implement the formula in the function with $n$ = **num_iterations**.  
-Then use a for-loop to sum up the value.
+Then use a for-loop, to sum up, the value.
 At the end multiply with 4 before you return the value.
 
 $\frac{\pi}{4} = \sum_0^n: \frac{1}{(4k + 1)} - \frac{1}{(4k + 3)}$
@@ -30,7 +30,7 @@ E.g. the decimal number 142 would be 10001110 in binary.
 
 ## Optional: Decimal to Hex-Decimal
 
-Implement a function that prints out the hexa-deicmal representation of the decimal (regular number) input.
+Implement a function that prints out the hexa-decimal representation of the decimal (regular number) input.
 
 Note:
 
@@ -41,6 +41,13 @@ std::cout << std::hex << std::uppercase << static_cast<std::uint32_t>(j) << std:
 ```
 
 E.g. the decimal number 142 would be 8E in hexa-decimal.
+
+To compute $2^i$ you can use:
+```cpp
+#include <cmath>
+
+std::pow(2, i)
+```
 
 ## Main Function
 
@@ -55,10 +62,10 @@ int main()
     std::cout << "pi (calculated): " << pi_calculated << std::endl;
     std::cout << "pi (correct): " << pi << std::endl;
 
-    std::uint8_t dec = 0b10001110;
+    std::uint8_t dec = 142;
     print_dec_to_bin(dec);
 
-    std::uint8_t hex = 0x8E;
+    std::uint8_t hex = 142;
     print_dec_to_hex(hex);
 }
 ```

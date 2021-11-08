@@ -28,9 +28,7 @@ std::vector<std::int32_t>::iterator fill_n(std::vector<std::int32_t>::iterator f
     return first;
 }
 
-void iota(std::vector<std::int32_t>::iterator first,
-          std::vector<std::int32_t>::iterator last,
-          std::int32_t value)
+void iota(std::vector<std::int32_t>::iterator first, std::vector<std::int32_t>::iterator last, std::int32_t value)
 {
     while (first != last)
     {
@@ -61,16 +59,4 @@ std::int32_t accumulate(std::vector<std::int32_t>::iterator first,
     return init;
 }
 
-std::int32_t inner_product(std::vector<std::int32_t>::iterator first1,
-                           std::vector<std::int32_t>::iterator last1,
-                           std::vector<std::int32_t>::iterator first2,
-                           std::int32_t init)
-{
-    for (; first1 != last1; ++first1, ++first2)
-    {
-        init = init + (*first1 * *first2);
-    }
-    return init;
-}
-
-}
+} // namespace mystd

@@ -1,6 +1,6 @@
 # Exercise
 
-In this exercise you have to use the datatype **char** to convert/check certain char values.
+In this exercise, you have to use the datatype **char** to convert/check certain char values.
 
 Implement the following checks:
 
@@ -29,7 +29,7 @@ Note:
 
 The shift from Upper Case to Lower Case is 32.  
 
-Afterwards, implement following conversion functions:
+Afterward, implement the following conversion functions:
 
 ```cpp
 char to_upper_case(char character);

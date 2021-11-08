@@ -56,14 +56,4 @@ T accumulate(InputIter first, InputIter last, T init)
     return init;
 }
 
-template <class InputIter1, class InputIter2, class T>
-T inner_product(InputIter1 first1, InputIter1 last1, InputIter2 first2, T init)
-{
-    for (; first1 != last1; ++first1, ++first2)
-    {
-        init = init + (*first1 * *first2);
-    }
-    return init;
-}
-
 } // namespace mystd

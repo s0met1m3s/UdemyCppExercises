@@ -5,15 +5,26 @@ Implement the following functions:
 ```cpp
 using WordCountPair = std::pair<std::string, std::size_t>;
 
-void cleanText(std::string &text);
+void clean_text(std::string &text);
 
-void replaceAll(std::string &text, std::string_view what, std::string_view with);
+void replace_all(std::string &text, std::string_view what, std::string_view with);
 
-template <typename T>
-void splitText(const std::string &text, char delimiter, T result);
-
-std::vector<std::string> splitText(const std::string &text, char delimiter);
+std::vector<std::string> split_text(const std::string &text, char delimiter);
 ```
+
+Read in the text of the local **text.txt** file:
+
+```cpp
+#include "utils.hpp"
+
+auto text = readFile("C:/Users/Jan/Dropbox/_Coding/Udemy_CppExt/5_String/SplitWords/text.txt");
+```
+
+- clean_text: Replace the following characters with nothing: ['.', ',', '!', '?', '\n', '\t]
+- replace_all: Iterate over the string and replace all **what** entries with **with**
+- split_text: Split the text on every word => One entry in the resulting vector is one word
+
+E.g. "Dolor sit vero" => ["Dolor", "sit", "vero"]
 
 ## Main Function
 

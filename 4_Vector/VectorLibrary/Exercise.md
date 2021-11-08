@@ -18,6 +18,8 @@ Adapt the functions from Chapter 2 such that you use vectors as an input.
 
 - Swap Boundary Values: Swap the first and the last value of the array
 
+E.g. [1, 2, 3, 4] => [4, 2, 3, 1]
+
 ## Main Function
 
 ```cpp

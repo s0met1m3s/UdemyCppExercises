@@ -10,41 +10,40 @@
 
 using WordCountPair = std::pair<std::string, std::size_t>;
 
-void cleanText(std::string &text);
+void clean_text(std::string &text);
 
-void replaceAll(std::string &text, std::string_view what, std::string_view with);
+void replace_all(std::string &text, std::string_view what, std::string_view with);
 
 template <typename T>
-void splitText(const std::string &text, char delimiter, T result);
+void split_text(const std::string &text, char delimiter, T result);
 
-std::vector<std::string> splitText(const std::string &text, char delimiter);
+std::vector<std::string> split_text(const std::string &text, char delimiter);
 
 int main()
 {
-    auto text =
-        readFile("C:/Users/Jan/Dropbox/_Coding/udemy_cppExt/6_Container/word_count/text.txt");
+    auto text = readFile("/mnt/c/Users/Jan/Dropbox/_Coding/UdemyCppExt/5_String/SplitWords/text.txt");
     std::cout << text << std::endl << std::endl;
 
-    cleanText(text);
+    clean_text(text);
     std::cout << text << std::endl << std::endl;
 
-    const auto splittedText = splitText(text, ' ');
+    const auto splittedText = split_text(text, ' ');
     print_vector(splittedText);
 
     return 0;
 }
 
-void cleanText(std::string &text)
+void clean_text(std::string &text)
 {
-    replaceAll(text, ".", "");
-    replaceAll(text, ",", "");
-    replaceAll(text, "!", "");
-    replaceAll(text, "?", "");
-    replaceAll(text, "\n", "");
-    replaceAll(text, "\t", "");
+    replace_all(text, ".", "");
+    replace_all(text, ",", "");
+    replace_all(text, "!", "");
+    replace_all(text, "?", "");
+    replace_all(text, "\n", "");
+    replace_all(text, "\t", "");
 }
 
-void replaceAll(std::string &text, std::string_view what, std::string_view with)
+void replace_all(std::string &text, std::string_view what, std::string_view with)
 {
     for (std::size_t pos = 0; std::string::npos != pos; pos += with.length())
     {
@@ -53,22 +52,17 @@ void replaceAll(std::string &text, std::string_view what, std::string_view with)
     }
 }
 
-template <typename T>
-void splitText(const std::string &text, char delimiter, T result)
+std::vector<std::string> split_text(const std::string &text, char delimiter)
 {
+    auto elems = std::vector<std::string>{};
+
     auto iss = std::istringstream{text};
     auto item = std::string{};
 
     while (std::getline(iss, item, delimiter))
     {
-        *result++ = item;
+        *std::back_inserter(elems)++ = item;
     }
-}
-
-std::vector<std::string> splitText(const std::string &text, char delimiter)
-{
-    auto elems = std::vector<std::string>{};
-    splitText(text, delimiter, std::back_inserter(elems));
 
     return elems;
 }

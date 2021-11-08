@@ -17,10 +17,9 @@ OutputIter copy(InputIter first, InputIter last, OutputIter d_first);
 
 template <class InputIter, class T>
 T accumulate(InputIter first, InputIter last, T init);
-
-template <class InputIter1, class InputIter2, class T>
-T inner_product(InputIter1 first1, InputIter1 last1, InputIter2 first2, T init);
 ```
+
+Transform the functions from chapter 7 to template functions.
 
 ## Main Function
 
@@ -49,9 +48,6 @@ int main()
 
     const auto sum = mystd::accumulate(vec1.begin(), vec1.end(), 0);
     std::cout << sum << std::endl;
-
-    const auto inner_product = mystd::inner_product(vec1.begin(), vec1.end(), vec2.begin(), 0);
-    std::cout << inner_product << std::endl;
 
     return 0;
 }

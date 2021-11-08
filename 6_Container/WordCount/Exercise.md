@@ -13,14 +13,11 @@ void clean_text(std::string &text);
 
 void replace_all(std::string &text, std::string_view what, std::string_view with);
 
-template <typename T>
-void split_text(const std::string &text, char delimiter, T result);
-
 std::vector<std::string> split_text(const std::string &text, char delimiter);
 
 counted_wordsMap count_words(const std::vector<std::string> &words);
 
-WordCountVec mapto_vector(counted_wordsMap counted_words);
+WordCountVec map_to_vector(counted_wordsMap counted_words);
 
 void sortword_counts(WordCountVec &word_counts);
 ```

@@ -1,6 +1,6 @@
 # Exercise
 
-In this exercise you have to use the datatype **int** for certain computations.
+In this exercise, you have to use the datatype **int** for certain computations.
 
 Implement the following functions:
 

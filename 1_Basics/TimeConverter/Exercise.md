@@ -1,6 +1,6 @@
 # Exercise
 
-In this exercise you have to use the datatype **float** for certain computations.
+In this exercise, you have to use the datatype **float** for certain computations.
 
 Implement the following functions:
 
