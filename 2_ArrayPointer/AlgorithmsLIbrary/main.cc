@@ -35,6 +35,11 @@ int main()
 
 bool all_of(std::int32_t *array, std::size_t length, std::int32_t value)
 {
+    if (array == nullptr)
+    {
+        return false;
+    }
+
     for (std::size_t i = 0; i < length; i++)
     {
         if (array[i] != value)
@@ -48,6 +53,11 @@ bool all_of(std::int32_t *array, std::size_t length, std::int32_t value)
 
 bool any_of(std::int32_t *array, std::size_t length, std::int32_t value)
 {
+    if (array == nullptr)
+    {
+        return false;
+    }
+
     for (std::size_t i = 0; i < length; i++)
     {
         if (array[i] == value)
@@ -61,6 +71,11 @@ bool any_of(std::int32_t *array, std::size_t length, std::int32_t value)
 
 bool none_of(std::int32_t *array, std::size_t length, std::int32_t value)
 {
+    if (array == nullptr)
+    {
+        return false;
+    }
+
     for (std::size_t i = 0; i < length; i++)
     {
         if (array[i] == value)
@@ -74,21 +89,31 @@ bool none_of(std::int32_t *array, std::size_t length, std::int32_t value)
 
 std::size_t count(std::int32_t *array, std::size_t length, std::int32_t value)
 {
-    std::size_t temp = 0;
+    if (array == nullptr)
+    {
+        return 0;
+    }
+
+    std::size_t counter = 0;
 
     for (std::size_t i = 0; i < length; i++)
     {
         if (array[i] == value)
         {
-            temp++;
+            counter++;
         }
     }
 
-    return temp;
+    return counter;
 }
 
 std::int32_t *inclusive_scan(std::int32_t *array, std::size_t length)
 {
+    if (array == nullptr)
+    {
+        return nullptr;
+    }
+
     std::int32_t *result = new std::int32_t[length]{};
 
     result[0] = array[0];

@@ -33,6 +33,11 @@ int main()
 
 void unique_elements(std::int32_t *array, std::size_t length)
 {
+    if (array == nullptr)
+    {
+        return;
+    }
+
     for (std::size_t i = 0; i < length; i++)
     {
         bool unique = true;
@@ -53,16 +58,21 @@ void unique_elements(std::int32_t *array, std::size_t length)
 
         if (unique == true)
         {
-            std::cout << "unique element: " << current_value << std::endl;
+            std::cout << "unique: " << current_value << std::endl;
         }
     }
 }
 
 void remove_duplicates(std::int32_t *array, std::size_t &length)
 {
+    if (array == nullptr)
+    {
+        return;
+    }
+
     for (std::size_t i = 0; i < length; i++)
     {
-        std::size_t duplicate_index = static_cast<std::size_t>(-1);
+        std::size_t duplicate_index = -1;
         std::int32_t current_value = array[i];
 
         for (std::size_t j = i + 1; j < length; j++)
@@ -75,7 +85,7 @@ void remove_duplicates(std::int32_t *array, std::size_t &length)
             }
         }
 
-        if (duplicate_index == static_cast<std::size_t>(-1))
+        if (duplicate_index == -1)
         {
             continue;
         }
@@ -91,6 +101,11 @@ void remove_duplicates(std::int32_t *array, std::size_t &length)
 
 void rotate_left(std::int32_t *array, std::size_t length)
 {
+    if (array == nullptr)
+    {
+        return;
+    }
+
     std::int32_t first_element = array[0];
 
     for (std::size_t i = 1; i < length; i++)
@@ -103,12 +118,17 @@ void rotate_left(std::int32_t *array, std::size_t length)
 
 void rotate_right(std::int32_t *array, std::size_t length)
 {
-    std::int32_t Last_element = array[length - 1];
+    if (array == nullptr)
+    {
+        return;
+    }
+
+    std::int32_t last_element = array[0];
 
     for (std::size_t i = length - 1; i > 0; i--)
     {
         array[i] = array[i - 1];
     }
 
-    array[0] = Last_element;
+    array[0] = last_element;
 }

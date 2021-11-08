@@ -119,14 +119,16 @@ char to_lower_case(char character)
 
 char *to_upper_case(char *text)
 {
+    if (text == nullptr)
+    {
+        return nullptr;
+    }
+
     char *current_character = text;
 
     while (*current_character != '\0')
     {
-        if (is_lower_case(*current_character))
-        {
-            *current_character = *current_character - 32;
-        }
+        *current_character = to_upper_case(*current_character);
 
         current_character++;
     }
@@ -136,14 +138,16 @@ char *to_upper_case(char *text)
 
 char *to_lower_case(char *text)
 {
+    if (text == nullptr)
+    {
+        return nullptr;
+    }
+
     char *current_character = text;
 
     while (*current_character != '\0')
     {
-        if (is_upper_case(*current_character))
-        {
-            *current_character = *current_character + 32;
-        }
+        *current_character = to_lower_case(*current_character);
 
         current_character++;
     }
@@ -153,6 +157,11 @@ char *to_lower_case(char *text)
 
 std::size_t string_length(char *text)
 {
+    if (text == nullptr)
+    {
+        return 0;
+    }
+
     std::size_t length = 0;
 
     while (*text != '\0')
@@ -166,6 +175,11 @@ std::size_t string_length(char *text)
 
 char *char_search(char *text, char character)
 {
+    if (text == nullptr)
+    {
+        return nullptr;
+    }
+
     while ((*text != character) && (*text != '\0'))
     {
         text++;
@@ -176,10 +190,15 @@ char *char_search(char *text, char character)
 
 bool string_equal(char *string1, char *string2)
 {
-    std::size_t len1 = string_length(string1);
-    std::size_t len2 = string_length(string2);
+    if (string1 == nullptr || string2 == nullptr)
+    {
+        return false;
+    }
 
-    if (len1 != len2)
+    std::size_t length1 = string_length(string1);
+    std::size_t length2 = string_length(string2);
+
+    if (length1 != length2)
     {
         return false;
     }
