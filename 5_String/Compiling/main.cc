@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <array>
 #include <filesystem>
 #include <iostream>
 #include <string>
@@ -52,7 +51,7 @@ int main(int argc, char **argv)
 
 bool is_source_file(const fs::path &file)
 {
-    const auto allowed_extensions = std::array<std::string, 3>{".cc", ".cxx", ".cpp"};
+    const auto allowed_extensions = std::vector<std::string>{".cc", ".cxx", ".cpp"};
 
     for (const auto &extension : allowed_extensions)
     {
@@ -73,7 +72,7 @@ std::vector<fs::path> get_source_files_in_dir(const fs::path &dir)
     {
         const auto current_file = *it;
 
-        if (is_source_file(current_file.path()) && fs::is_regular_file(current_file.path()))
+        if (fs::is_regular_file(current_file.path()) && is_source_file(current_file.path()))
         {
             files.push_back(current_file);
         }
@@ -84,40 +83,40 @@ std::vector<fs::path> get_source_files_in_dir(const fs::path &dir)
 
 void compile_file(fs::path source_file)
 {
-    const std::string source_filename = source_file.string();
-    std::string command = "g++ -c " + source_file.string();
+    const auto source_file_string = source_file.string();
+    auto command = "g++ -c " + source_file_string;
 
     source_file.replace_extension("o");
-    const std::string object_filename = source_file.string();
-    command += " -o " + object_filename;
+    const auto object_file_string = source_file.string();
+    command += " -o " + object_file_string;
 
     std::system(command.c_str());
 }
 
 fs::path link_files(FileVec source_files)
 {
-    std::string command = "g++ ";
+    auto command = std::string{"g++ "};
 
     for (auto &source_file : source_files)
     {
         source_file.replace_extension("o");
-        const std::string object_filename = source_file.string();
+        const auto object_file_string = source_file.string();
 
-        command += object_filename + " ";
+        command += object_file_string + " ";
     }
 
     fs::path executable_path = source_files[0].parent_path();
-    executable_path /= "test.exe";
+    executable_path /= "test";
 
     command += " -o " + executable_path.string();
-    std::system(command.data());
+    std::system(command.c_str());
 
     return executable_path;
 }
 
 void run(const fs::path &executable_path)
 {
-    const auto executable_path_str = executable_path.string();
+    const auto executable_path_string = executable_path.string();
 
-    std::system(executable_path_str.c_str());
+    std::system(executable_path_string.c_str());
 }
