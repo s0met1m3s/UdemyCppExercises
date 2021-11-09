@@ -6,22 +6,17 @@
 namespace mystd
 {
 
-bool equal(std::vector<std::int32_t>::iterator first1,
-           std::vector<std::int32_t>::iterator last1,
-           std::vector<std::int32_t>::iterator first2);
+using Container = std::vector<std::int32_t>;
+using Iterator = Container::iterator;
 
-std::vector<std::int32_t>::iterator fill_n(std::vector<std::int32_t>::iterator first,
-                                           std::size_t count,
-                                           const std::int32_t &value);
+bool equal(Iterator first1, Iterator last1, Iterator first2);
 
-void iota(std::vector<std::int32_t>::iterator first, std::vector<std::int32_t>::iterator last, std::int32_t value);
+Iterator fill_n(Iterator first, std::size_t count, const std::int32_t &value);
 
-std::vector<std::int32_t>::iterator copy(std::vector<std::int32_t>::iterator first,
-                                         std::vector<std::int32_t>::iterator last,
-                                         std::vector<std::int32_t>::iterator d_first);
+void iota(Iterator first, Iterator last, std::int32_t value);
 
-std::int32_t accumulate(std::vector<std::int32_t>::iterator first,
-                        std::vector<std::int32_t>::iterator last,
-                        std::int32_t init);
+Iterator copy(Iterator first, Iterator last, Iterator d_first);
+
+std::int32_t accumulate(Iterator first, Iterator last, std::int32_t init);
 
 } // namespace mystd

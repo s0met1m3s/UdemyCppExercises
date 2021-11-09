@@ -1,7 +1,21 @@
 #include <algorithm>
+#include <cstring>
 #include <iostream>
 #include <string>
-#include <string_view>
+
+bool is_numeric(char character);
+
+bool is_alpha(char character);
+
+bool is_alpha_numeric(char character);
+
+bool is_upper_case(char character);
+
+bool is_lower_case(char character);
+
+char to_upper_case(char character);
+
+char to_lower_case(char character);
 
 std::string to_upper_case(std::string_view text);
 
@@ -33,17 +47,86 @@ int main()
     return 0;
 }
 
+bool is_numeric(char character)
+{
+    if ((character >= '0') && (character <= '9'))
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool is_alpha(char character)
+{
+    if (is_upper_case(character) || is_lower_case(character))
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool is_alpha_numeric(char character)
+{
+    return is_numeric(character) || is_alpha(character);
+}
+
+bool is_upper_case(char character)
+{
+    if ((character >= 'A') && (character <= 'Z'))
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool is_lower_case(char character)
+{
+    if ((character >= 'a') && (character <= 'z'))
+    {
+        return true;
+    }
+
+    return false;
+}
+
+char to_upper_case_(char character)
+{
+    if (is_lower_case(character))
+    {
+        return static_cast<std::int8_t>(character - 32);
+    }
+
+    return character;
+}
+
+char to_lower_case_(char character)
+{
+    if (is_upper_case(character))
+    {
+        return static_cast<std::int8_t>(character + 32);
+    }
+
+    return character;
+}
+
 std::string to_upper_case(std::string_view text)
 {
-    auto result = std::string(text);
-    std::transform(std::begin(result), std::end(result), std::begin(result), to_upper);
+    auto result = std::string{text};
+
+    std::transform(text.begin(), text.end(), result.begin(), to_upper_case_);
+
     return result;
 }
 
 std::string to_lower_case(std::string_view text)
 {
-    auto result = std::string(text);
-    std::transform(std::begin(result), std::end(result), std::begin(result), to_lower);
+    auto result = std::string{text};
+
+    std::transform(text.begin(), text.end(), result.begin(), to_lower_case_);
+
     return result;
 }
 

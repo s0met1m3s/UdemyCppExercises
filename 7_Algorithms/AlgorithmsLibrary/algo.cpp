@@ -3,9 +3,7 @@
 namespace mystd
 {
 
-bool equal(std::vector<std::int32_t>::iterator first1,
-           std::vector<std::int32_t>::iterator last1,
-           std::vector<std::int32_t>::iterator first2)
+bool equal(Iterator first1, Iterator last1, Iterator first2)
 {
     for (; first1 != last1; ++first1, ++first2)
     {
@@ -14,48 +12,51 @@ bool equal(std::vector<std::int32_t>::iterator first1,
             return false;
         }
     }
+
     return true;
 }
 
-std::vector<std::int32_t>::iterator fill_n(std::vector<std::int32_t>::iterator first,
-                                           std::size_t count,
-                                           const std::int32_t &value)
+Iterator fill_n(Iterator first, std::size_t count, const std::int32_t &value)
 {
     for (std::size_t i = 0; i < count; ++i)
     {
-        *first++ = value;
+        *first = value;
+        ++first;
     }
+
     return first;
 }
 
-void iota(std::vector<std::int32_t>::iterator first, std::vector<std::int32_t>::iterator last, std::int32_t value)
+void iota(Iterator first, Iterator last, std::int32_t value)
 {
     while (first != last)
     {
-        *first++ = value;
+        *first = value;
+        ++first;
         ++value;
     }
 }
 
-std::vector<std::int32_t>::iterator copy(std::vector<std::int32_t>::iterator first,
-                                         std::vector<std::int32_t>::iterator last,
-                                         std::vector<std::int32_t>::iterator d_first)
+Iterator copy(Iterator first, Iterator last, Iterator d_first)
 {
     while (first != last)
     {
-        *d_first++ = *first++;
+        *d_first = *first;
+        ++d_first;
+        ++first;
     }
+
     return d_first;
 }
 
-std::int32_t accumulate(std::vector<std::int32_t>::iterator first,
-                        std::vector<std::int32_t>::iterator last,
-                        std::int32_t init)
+std::int32_t accumulate(Iterator first, Iterator last, std::int32_t init)
 {
-    for (; first != last; ++first)
+    while (first != last)
     {
         init += *first;
+        ++first;
     }
+
     return init;
 }
 

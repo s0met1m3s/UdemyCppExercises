@@ -3,25 +3,23 @@
 Implement the following functions:
 
 ```cpp
-bool equal(std::vector<std::int32_t>::iterator first1,
-           std::vector<std::int32_t>::iterator last1,
-           std::vector<std::int32_t>::iterator first2);
+namespace mystd
+{
 
-std::vector<std::int32_t>::iterator fill_n(std::vector<std::int32_t>::iterator first,
-                                           std::size_t count,
-                                           const std::int32_t &value);
+using Container = std::vector<std::int32_t>;
+using Iterator = Container::iterator;
 
-void iota(std::vector<std::int32_t>::iterator first,
-          std::vector<std::int32_t>::iterator last,
-          std::int32_t value);
+bool equal(Iterator first1, Iterator last1, Iterator first2);
 
-std::vector<std::int32_t>::iterator copy(std::vector<std::int32_t>::iterator first,
-                                         std::vector<std::int32_t>::iterator last,
-                                         std::vector<std::int32_t>::iterator d_first);
+Iterator fill_n(Iterator first, std::size_t count, const std::int32_t &value);
 
-std::int32_t accumulate(std::vector<std::int32_t>::iterator first,
-                        std::vector<std::int32_t>::iterator last,
-                        std::int32_t init);
+void iota(Iterator first, Iterator last, std::int32_t value);
+
+Iterator copy(Iterator first, Iterator last, Iterator d_first);
+
+std::int32_t accumulate(Iterator first, Iterator last, std::int32_t init);
+
+} // namespace mystd
 ```
 
 - equal: Return true if all elements of both vectors are the same

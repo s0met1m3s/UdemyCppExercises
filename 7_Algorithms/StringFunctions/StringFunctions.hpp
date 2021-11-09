@@ -5,6 +5,7 @@
 
 namespace mystd
 {
+
 bool is_palindrom(std::string_view str);
 
 bool starts_with(std::string_view str, std::string_view substr);

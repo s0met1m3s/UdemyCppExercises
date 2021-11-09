@@ -5,6 +5,7 @@ Implement the following functions:
 ```cpp
 namespace fs = std::filesystem;
 
+using WordVector = std::vector<std::string>;
 using WordCountPair = std::pair<std::string, std::size_t>;
 using WordCountVec = std::vector<WordCountPair>;
 using counted_wordsMap = std::map<std::string, std::size_t>;
@@ -13,14 +14,18 @@ void clean_text(std::string &text);
 
 void replace_all(std::string &text, std::string_view what, std::string_view with);
 
-std::vector<std::string> split_text(const std::string &text, char delimiter);
+WordVector split_text(const std::string &text, char delimiter);
 
-counted_wordsMap count_words(const std::vector<std::string> &words);
+CountedWordsMap count_words(const WordVector &words);
 
-WordCountVec map_to_vector(counted_wordsMap counted_words);
+WordCountVec map_to_vector(CountedWordsMap counted_words);
 
-void sortword_counts(WordCountVec &word_counts);
+void sort_word_counts(WordCountVec &word_counts);
 ```
+
+- count_words: count the different words from the word vector and store the word, occurence pairs to the map
+- map_to_vector: store the word count map to the word count vector
+- sort_word_counts: Sort the word count vector
 
 ## Main Function
 

@@ -11,6 +11,7 @@
 
 namespace fs = std::filesystem;
 
+using WordVector = std::vector<std::string>;
 using WordCountPair = std::pair<std::string, std::size_t>;
 using WordCountVec = std::vector<WordCountPair>;
 using CountedWordsMap = std::map<std::string, std::size_t>;
@@ -19,9 +20,9 @@ void clean_text(std::string &text);
 
 void replace_all(std::string &text, std::string_view what, std::string_view with);
 
-std::vector<std::string> split_text(const std::string &text, char delimiter);
+WordVector split_text(const std::string &text, char delimiter);
 
-CountedWordsMap count_words(const std::vector<std::string> &words);
+CountedWordsMap count_words(const WordVector &words);
 
 WordCountVec map_to_vector(CountedWordsMap counted_words);
 
@@ -75,9 +76,9 @@ void replace_all(std::string &text, std::string_view what, std::string_view with
     }
 }
 
-std::vector<std::string> split_text(const std::string &text, char delimiter)
+WordVector split_text(const std::string &text, char delimiter)
 {
-    auto words = std::vector<std::string>{};
+    auto words = WordVector{};
 
     auto iss = std::istringstream{text};
     auto item = std::string{};
@@ -90,7 +91,7 @@ std::vector<std::string> split_text(const std::string &text, char delimiter)
     return words;
 }
 
-CountedWordsMap count_words(const std::vector<std::string> &words)
+CountedWordsMap count_words(const WordVector &words)
 {
     auto result = CountedWordsMap{};
 
@@ -104,21 +105,21 @@ CountedWordsMap count_words(const std::vector<std::string> &words)
 
 WordCountVec map_to_vector(CountedWordsMap counted_words)
 {
-    auto countedwords_vector = WordCountVec(counted_words.size());
+    auto result = WordCountVec(counted_words.size());
 
     auto i = std::size_t{0};
     for (const auto &pair : counted_words)
     {
-        countedwords_vector[i] = pair;
+        result[i] = pair;
         i++;
     }
 
-    return countedwords_vector;
+    return result;
 }
 
-bool compare(WordCountPair const &a, WordCountPair const &b)
+bool compare(const WordCountPair &pair1, const WordCountPair &pair2)
 {
-    return a.second > b.second;
+    return pair1.second > pair2.second;
 }
 
 void sort_word_counts(WordCountVec &word_counts)

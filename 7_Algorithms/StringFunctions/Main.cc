@@ -10,8 +10,8 @@ int main()
 
     std::string str2 = "JanIstHier";
     std::cout << std::boolalpha << str2 << " starts_with: Jan = " << mystd::starts_with(str2, "Jan") << std::endl;
-    std::cout << std::boolalpha << str2 << "starts_with: Ja = " << mystd::starts_with(str2, "Ja") << std::endl;
-    std::cout << std::boolalpha << str2 << "starts_with: ja = " << mystd::starts_with(str2, "ja") << std::endl;
+    std::cout << std::boolalpha << str2 << " starts_with: Ja = " << mystd::starts_with(str2, "Ja") << std::endl;
+    std::cout << std::boolalpha << str2 << " starts_with: ja = " << mystd::starts_with(str2, "ja") << std::endl;
 
     std::string str3 = "JanWarHier";
     std::cout << std::boolalpha << str3 << " ends_with: Hier = " << mystd::ends_with(str3, "Hier") << std::endl;

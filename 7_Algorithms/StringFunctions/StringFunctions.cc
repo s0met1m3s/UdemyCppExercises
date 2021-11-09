@@ -7,28 +7,28 @@ namespace mystd
 
 bool is_palindrom(std::string_view str)
 {
-    return std::equal(str.cbegin(), str.cend(), str.crbegin());
+    return std::equal(str.begin(), str.end(), str.rbegin());
 }
 
 bool starts_with(std::string_view str, std::string_view substr)
 {
-    return std::equal(substr.cbegin(), substr.cend(), str.cbegin());
+    return std::equal(substr.begin(), substr.end(), str.begin());
 }
 
 bool ends_with(std::string_view str, std::string_view substr)
 {
-    return std::equal(substr.crbegin(), substr.crend(), str.crbegin());
+    return std::equal(substr.rbegin(), substr.rend(), str.rbegin());
 }
 
 bool contains(std::string_view str, std::string_view substr)
 {
     const auto substr_length = substr.length();
 
-    for (auto it = str.cbegin(); it < str.cend() - substr_length + 1U;)
+    for (auto it = str.begin(); it < str.end() - substr_length + 1;)
     {
-        auto found = std::equal(substr.cbegin(), substr.cend(), it);
+        auto found = std::equal(substr.begin(), substr.end(), it);
 
-        if (found)
+        if (found == true)
         {
             return true;
         }
@@ -41,25 +41,22 @@ bool contains(std::string_view str, std::string_view substr)
 
 std::size_t num_occurences(std::string_view str, std::string_view substr)
 {
-    auto occurences = std::size_t{0};
+    auto result = std::size_t{0};
     const auto substr_length = substr.length();
 
-    for (auto it = str.cbegin(); it < str.cend() - substr_length + 1U;)
+    for (auto it = str.begin(); it < str.end() - substr_length + 1;)
     {
-        auto found = std::equal(substr.cbegin(), substr.cend(), it);
+        auto found = std::equal(substr.begin(), substr.end(), it);
 
-        if (found)
+        if (found == true)
         {
-            ++occurences;
-            std::advance(it, substr_length);
+            ++result;
         }
-        else
-        {
-            ++it;
-        }
+
+        ++it;
     }
 
-    return occurences;
+    return result;
 }
 
 } // namespace mystd
