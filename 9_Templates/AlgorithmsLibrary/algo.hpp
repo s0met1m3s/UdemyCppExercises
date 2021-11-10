@@ -3,7 +3,7 @@
 namespace mystd
 {
 
-template <class InputIter1, class InputIter2>
+template <typename InputIter1, typename InputIter2>
 bool equal(InputIter1 first1, InputIter1 last1, InputIter2 first2)
 {
     for (; first1 != last1; ++first1, ++first2)
@@ -13,46 +13,55 @@ bool equal(InputIter1 first1, InputIter1 last1, InputIter2 first2)
             return false;
         }
     }
+
     return true;
 }
 
-template <class OutputIter, class Size, class T>
+template <typename OutputIter, typename Size, typename T>
 OutputIter fill_n(OutputIter first, Size count, const T &value)
 {
     for (Size i = 0; i < count; ++i)
     {
-        *first++ = value;
+        *first = value;
+        ++first;
     }
+
     return first;
 }
 
-template <class ForwardIter, class T>
+template <typename ForwardIter, typename T>
 void iota(ForwardIter first, ForwardIter last, T value)
 {
     while (first != last)
     {
-        *first++ = value;
+        *first = value;
+        ++first;
         ++value;
     }
 }
 
-template <class InputIter, class OutputIter>
-OutputIter copy(InputIter first, InputIter last, OutputIter d_first)
+template <typename InptIter, typename OutputIter>
+OutputIter copy(InptIter first, InptIter last, OutputIter d_first)
 {
     while (first != last)
     {
-        *d_first++ = *first++;
+        *d_first = *first;
+        ++d_first;
+        ++first;
     }
+
     return d_first;
 }
 
-template <class InputIter, class T>
+template <typename InputIter, typename T>
 T accumulate(InputIter first, InputIter last, T init)
 {
-    for (; first != last; ++first)
+    while (first != last)
     {
         init += *first;
+        ++first;
     }
+
     return init;
 }
 

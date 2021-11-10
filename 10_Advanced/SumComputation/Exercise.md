@@ -1,17 +1,20 @@
 # Exercise
 
-Implement the following functions:
+```cpp
+#include "utils.hpp"
+#include "Timer.hpp"
+
+template <typename RandomIter>
+auto range_sum_asyn(RandomIter start, RandomIter stop)
+```
+
+Implement an async function that computes the sum of a container in the range of the **start** and **stop** iterator.  
+The function should launch several tasks within an async context.
+
+E.g.
 
 ```cpp
-void random_vector(std::vector<int> &vec);
-
-template <typename RandomIter>
-auto range_sum_asyn(RandomIter start, RandomIter stop);
-
-template <typename RandomIter>
-void range_sum_thread_helper(RandomIter start, RandomIter stop, int &sum);
-
-double range_sum_thread(const std::vector<int> &my_vector;
+std::async(std::launch::async, range_sum_asyn<RandomIter>, mid, stop);
 ```
 
 ## Main Function

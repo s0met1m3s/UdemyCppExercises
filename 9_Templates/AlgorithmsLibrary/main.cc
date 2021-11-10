@@ -9,8 +9,8 @@
 
 int main()
 {
-    auto vec1 = std::vector<std::uint32_t>(5, 0);
-    auto vec2 = std::vector<std::uint32_t>(5, 0);
+    auto vec1 = std::vector<std::int32_t>(5, 0);
+    auto vec2 = std::vector<std::int32_t>(5, 0);
 
     std::cout << std::boolalpha << mystd::equal(vec1.begin(), vec1.end(), vec2.begin()) << std::dec << std::endl;
 

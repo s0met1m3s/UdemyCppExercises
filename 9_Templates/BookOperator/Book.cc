@@ -9,7 +9,10 @@ Book::Book(std::string_view name_, std::string_view author_, std::uint32_t pubye
 
 bool Book::operator==(const Book &other) const
 {
-    return ((this->name == other.name) && (this->author == other.author) && (this->pubyear == other.pubyear));
+    auto same_name = (name == other.name);
+    auto same_author = (author == other.author);
+    auto same_pubyear = (pubyear == other.pubyear);
+    return (same_name && same_author && same_pubyear);
 }
 
 bool Book::operator!=(const Book &other) const
@@ -19,6 +22,6 @@ bool Book::operator!=(const Book &other) const
 
 std::ostream &operator<<(std::ostream &out, const Book &book)
 {
-    out << book.name << " " << book.author << " " << book.pubyear << std::endl;
+    out << book.name << " " << book.author << " " << book.pubyear << "\n";
     return out;
 }

@@ -40,9 +40,9 @@ int main()
     to_upper_case<std::wstring, std::wstring_view>(input_text_w);
     to_lower_case<std::wstring, std::wstring_view>(input_text_w);
 
-    // auto input_text_c = input_text.c_str();
-    // to_upper_case(input_text_c);
-    // to_lower_case(input_text_c);
+    // auto input_text_u32 = std::u32string(input_text.begin(), input_text.end());
+    // to_upper_case<std::u32string, std::u32string_view>(input_text_u32);
+    // to_lower_case<std::u32string, std::u32string_view>(input_text_u32);
 
     return 0;
 }
@@ -50,19 +50,19 @@ int main()
 template <typename StringType, typename ViewType>
 StringType to_upper_case(ViewType text)
 {
-    static_assert(is_string<StringType, ViewType>::value, "Must be of type std::string or std::wstring");
+    static_assert(is_string<StringType, ViewType>::value, "Strings must hold char or wchar_t values");
 
-    auto result = StringType(text);
-    std::transform(std::begin(result), std::end(result), std::begin(result), toupper);
+    auto result = StringType{text};
+    std::transform(result.begin(), result.end(), result.begin(), toupper);
     return result;
 }
 
 template <typename StringType, typename ViewType>
 StringType to_lower_case(ViewType text)
 {
-    static_assert(is_string<StringType, ViewType>::value, "Must be of type std::string or std::wstring");
+    static_assert(is_string<StringType, ViewType>::value, "Strings must hold char or wchar_t values");
 
-    auto result = StringType(text);
-    std::transform(std::begin(result), std::end(result), std::begin(result), tolower);
+    auto result = StringType{text};
+    std::transform(result.begin(), result.end(), result.begin(), tolower);
     return result;
 }

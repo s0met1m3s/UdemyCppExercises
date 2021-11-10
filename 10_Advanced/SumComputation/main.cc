@@ -5,8 +5,8 @@
 #include <thread>
 #include <vector>
 
+#include "Timer.hpp"
 #include "utils.hpp"
-#include <Timer.hpp>
 
 constexpr std::uint32_t NUM_THREADS = 2;
 constexpr std::uint32_t NUM_RUNS = 100;
@@ -25,6 +25,7 @@ auto range_sum_asyn(RandomIter start, RandomIter stop)
     auto handle = std::async(std::launch::async, range_sum_asyn<RandomIter>, mid, stop);
 
     std::int32_t sum = range_sum_asyn<RandomIter>(start, mid);
+
     return sum + handle.get();
 }
 

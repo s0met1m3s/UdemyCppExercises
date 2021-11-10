@@ -19,19 +19,9 @@ bool is_c_header_file(const fs::path &file);
 
 bool is_cpp_header_file(const fs::path &file);
 
-auto number_of_source_files(const FileVec &files)
-{
-    return std::count_if(files.begin(), files.end(), [](const auto &file) {
-        return (is_c_source_file(file) || is_cpp_source_file(file));
-    });
-}
+bool number_of_source_files(const FileVec &files);
 
-auto number_of_header_files(const FileVec &files)
-{
-    return std::count_if(files.begin(), files.end(), [](const auto &file) {
-        return (is_c_header_file(file) || is_cpp_header_file(file));
-    });
-}
+bool number_of_header_files(const FileVec &files);
 
 int main(int argc, char **argv)
 {
@@ -71,38 +61,52 @@ int main(int argc, char **argv)
     }
 }
 
-template <std::size_t N>
-bool file_extension_check(const std::array<std::string, N> &allowed_extensions, const fs::path &file)
+bool number_of_source_files(const FileVec &files)
 {
-    return std::any_of(allowed_extensions.begin(), allowed_extensions.end(), [&](const auto &extension) {
+    return std::count_if(files.begin(), files.end(), [](const auto &file) {
+        return (is_c_source_file(file) || is_cpp_source_file(file));
+    });
+}
+
+bool number_of_header_files(const FileVec &files)
+{
+    return std::count_if(files.begin(), files.end(), [](const auto &file) {
+        return (is_c_header_file(file) || is_cpp_header_file(file));
+    });
+}
+
+template <std::size_t N>
+bool file_extension_check(const std::array<std::string, N> &allowed_extension, const fs::path &file)
+{
+    return std::any_of(allowed_extension.begin(), allowed_extension.end(), [&file](const auto &extension) {
         return file.extension() == extension;
     });
 }
 
 bool is_c_source_file(const fs::path &file)
 {
-    const auto allowed_extensions = std::array<std::string, 1>{".c"};
+    const auto allowed_extension = std::array<std::string, 1>{".c"};
 
-    return file_extension_check(allowed_extensions, file);
+    return file_extension_check(allowed_extension, file);
 }
 
 bool is_cpp_source_file(const fs::path &file)
 {
-    const auto allowed_extensions = std::array<std::string, 3>{".cc", ".cxx", ".cpp"};
+    const auto allowed_extension = std::array<std::string, 3>{".cc", ".cpp", ".cxx"};
 
-    return file_extension_check(allowed_extensions, file);
+    return file_extension_check(allowed_extension, file);
 }
 
 bool is_c_header_file(const fs::path &file)
 {
-    const auto allowed_extensions = std::array<std::string, 1>{".h"};
+    const auto allowed_extension = std::array<std::string, 1>{".h"};
 
-    return file_extension_check(allowed_extensions, file);
+    return file_extension_check(allowed_extension, file);
 }
 
 bool is_cpp_header_file(const fs::path &file)
 {
-    const auto allowed_extensions = std::array<std::string, 4>{".h", ".hh", ".hpp", ".hxx"};
+    const auto allowed_extension = std::array<std::string, 4>{".h", ".hh", ".hxx", ".hpp"};
 
-    return file_extension_check(allowed_extensions, file);
+    return file_extension_check(allowed_extension, file);
 }
