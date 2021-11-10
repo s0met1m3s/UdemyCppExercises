@@ -7,7 +7,7 @@ class Book
 {
 public:
     Book() = default;
-    Book(std::string name_, std::string author_, std::uint32_t pubyear_);
+    Book(std::string_view name_, std::string_view author_, std::uint32_t pubyear_);
     ~Book() noexcept = default;
 
 private:

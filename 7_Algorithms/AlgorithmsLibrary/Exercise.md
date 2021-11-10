@@ -7,6 +7,7 @@ namespace mystd
 {
 
 using Container = std::vector<std::int32_t>;
+
 using Iterator = Container::iterator;
 
 bool equal(Iterator first1, Iterator last1, Iterator first2);

@@ -24,7 +24,7 @@ WordVector split_text(const std::string &text, char delimiter);
 
 CountedWordsMap count_words(const WordVector &words);
 
-WordCountVec map_to_vector(CountedWordsMap counted_words);
+WordCountVec map_to_vector(const CountedWordsMap &counted_words);
 
 void sort_word_counts(WordCountVec &word_counts);
 
@@ -103,7 +103,7 @@ CountedWordsMap count_words(const WordVector &words)
     return result;
 }
 
-WordCountVec map_to_vector(CountedWordsMap counted_words)
+WordCountVec map_to_vector(const CountedWordsMap &counted_words)
 {
     auto result = WordCountVec(counted_words.size());
 

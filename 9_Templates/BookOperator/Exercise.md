@@ -24,8 +24,6 @@ private:
 std::ostream &operator<<(std::ostream &, const Book &);
 ```
 
-Implement (define) the member functions of the Book class.  
-
 ==, !=: A book is equal if all member variables are the same.  
 <<: Print out all member variables  
 
