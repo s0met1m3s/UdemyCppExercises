@@ -1,5 +1,7 @@
 # Exercise
 
+Note: Based on Chapter 13 in the main course.
+
 ```cpp
 #include "utils.hpp"
 #include "Timer.hpp"

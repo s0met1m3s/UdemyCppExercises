@@ -1,5 +1,7 @@
 # Exercise
 
+Note: Based on Chapter 10 in the main course.
+
 Implement the following functions:
 
 ```cpp
