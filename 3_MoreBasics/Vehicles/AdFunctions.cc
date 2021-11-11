@@ -4,59 +4,53 @@
 #include "AdFunctions.hpp"
 #include "AdTypes.hpp"
 
+float kph_to_mps(const float kph)
+{
+    return kph / 3.6F;
+}
+
 void init_ego_vehicle(VehicleType &ego_vehicle)
 {
-    ego_vehicle.Id = -1;
-    ego_vehicle.speed_mps = 135.0F / 3.6F;
-    ego_vehicle.longitudinal_distanceM = 0.0F;
-    ego_vehicle.Lane = LaneAssociationType::LANE_ASSOCIATION_CENTER;
+    ego_vehicle.id = EGO_VEHICLE_ID;
+    ego_vehicle.speed_mps = kph_to_mps(135.0F);
+    ego_vehicle.distance_m = 0.0F;
+    ego_vehicle.lane = LaneAssociationType::CENTER;
+}
+
+void init_vehicle(VehicleType &vehicle,
+                  const std::int32_t id,
+                  const float speed_mps,
+                  const float distance_m,
+                  const LaneAssociationType lane)
+{
+    vehicle.id = id;
+    vehicle.speed_mps = speed_mps;
+    vehicle.distance_m = distance_m;
+    vehicle.lane = lane;
 }
 
 void init_vehicles(NeighborVehiclesType &vehicles)
 {
-    vehicles.vehicles_left_lane[0].Id = 0;
-    vehicles.vehicles_left_lane[0].speed_mps = 130.0F / 3.6F;
-    vehicles.vehicles_left_lane[0].longitudinal_distanceM = 80.0F;
-    vehicles.vehicles_left_lane[0].Lane = LaneAssociationType::LANE_ASSOCIATION_LEFT;
-
-    vehicles.vehicles_left_lane[1].Id = 1;
-    vehicles.vehicles_left_lane[1].speed_mps = 80.0F / 3.6F;
-    vehicles.vehicles_left_lane[1].longitudinal_distanceM = -20.0F;
-    vehicles.vehicles_left_lane[1].Lane = LaneAssociationType::LANE_ASSOCIATION_LEFT;
-
-    vehicles.vehicles_center_lane[0].Id = 2;
-    vehicles.vehicles_center_lane[0].speed_mps = 120.0F / 3.6F;
-    vehicles.vehicles_center_lane[0].longitudinal_distanceM = 50.0F;
-    vehicles.vehicles_center_lane[0].Lane = LaneAssociationType::LANE_ASSOCIATION_CENTER;
-
-    vehicles.vehicles_center_lane[1].Id = 3;
-    vehicles.vehicles_center_lane[1].speed_mps = 110.0F / 3.6F;
-    vehicles.vehicles_center_lane[1].longitudinal_distanceM = -50.0F;
-    vehicles.vehicles_center_lane[1].Lane = LaneAssociationType::LANE_ASSOCIATION_CENTER;
-
-    vehicles.vehicles_right_lane[0].Id = 4;
-    vehicles.vehicles_right_lane[0].speed_mps = 90.0F / 3.6F;
-    vehicles.vehicles_right_lane[0].longitudinal_distanceM = 30.0F;
-    vehicles.vehicles_right_lane[0].Lane = LaneAssociationType::LANE_ASSOCIATION_RIGHT;
-
-    vehicles.vehicles_right_lane[1].Id = 5;
-    vehicles.vehicles_right_lane[1].speed_mps = 130.0F / 3.6F;
-    vehicles.vehicles_right_lane[1].longitudinal_distanceM = -30.0F;
-    vehicles.vehicles_right_lane[1].Lane = LaneAssociationType::LANE_ASSOCIATION_RIGHT;
+    init_vehicle(vehicles.vehicles_left_lane[0], 0, 130.0F, 80.0F, LaneAssociationType::LEFT);
+    init_vehicle(vehicles.vehicles_left_lane[1], 1, 80.0F, -20.0F, LaneAssociationType::LEFT);
+    init_vehicle(vehicles.vehicles_center_lane[0], 2, 80.0F, 50.0F, LaneAssociationType::CENTER);
+    init_vehicle(vehicles.vehicles_center_lane[1], 3, 120.0F, -50.0F, LaneAssociationType::CENTER);
+    init_vehicle(vehicles.vehicles_right_lane[0], 4, 110.0F, 30.0F, LaneAssociationType::RIGHT);
+    init_vehicle(vehicles.vehicles_right_lane[1], 5, 90.0F, -30.0F, LaneAssociationType::RIGHT);
 }
 
 void print_vehicle(const VehicleType &vehicle)
 {
-    if (EGO_VEHICLE_ID == vehicle.Id)
+    if (EGO_VEHICLE_ID == vehicle.id)
     {
-        std::cout << "ID: Ego VehicleType" << std::endl;
-        std::cout << "Speed (m/s): " << vehicle.speed_mps << std::endl << std::endl;
+        std::cout << "Ego Vehicle: \n";
+        std::cout << "Speed (m/s): " << vehicle.speed_mps << "\n";
     }
     else
     {
-        std::cout << "ID: " << vehicle.Id << std::endl;
-        std::cout << "Speed (m/s): " << vehicle.speed_mps << std::endl;
-        std::cout << "Distance: " << vehicle.longitudinal_distanceM << std::endl << std::endl;
+        std::cout << "ID: " << vehicle.id << "\n";
+        std::cout << "Speed (m/s): " << vehicle.speed_mps << "\n";
+        std::cout << "Distance (m): " << vehicle.distance_m << "\n";
     }
 }
 
@@ -64,10 +58,8 @@ void print_neighbor_vehicles(const NeighborVehiclesType &vehicles)
 {
     print_vehicle(vehicles.vehicles_left_lane[0]);
     print_vehicle(vehicles.vehicles_left_lane[1]);
-
     print_vehicle(vehicles.vehicles_center_lane[0]);
     print_vehicle(vehicles.vehicles_center_lane[1]);
-
     print_vehicle(vehicles.vehicles_right_lane[0]);
     print_vehicle(vehicles.vehicles_right_lane[1]);
 }

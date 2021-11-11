@@ -6,18 +6,18 @@
 
 enum class LaneAssociationType
 {
-    LANE_ASSOCIATION_UNKNOWN,
-    LANE_ASSOCIATION_RIGHT,
-    LANE_ASSOCIATION_CENTER,
-    LANE_ASSOCIATION_LEFT
+    UNKNOWN,
+    RIGHT,
+    CENTER,
+    LEFT,
 };
 
 struct VehicleType
 {
-    std::int32_t Id;
-    LaneAssociationType Lane;
+    std::int32_t id;
+    LaneAssociationType lane;
     float speed_mps;
-    float longitudinal_distanceM;
+    float distance_m;
 };
 
 struct NeighborVehiclesType
