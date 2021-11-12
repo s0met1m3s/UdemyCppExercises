@@ -3,7 +3,11 @@
 #include <cstdint>
 #include <utility>
 
-using Coordiante = std::pair<std::uint32_t, std::uint32_t>;
+struct Coordinate
+{
+    std::uint32_t x_midpoint;
+    std::uint32_t y_midpoint;
+};
 
 struct Shape
 {
@@ -13,7 +17,7 @@ public:
 
     virtual double get_area() const = 0;
     double midpoint_distance(const Shape *other) const;
-    virtual Coordiante get_midpoint() const = 0;
+    virtual Coordinate get_midpoint() const = 0;
 };
 
 struct Circle : Shape
@@ -22,7 +26,7 @@ struct Circle : Shape
     ~Circle() noexcept = default;
 
     virtual double get_area() const final;
-    virtual Coordiante get_midpoint() const final;
+    virtual Coordinate get_midpoint() const final;
 
     std::uint32_t x_midpoint;
     std::uint32_t y_midpoint;
@@ -35,7 +39,7 @@ struct Rectangle : Shape
     ~Rectangle() noexcept = default;
 
     virtual double get_area() const final;
-    virtual Coordiante get_midpoint() const final;
+    virtual Coordinate get_midpoint() const final;
 
     std::uint32_t x1;
     std::uint32_t y1;

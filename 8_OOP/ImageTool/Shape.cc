@@ -1,9 +1,9 @@
 #include <cmath>
 
+#include "Shape.hpp"
+
 #include "distance.hpp"
 #include "utils.hpp"
-
-#include "Shape.hpp"
 
 double Shape::midpoint_distance(const Shape *other) const
 {
@@ -25,10 +25,9 @@ double Circle::get_area() const
     return pi * std::pow(radius, 2.0);
 }
 
-
-Coordiante Circle::get_midpoint() const
+Coordinate Circle::get_midpoint() const
 {
-    return std::make_pair(x_midpoint, y_midpoint);
+    return {x_midpoint, y_midpoint};
 }
 
 Rectangle::Rectangle(std::uint32_t x1_, std::uint32_t y1_, std::uint32_t x2_, std::uint32_t y2_)
@@ -38,14 +37,17 @@ Rectangle::Rectangle(std::uint32_t x1_, std::uint32_t y1_, std::uint32_t x2_, st
 
 double Rectangle::get_area() const
 {
-    return (x1 - x2) * (y1 - y2);
+    const auto length_a = std::abs(static_cast<double>(x1) - static_cast<double>(x2));
+    const auto length_b = std::abs(static_cast<double>(y1) - static_cast<double>(y2));
+
+    return length_a * length_b;
 }
 
 
-Coordiante Rectangle::get_midpoint() const
+Coordinate Rectangle::get_midpoint() const
 {
     const auto x_midpoint = (x1 + x2) / 2U;
     const auto y_midpoint = (y1 + y2) / 2U;
 
-    return std::make_pair(x_midpoint, y_midpoint);
+    return {x_midpoint, y_midpoint};
 }

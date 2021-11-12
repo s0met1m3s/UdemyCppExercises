@@ -16,11 +16,11 @@ public:
 
 struct Circle : Shape
 {
-    Circle(std::uint32_t x_midpoint_, std::uint32_t y_midpoint_, std::uint32_t radius_);
+    Circle(...);
     ~Circle() noexcept = default;
 
-    virtual double get_area() const final;
-    virtual Coordiante get_midpoint() const final;
+    ... get_area() ...;
+    ... get_midpoint() ...;
 
     std::uint32_t x_midpoint;
     std::uint32_t y_midpoint;
@@ -29,11 +29,11 @@ struct Circle : Shape
 
 struct Rectangle : Shape
 {
-    Rectangle(std::uint32_t x1_, std::uint32_t y1_, std::uint32_t x2_, std::uint32_t y2_);
+    Rectangle(...);
     ~Rectangle() noexcept = default;
 
-    virtual double get_area() const final;
-    virtual Coordiante get_midpoint() const final;
+    ... get_area() ...;
+    ... get_midpoint() ...;
 
     std::uint32_t x1;
     std::uint32_t y1;
@@ -42,7 +42,10 @@ struct Rectangle : Shape
 };
 ```
 
-Implement the member functions for the Shape, Rectangle, and Circle class.
+Implement the missing member functions for the Shape, Rectangle, and Circle 
+class.
+
+Note: To compute the distance of two points you can use the **get_distance** function from **utils/distance.hpp**
 
 ## Main Function
 

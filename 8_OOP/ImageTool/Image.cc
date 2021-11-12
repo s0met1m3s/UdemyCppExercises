@@ -118,21 +118,17 @@ void Image::draw_line(const std::uint32_t x1,
 
 void Image::draw_rectangle(const Rectangle &rectangle, const std::uint8_t value)
 {
-    Image::draw_line(rectangle.x1, rectangle.y1, rectangle.x1, rectangle.y2,
-                     value); // Left Vertical
-    Image::draw_line(rectangle.x2, rectangle.y1, rectangle.x2, rectangle.y2,
-                     value); // Right Vertical
-    Image::draw_line(rectangle.x1, rectangle.y1, rectangle.x2, rectangle.y1,
-                     value); // Upper Horizontal
-    Image::draw_line(rectangle.x1, rectangle.y2, rectangle.x2, rectangle.y2,
-                     value); // Lower Horizontal
+    draw_line(rectangle.x1, rectangle.y1, rectangle.x1, rectangle.y2, value);
+    draw_line(rectangle.x2, rectangle.y1, rectangle.x2, rectangle.y2, value);
+    draw_line(rectangle.x1, rectangle.y1, rectangle.x2, rectangle.y1, value);
+    draw_line(rectangle.x1, rectangle.y2, rectangle.x2, rectangle.y2, value);
 }
 
 void Image::fill_rectangle(const Rectangle &rectangle, const std::uint8_t value)
 {
-    for (auto i = rectangle.x1; i < rectangle.x2; i++)
+    for (auto i = rectangle.x1; i < rectangle.x2; ++i)
     {
-        for (auto j = rectangle.y1; j < rectangle.y2; j++)
+        for (auto j = rectangle.y1; j < rectangle.y2; ++j)
         {
             set_pixel(i, j, value);
         }
@@ -143,8 +139,8 @@ void Image::draw_circle(const Circle &circle, const std::uint8_t value)
 {
     const auto x_lower_bound = circle.x_midpoint - circle.radius;
     const auto x_upper_bound = circle.x_midpoint + circle.radius;
-    const auto y_lower_bound = circle.x_midpoint - circle.radius;
-    const auto y_upper_bound = circle.x_midpoint + circle.radius;
+    const auto y_lower_bound = circle.y_midpoint - circle.radius;
+    const auto y_upper_bound = circle.y_midpoint + circle.radius;
 
     for (auto i = x_lower_bound; i < x_upper_bound; i++)
     {
@@ -152,7 +148,7 @@ void Image::draw_circle(const Circle &circle, const std::uint8_t value)
         {
             const auto distance = get_distance(i, j, circle.x_midpoint, circle.y_midpoint);
 
-            if ((std::ceil(distance) == circle.radius))
+            if (std::ceil(distance) == circle.radius)
             {
                 set_pixel(i, j, value);
             }
@@ -164,8 +160,8 @@ void Image::fill_circle(const Circle &circle, const std::uint8_t value)
 {
     const auto x_lower_bound = circle.x_midpoint - circle.radius;
     const auto x_upper_bound = circle.x_midpoint + circle.radius;
-    const auto y_lower_bound = circle.x_midpoint - circle.radius;
-    const auto y_upper_bound = circle.x_midpoint + circle.radius;
+    const auto y_lower_bound = circle.y_midpoint - circle.radius;
+    const auto y_upper_bound = circle.y_midpoint + circle.radius;
 
     for (auto i = x_lower_bound; i < x_upper_bound; i++)
     {
@@ -173,7 +169,7 @@ void Image::fill_circle(const Circle &circle, const std::uint8_t value)
         {
             const auto distance = get_distance(i, j, circle.x_midpoint, circle.y_midpoint);
 
-            if (distance <= circle.radius)
+            if (std::ceil(distance) <= circle.radius)
             {
                 set_pixel(i, j, value);
             }
