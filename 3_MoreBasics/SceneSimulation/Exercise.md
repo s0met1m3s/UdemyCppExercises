@@ -14,11 +14,25 @@ void compute_future_state(const VehicleType &ego_vehicle,
                           const float seconds);
 ```
 
+- print_scene: Implement a function that output the following concerning the ego and all other vehicles
+
 ![vehicle](../../media/vehicle.png)
+
+- compute_future_state: Compute the position of all vehicles in **n** seconds
+- compute_future_distance: Helper function for **compute_future_state**
+
+Hint: The future distance of a vehicle is dependent on the ego vehicle.
 
 ## Main Function
 
 ```cpp
+#include <cstring>
+#include <iostream>
+#include <numeric>
+
+#include "AdFunctions.hpp"
+#include "AdTypes.hpp"
+
 int main()
 {
     VehicleType ego_vehicle{};

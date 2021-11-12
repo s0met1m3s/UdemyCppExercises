@@ -23,8 +23,10 @@ WordCountVec map_to_vector(const CountedWordsMap &counted_words);
 void sort_word_counts(WordCountVec &word_counts);
 ```
 
-- count_words: count the different words from the word vector and store the word, occurence pairs to the map
-- map_to_vector: store the word count map to the word count vector
+- count_words:
+  - count the different words from the word vector and store the word, occurence pairs to the map
+  - E.g. {"jan", "is", "my", "name"} {{"Jan": 1, "is": 1, "my": 1, "name": 1}}
+- map_to_vector: store the word count map to the word count vector (needed for sorting)
 - sort_word_counts: Sort the word count vector
 
 ## Main Function

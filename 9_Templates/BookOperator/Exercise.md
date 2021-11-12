@@ -1,6 +1,6 @@
 # Exercise
 
-Implement the following functions:
+Implement the following operators for our book class:
 
 ```cpp
 class Book
@@ -25,7 +25,7 @@ std::ostream &operator<<(std::ostream &, const Book &);
 ```
 
 ==, !=: A book is equal if all member variables are the same.  
-<<: Print out all member variables  
+<<: Print out all member variables separated by spaces  
 
 ## Main Function
 

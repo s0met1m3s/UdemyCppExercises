@@ -2,11 +2,13 @@
 
 The use-case:
 
-The radars and cameras of your car detect other vehicles that are nearby of your (ego) vehicle.
+The radars and cameras of your car detect other vehicles that are nearby your (ego) vehicle.
 
-Example other vehicles (V) ego vehicle (E):
+Example image other vehicles (V) ego vehicle (E):
 
 ![vehicle](../../media/vehicle.png)
+
+Note: this plot will be implemented in the next exercise.
 
 Implement the following functions:
 
@@ -50,13 +52,20 @@ void print_neighbor_vehicles(const NeighborVehiclesType &vehicles);
 - init_ego_vehicle: Init ego vehicle with ID=-1, Speed=135kmh, Lane=Center
 - init_vehicles: Init vehicles with IDs starting at 0, you can choose the speed of the vehicles and the distance to the ego vehicle, 2 Vehicles on Left, 2 on Right, and 2 on Center Lane
 - print_vehicle:
-  - If vehicle is ego vehicle, just print the speed
-  - otherwise, print ID, Speed and Distance
+  - If the vehicle is an ego vehicle, just print the speed
+  - otherwise, print ID, Speed, and Distance
 - print_neighbor_vehicles: iterate over all vehicles and print them
 
 ## Main Function
 
 ```cpp
+#include <cstring>
+#include <iostream>
+#include <numeric>
+
+#include "AdFunctions.hpp"
+#include "AdTypes.hpp"
+
 int main()
 {
     VehicleType ego_vehicle{};

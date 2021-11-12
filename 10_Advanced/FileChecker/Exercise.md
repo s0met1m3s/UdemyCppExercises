@@ -17,9 +17,9 @@ bool is_c_header_file(const fs::path &file);
 
 bool is_cpp_header_file(const fs::path &file);
 
-auto number_of_source_files(const FileVec &files);
+bool number_of_source_files(const FileVec &files);
 
-auto number_of_header_files(const FileVec &files);
+bool number_of_header_files(const FileVec &files);
 ```
 
 - is_c_header_file: Return the number of C header files in a directory

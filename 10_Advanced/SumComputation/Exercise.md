@@ -37,12 +37,6 @@ int main()
     }
     std::cout << "Mean Async: " << time1 / NUM_RUNS << "ms sum: " << sum1 << std::endl;
 
-    double time2 = 0.0;
-    cpptiming::Timer t2;
-    auto sum2 = range_sum_thread(my_vector);
-    time2 += t2.elapsed_time<cpptiming::millisecs, double>();
-    std::cout << "Mean Threadding: " << time2 / 1 << "ms sum: " << sum2 << std::endl;
-
     return 0;
 }
 ```
