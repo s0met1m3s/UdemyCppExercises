@@ -21,7 +21,13 @@ sudo apt-get install clang-tidy
 
 ### Install on Mac
 
-- Should be installed already
+- clang-format nad clang-tidy should be installed already
+
+## Compiler
+
+- Windows: g++, gdb, make via [Cygwin64](https://cygwin.com/install.html)
+- Linux: g++, gdb, make via package manager (apt for Ubuntu for example)
+- Mac: clang++, lldb, make via xcode-tools
 
 ## IDE: Visual Studio Code
 
@@ -35,10 +41,6 @@ sudo apt-get install clang-tidy
 ### Extra settings (for local .vscode/settings.json file)
 
 ```json
-  "C_Cpp_Runner.cCompilerPath": "/usr/bin/gcc-10",  // Edit this
-  "C_Cpp_Runner.cppCompilerPath": "/usr/bin/g++-10",  // Edit this
-  "C_Cpp_Runner.debuggerPath": "/usr/bin/gdb",  // Edit this
-  "C_Cpp_Runner.makePath": "/usr/bin/make",  // Edit this
   "C_Cpp_Runner.warnings": [
     "-Wall",
     "-Wextra",
