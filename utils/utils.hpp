@@ -102,10 +102,14 @@ void random_vector(std::vector<T> &vec)
 
 void clear_console()
 {
-#if defined(__LINUX__) || defined(__gnu_linux__) || defined(__linux__) || defined(__APPLE__)
-    system("clear");
-#elif defined(_WIN32)
+#if defined _WIN32
     system("cls");
+#elif defined(__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+    system("clear");
+#elif defined(__APPLE__)
+    system("clear");
+#else
+    system("clear");
 #endif
 }
 
