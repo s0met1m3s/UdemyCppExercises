@@ -5,7 +5,8 @@
 #include "DataLoader.hpp"
 #include "DataLoaderConstants.hpp"
 
-static VehiclesData vehicles_data{};
+static VehiclesData vehicles_data =
+    std::vector<std::vector<VehicleType>>(NUM_VEHICLES, std::vector<VehicleType>(NUM_ITERATIONS));
 
 void init_vehicles(std::string_view filepath, NeighborVehiclesType &vehicles)
 {

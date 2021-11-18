@@ -19,7 +19,7 @@
 
 We will use clang-format and clang-tidy.
 
-Clang-format: Formatter tool for source code, will be installed by the Microsoft C/C++ extension
+Clang-format: Formatter tool for source code, will be installed by the Microsoft C/C++ extension  
 Clang-tidy: Checks for issues in the code (similar to the compiler warnings)  
 
 ### Install clang-tidy on Windows
