@@ -4,9 +4,9 @@
 
 #include "AdTypes.hpp"
 
-void init_ego_vehicle(VehicleType &ego_vehicle);
+float kph_to_mps(const float kph);
 
-void init_vehicles(NeighborVehiclesType &vehicles);
+float mps_to_kph(const float mps);
 
 void print_vehicle(const VehicleType &vehicle);
 
