@@ -197,11 +197,11 @@ void longitudinal_control(const VehicleType &front_vehicle, const VehicleType &r
 
     if (front_vehicle_too_close && !rear_vehicle_too_close)
     {
-        increase_speed(ego_vehicle);
+        decrease_speed(ego_vehicle);
     }
     else if (!front_vehicle_too_close && rear_vehicle_too_close)
     {
-        decrease_speed(ego_vehicle);
+        increase_speed(ego_vehicle);
     }
     else
     {

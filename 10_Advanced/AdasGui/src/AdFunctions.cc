@@ -24,134 +24,15 @@ float get_maximal_collision_distance(const VehicleType &ego_vehicle)
     return mps_to_kph(ego_vehicle.speed_mps) / 10.0F;
 }
 
-void print_vehicle(const VehicleType &vehicle)
-{
-    if (EGO_VEHICLE_ID == vehicle.id)
-    {
-        std::cout << "Ego Vehicle: \n";
-        std::cout << "Speed (m/s): " << vehicle.speed_mps << "\n";
-        std::cout << "Lane: " << static_cast<int>(vehicle.lane) << "\n";
-    }
-    else
-    {
-        std::cout << "ID: " << vehicle.id << "\n";
-        std::cout << "Speed (m/s): " << vehicle.speed_mps << "\n";
-        std::cout << "Distance (m): " << vehicle.distance_m << "\n";
-        std::cout << "Lane: " << static_cast<int>(vehicle.lane) << "\n";
-    }
-}
-
-void print_neighbor_vehicles(const NeighborVehiclesType &vehicles)
-{
-    print_vehicle(vehicles.vehicles_left_lane[0]);
-    print_vehicle(vehicles.vehicles_left_lane[1]);
-    print_vehicle(vehicles.vehicles_center_lane[0]);
-    print_vehicle(vehicles.vehicles_center_lane[1]);
-    print_vehicle(vehicles.vehicles_right_lane[0]);
-    print_vehicle(vehicles.vehicles_right_lane[1]);
-}
-
-void print_vehicle_speed(const VehicleType &vehicle, const char *name)
-{
-    if (vehicle.id != INVALID_VEHICLE_ID)
-    {
-        std::cout.precision(3);
-        std::cout << name << ": (" << vehicle.speed_mps << " mps) ";
-    }
-}
-
-void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles)
-{
-    std::cout << "    \t  L    C    R  \n";
-
-    std::size_t left_idx = 0;
-    std::size_t center_idx = 0;
-    std::size_t right_idx = 0;
-
-    const std::int32_t offset_m = 10;
-
-    for (std::int32_t i = 100; i >= -100; i -= offset_m)
-    {
-        const VehicleType &left_vehicle = vehicles.vehicles_left_lane[left_idx];
-        const VehicleType &center_vehicle = vehicles.vehicles_center_lane[center_idx];
-        const VehicleType &right_vehicle = vehicles.vehicles_right_lane[right_idx];
-
-        char left_string[]{"   "};
-        char center_string[]{"   "};
-        char right_string[]{"   "};
-        char *ego_string = nullptr;
-
-        const float range_m = static_cast<float>(i);
-
-        switch (ego_vehicle.lane)
-        {
-        case LaneAssociationType::LEFT:
-        {
-            ego_string = left_string;
-            break;
-        }
-        case LaneAssociationType::CENTER:
-        {
-            ego_string = center_string;
-            break;
-        }
-        case LaneAssociationType::RIGHT:
-        {
-            ego_string = right_string;
-            break;
-        }
-        default:
-        {
-            break;
-        }
-        }
-
-        if ((ego_string != nullptr) && (range_m >= ego_vehicle.distance_m) &&
-            (ego_vehicle.distance_m > (range_m - offset_m)))
-        {
-            ego_string[1] = 'E';
-        }
-
-        if ((range_m >= left_vehicle.distance_m) && (left_vehicle.distance_m > (range_m - offset_m)))
-        {
-            left_string[1] = 'V';
-            left_idx++;
-        }
-
-        if ((range_m >= center_vehicle.distance_m) && (center_vehicle.distance_m > (range_m - offset_m)))
-        {
-            center_string[1] = 'V';
-            center_idx++;
-        }
-
-        if ((range_m >= right_vehicle.distance_m) && (right_vehicle.distance_m > (range_m - offset_m)))
-        {
-            right_string[1] = 'V';
-            right_idx++;
-        }
-
-        std::cout << i << "\t| " << left_string << " |" << center_string << " |" << right_string << " |\n";
-    }
-
-    std::cout << "\n";
-    print_vehicle_speed(ego_vehicle, "E");
-    std::cout << "\n";
-}
-
 void compute_future_distance(VehicleType &vehicle, const float ego_driven_distance, const float seconds)
 {
-    const float driven_distance = vehicle.speed_mps * seconds;
+    const auto driven_distance = vehicle.speed_mps * seconds;
     vehicle.distance_m += driven_distance - ego_driven_distance;
-
-    if (std::abs(vehicle.distance_m) >= MAX_VIEW_RANGE_M)
-    {
-        vehicle.id = INVALID_VEHICLE_ID;
-    }
 }
 
 void compute_future_state(const VehicleType &ego_vehicle, NeighborVehiclesType &vehicles, const float seconds)
 {
-    const float ego_driven_distance = ego_vehicle.speed_mps * seconds;
+    const auto ego_driven_distance = ego_vehicle.speed_mps * seconds;
 
     compute_future_distance(vehicles.vehicles_left_lane[0], ego_driven_distance, seconds);
     compute_future_distance(vehicles.vehicles_left_lane[1], ego_driven_distance, seconds);

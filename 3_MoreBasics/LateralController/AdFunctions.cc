@@ -270,22 +270,23 @@ LaneAssociationType longitudinal_control(const NeighborVehiclesType &vehicles, V
         rear_vehicle_too_close_collision = true;
     }
 
-    const auto no_collision = (front_vehicle_too_close_collision || rear_vehicle_too_close_collision);
+    const auto collision_incomming = (front_vehicle_too_close_collision || rear_vehicle_too_close_collision);
 
-    if (!front_vehicle_too_close && !rear_vehicle_too_close && !no_collision)
+    if (!front_vehicle_too_close && !rear_vehicle_too_close && !collision_incomming)
     {
         return ego_vehicle.lane;
     }
 
-    if (front_vehicle_too_close && !rear_vehicle_too_close && !no_collision)
-    {
-        increase_speed(ego_vehicle);
-    }
-    else if (!front_vehicle_too_close && rear_vehicle_too_close && !no_collision)
+    if (front_vehicle_too_close && !rear_vehicle_too_close)
     {
         decrease_speed(ego_vehicle);
     }
-    else
+    else if (!front_vehicle_too_close && rear_vehicle_too_close)
+    {
+        increase_speed(ego_vehicle);
+    }
+
+    if (collision_incomming)
     {
         return get_lane_change_request(ego_vehicle,
                                        front_distance_abs,
