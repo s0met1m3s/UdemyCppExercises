@@ -5,20 +5,21 @@ Update the following functions:
 ```cpp
 void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles);
 
-LaneAssociationType longitudinal_control(const VehicleType &front_vehicle, const VehicleType &rear_vehicle, VehicleType &ego_vehicle);
+LaneAssociationType longitudinal_control(const NeighborVehiclesType &vehicles,VehicleType &ego_vehicle);
 ```
 
 - print_scene: Such that the ego vehicle can be displayed on every lane not only the center lane.
-- longitudinal_control: If we woudl crash with the front or rear vehicle, call the **get_lane_change_request** function.
+- longitudinal_control:
+  - If we would crash with the front or rear vehicle, call the **get_lane_change_request** function.
+  - We don't pass in the front/rear vehicle anymore, instead of the whole array.
+    - Get the front/rear vehicle internally.
 
 Implement the following functions:
 
 ```cpp
 LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
-                                            const float front_distance_abs,
-                                            const float rear_distance_abs,
-                                            const bool front_vehicle_too_close_collision,
-                                            const bool rear_vehicle_too_close_collision);
+                                            const float front_distance,
+                                            const float rear_distance);
 
 bool lateral_control(const NeighborVehiclesType &vehicles,
                      const LaneAssociationType lane_change_request,
@@ -27,9 +28,8 @@ bool lateral_control(const NeighborVehiclesType &vehicles,
 
 - get_lane_change_request:
   - Send a lane change request if the vehicle would crash into a front/rear vehicle
-    - Send a request to the left, if we are faster than the front vehicle
-    - Send a request to the right, if we are slower than the front vehicle
-- lateral_control:
+    - Send a request to the left, if we are too close to the front vehicle (hence we are faster)
+    - Send a request to the right, if we are too close to the rear vehicle (hence we are slower)
   - Checks if we can change the lane onto the target lane that was sent from the **get_lane_change_request** function
   - Check the size of the gap on the target lane
 

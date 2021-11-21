@@ -32,14 +32,13 @@ void compute_future_state(const VehicleType &ego_vehicle, NeighborVehiclesType &
 
 void longitudinal_control(const VehicleType &front_vehicle, VehicleType &ego_vehicle);
 
+const VehicleType *get_lane_vehicles(const LaneAssociationType lane, const NeighborVehiclesType &vehicles);
+
 LaneAssociationType longitudinal_control(const NeighborVehiclesType &vehicles, VehicleType &ego_vehicle);
 
-
 LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
-                                            const float front_distance_abs,
-                                            const float rear_distance_abs,
-                                            const bool front_vehicle_too_close_collision,
-                                            const bool rear_vehicle_too_close_collision);
+                                            const float front_distance,
+                                            const float rear_distance);
 
 bool gap_is_valid(const VehicleType &front_vehicle, const VehicleType &rear_vehicle, const VehicleType &ego_vehicle);
 
