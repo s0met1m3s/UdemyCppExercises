@@ -173,7 +173,7 @@ void compute_future_state(const VehicleType &ego_vehicle, NeighborVehiclesType &
 
 void decrease_speed(VehicleType &ego_vehicle)
 {
-    const float decrease = ego_vehicle.speed_mps * SPEED_ADAPTATION_FACTOR;
+    const float decrease = ego_vehicle.speed_mps * SPEED_ADAPTAION_FACTOR;
 
     if (ego_vehicle.speed_mps - decrease > 0.0F)
     {
@@ -181,7 +181,7 @@ void decrease_speed(VehicleType &ego_vehicle)
     }
 }
 
-const VehicleType *get_lane_vehicles(const LaneAssociationType lane, const NeighborVehiclesType &vehicles)
+const VehicleType *get_vehicle_array(const LaneAssociationType lane, const NeighborVehiclesType &vehicles)
 {
     const VehicleType *vehicles_array = nullptr;
 
@@ -213,7 +213,12 @@ const VehicleType *get_lane_vehicles(const LaneAssociationType lane, const Neigh
 
 LaneAssociationType longitudinal_control(const NeighborVehiclesType &vehicles, VehicleType &ego_vehicle)
 {
-    const VehicleType *vehicles_array = get_lane_vehicles(ego_vehicle.lane, vehicles);
+    const VehicleType *vehicles_array = get_vehicle_array(ego_vehicle.lane, vehicles);
+
+    if (vehicles_array == nullptr)
+    {
+        return ego_vehicle.lane;
+    }
 
     const VehicleType &front_vehicle = vehicles_array[0];
     const VehicleType &rear_vehicle = vehicles_array[1];
@@ -319,18 +324,17 @@ LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
 
 bool gap_is_valid(const VehicleType &front_vehicle, const VehicleType &rear_vehicle, const VehicleType &ego_vehicle)
 {
+    const float minimal_distance = mps_to_kmh(ego_vehicle.speed_mps) / 5.0F;
+
     const float front_distance = front_vehicle.distance_m;
     const float rear_distance = std::abs(rear_vehicle.distance_m);
-    const float minimal_distance = mps_to_kmh(ego_vehicle.speed_mps) / 3.0F;
 
-    if (front_distance > minimal_distance && rear_distance > minimal_distance)
+    if ((front_distance > minimal_distance) && (rear_distance > minimal_distance))
     {
         return true;
     }
-    else
-    {
-        return false;
-    }
+
+    return false;
 }
 
 bool lateral_control(const NeighborVehiclesType &vehicles,
@@ -342,7 +346,7 @@ bool lateral_control(const NeighborVehiclesType &vehicles,
         return false;
     }
 
-    const VehicleType *vehicles_array = get_lane_vehicles(ego_vehicle.lane, vehicles);
+    const VehicleType *vehicles_array = get_vehicle_array(lane_change_request, vehicles);
 
     if (vehicles_array == nullptr)
     {

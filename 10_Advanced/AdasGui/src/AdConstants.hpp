@@ -18,4 +18,4 @@ constexpr auto RIGHT_RIGHT_BORDER{4.5F};
 
 constexpr auto MAX_VIEW_RANGE_M{100.0F};
 constexpr auto MAX_VEHICLE_SPEED_MPS{130.0F / 3.6F};
-constexpr auto SPEED_ADAPTATION_FACTOR{0.01F};
+constexpr auto SPEED_ADAPTAION_FACTOR{0.01F};
