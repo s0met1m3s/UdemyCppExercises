@@ -9,7 +9,7 @@ float kph_to_mps(const float kph)
     return kph / 3.6F;
 }
 
-float mps_to_kph(const float mps)
+float mps_to_kmh(const float mps)
 {
     return mps * 3.6F;
 }
@@ -69,15 +69,6 @@ void print_neighbor_vehicles(const NeighborVehiclesType &vehicles)
     print_vehicle(vehicles.vehicles_right_lane[1]);
 }
 
-void print_vehicle_speed(const VehicleType &vehicle, const char *name)
-{
-    if (vehicle.id != INVALID_VEHICLE_ID)
-    {
-        std::cout.precision(3);
-        std::cout << name << ": (" << vehicle.speed_mps << " mps) ";
-    }
-}
-
 void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles)
 {
     std::cout << "    \t  L    C    R  \n";
@@ -130,15 +121,16 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
     std::cout << "\n";
 }
 
+void print_vehicle_speed(const VehicleType &vehicle, const char *name)
+{
+    std::cout.precision(3);
+    std::cout << name << ": (" << vehicle.speed_mps << " mps)";
+}
+
 void compute_future_distance(VehicleType &vehicle, const float ego_driven_distance, const float seconds)
 {
     const float driven_distance = vehicle.speed_mps * seconds;
     vehicle.distance_m += driven_distance - ego_driven_distance;
-
-    if (std::abs(vehicle.distance_m) >= MAX_VIEW_RANGE_M)
-    {
-        vehicle.id = INVALID_VEHICLE_ID;
-    }
 }
 
 void compute_future_state(const VehicleType &ego_vehicle, NeighborVehiclesType &vehicles, const float seconds)
@@ -153,65 +145,38 @@ void compute_future_state(const VehicleType &ego_vehicle, NeighborVehiclesType &
     compute_future_distance(vehicles.vehicles_right_lane[1], ego_driven_distance, seconds);
 }
 
-void increase_speed(VehicleType &ego_vehicle)
-{
-    const auto increase = ego_vehicle.speed_mps * SPEED_ADAPTATION_FACTOR;
-
-    if (ego_vehicle.speed_mps + increase < MAX_VEHICLE_SPEED_MPS)
-    {
-        ego_vehicle.speed_mps += increase;
-    }
-}
-
 void decrease_speed(VehicleType &ego_vehicle)
 {
-    const auto decrease = ego_vehicle.speed_mps * SPEED_ADAPTATION_FACTOR;
+    const float decrease = ego_vehicle.speed_mps * SPEED_ADAPTAION_FACTOR;
 
-    ego_vehicle.speed_mps -= decrease;
+    if (ego_vehicle.speed_mps - decrease > 0.0F)
+    {
+        ego_vehicle.speed_mps -= decrease;
+    }
 }
 
-void longitudinal_control(const VehicleType &front_vehicle, const VehicleType &rear_vehicle, VehicleType &ego_vehicle)
+void longitudinal_control(const VehicleType &front_vehicle, VehicleType &ego_vehicle)
 {
-    auto rear_vehicle_too_close = false;
-    auto front_vehicle_too_close = false;
+    const float minimal_distance = mps_to_kmh(ego_vehicle.speed_mps) / 2.0F;
 
-    const auto minimal_distance = mps_to_kph(ego_vehicle.speed_mps) / 2.0F;
+    const float front_distance = front_vehicle.distance_m;
 
-    const auto front_distance_abs = std::abs(front_vehicle.distance_m);
-    const auto rear_distance_abs = std::abs(rear_vehicle.distance_m);
-
-    if (front_distance_abs < minimal_distance)
-    {
-        front_vehicle_too_close = true;
-    }
-
-    if (rear_distance_abs < minimal_distance)
-    {
-        rear_vehicle_too_close = true;
-    }
-
-    if (!front_vehicle_too_close && !rear_vehicle_too_close)
+    if (front_distance < 0.0F)
     {
         return;
     }
 
-    if (front_vehicle_too_close && !rear_vehicle_too_close)
+    bool front_vehicle_too_close = false;
+
+    if (front_distance < minimal_distance)
     {
-        decrease_speed(ego_vehicle);
+        front_vehicle_too_close = true;
     }
-    else if (!front_vehicle_too_close && rear_vehicle_too_close)
+
+    if (!front_vehicle_too_close)
     {
-        increase_speed(ego_vehicle);
+        return;
     }
-    else
-    {
-        if (front_distance_abs < rear_distance_abs)
-        {
-            decrease_speed(ego_vehicle);
-        }
-        else
-        {
-            increase_speed(ego_vehicle);
-        }
-    }
+
+    decrease_speed(ego_vehicle);
 }

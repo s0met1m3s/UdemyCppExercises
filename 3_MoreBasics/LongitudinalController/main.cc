@@ -30,7 +30,7 @@ int main()
 
         print_scene(ego_vehicle, vehicles);
         compute_future_state(ego_vehicle, vehicles, 0.100F);
-        longitudinal_control(vehicles.vehicles_center_lane[0], vehicles.vehicles_center_lane[1], ego_vehicle);
+        longitudinal_control(vehicles.vehicles_center_lane[0], ego_vehicle);
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }

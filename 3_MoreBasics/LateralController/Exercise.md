@@ -4,9 +4,12 @@ Update the following functions:
 
 ```cpp
 void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles);
+
+LaneAssociationType longitudinal_control(const VehicleType &front_vehicle, const VehicleType &rear_vehicle, VehicleType &ego_vehicle);
 ```
 
-Such that the ego vehicle can be displayed on every lane not only the center lane.
+- print_scene: Such that the ego vehicle can be displayed on every lane not only the center lane.
+- longitudinal_control: If we woudl crash with the front or rear vehicle, call the **get_lane_change_request** function.
 
 Implement the following functions:
 
@@ -23,13 +26,12 @@ bool lateral_control(const NeighborVehiclesType &vehicles,
 ```
 
 - get_lane_change_request:
-  - Is called in the else case of the **longitudinal_control** function
   - Send a lane change request if the vehicle would crash into a front/rear vehicle
-  - Send a request to the left, if we are faster than the front vehicle which we would crash into
-  - Send a request to the right, if we are slower than the rear vehicle which would crash into us
+    - Send a request to the left, if we are faster than the front vehicle
+    - Send a request to the right, if we are slower than the front vehicle
 - lateral_control:
   - Checks if we can change the lane onto the target lane that was sent from the **get_lane_change_request** function
-
+  - Check the size of the gap on the target lane
 
 ## Main Function
 
