@@ -9,8 +9,10 @@
 !*/
 !.gitkeep
 !Makefile
+!LICENSE
 *.pptx
 *.pdf
+TODO.txt
 
 !vehicle.png
 
