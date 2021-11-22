@@ -6,8 +6,6 @@ double calculate_pi(std::uint32_t num_iterations);
 
 void print_dec_to_bin(std::uint8_t value);
 
-void print_dec_to_hex(std::uint8_t value);
-
 int main()
 {
     std::uint32_t num_iterations = 1'000'000;
@@ -20,9 +18,6 @@ int main()
 
     std::uint8_t dec = 0b10001110;
     print_dec_to_bin(dec);
-
-    std::uint8_t hex = 0x8E;
-    print_dec_to_hex(hex);
 }
 
 double calculate_pi(std::uint32_t num_iterations)
@@ -53,31 +48,6 @@ void print_dec_to_bin(std::uint8_t value)
         else
         {
             std::cout << "0";
-        }
-    }
-
-    std::cout << "\n";
-}
-
-void print_dec_to_hex(std::uint8_t value)
-{
-    std::cout << "Hex: 0x";
-
-    for (std::int8_t i = 1; i >= 0; i--)
-    {
-        std::uint8_t current_exponent = std::pow(16, i);
-
-        for (std::uint8_t j = 15; j >= 1; j--)
-        {
-            std::uint8_t temp = current_exponent * j;
-
-            if (temp <= value)
-            {
-                std::cout << std::hex << std::uppercase << static_cast<std::uint32_t>(j) << std::dec;
-
-                value -= temp;
-                break;
-            }
         }
     }
 
