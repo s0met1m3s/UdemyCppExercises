@@ -13,7 +13,7 @@ struct Shape
 {
 public:
     Shape() = default;
-    ~Shape() noexcept = default;
+    virtual ~Shape() noexcept = default;
 
     virtual double get_area() const = 0;
     double midpoint_distance(const Shape *other) const;
