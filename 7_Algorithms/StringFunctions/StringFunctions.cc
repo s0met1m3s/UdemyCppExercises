@@ -26,7 +26,7 @@ bool contains(std::string_view str, std::string_view substr)
 
     for (auto it = str.begin(); it < str.end() - substr_length + 1;)
     {
-        auto found = std::equal(substr.begin(), substr.end(), it);
+        const auto found = std::equal(substr.begin(), substr.end(), it);
 
         if (found == true)
         {
