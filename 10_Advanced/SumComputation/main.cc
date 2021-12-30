@@ -8,14 +8,14 @@
 #include "Timer.hpp"
 #include "utils.hpp"
 
-constexpr std::uint32_t NUM_THREADS = 2;
+constexpr std::uint32_t ELEMENTS_THRESHOLD = 1'000'000;
 constexpr std::uint32_t NUM_RUNS = 100;
 
 template <typename RandomIter>
 auto range_sum_asyn(RandomIter start, RandomIter stop)
 {
     auto length = std::distance(start, stop);
-    if (length < 1'000'000)
+    if (length < ELEMENTS_THRESHOLD)
     {
         return std::accumulate(start, stop, 0);
     }
