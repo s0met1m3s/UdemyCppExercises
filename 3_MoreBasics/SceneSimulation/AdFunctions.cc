@@ -95,7 +95,7 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
             left_string[1] = 'V';
             left_idx++;
         }
-        else if ((left_vehicle != nullptr) && (std::abs(right_vehicle->distance_m) > VIEW_RANGE_M))
+        else if ((left_vehicle != nullptr) && (std::abs(left_vehicle->distance_m) > VIEW_RANGE_M))
         {
             left_idx++;
         }

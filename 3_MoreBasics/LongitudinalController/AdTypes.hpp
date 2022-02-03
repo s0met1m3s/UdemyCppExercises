@@ -7,9 +7,9 @@
 enum class LaneAssociationType
 {
     NONE,
-    RIGHT,
-    CENTER,
     LEFT,
+    CENTER,
+    RIGHT,
 };
 
 struct VehicleType
