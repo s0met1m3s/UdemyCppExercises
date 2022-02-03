@@ -1,8 +1,9 @@
+#include <cmath>
+#include <cstdint>
 #include <iostream>
 
 #include "AdConstants.hpp"
 #include "AdFunctions.hpp"
-#include "AdTypes.hpp"
 
 float kph_to_mps(const float kph)
 {
@@ -19,12 +20,12 @@ void init_ego_vehicle(VehicleType &ego_vehicle)
 
 void init_vehicle(VehicleType &vehicle,
                   const std::int32_t id,
-                  const float speed_mps,
+                  const float speed_kph,
                   const float distance_m,
                   const LaneAssociationType lane)
 {
     vehicle.id = id;
-    vehicle.speed_mps = kph_to_mps(speed_mps);
+    vehicle.speed_mps = kph_to_mps(speed_kph);
     vehicle.distance_m = distance_m;
     vehicle.lane = lane;
 }
@@ -41,17 +42,10 @@ void init_vehicles(NeighborVehiclesType &vehicles)
 
 void print_vehicle(const VehicleType &vehicle)
 {
-    if (EGO_VEHICLE_ID == vehicle.id)
-    {
-        std::cout << "Ego Vehicle: \n";
-        std::cout << "Speed (m/s): " << vehicle.speed_mps << "\n";
-    }
-    else
-    {
-        std::cout << "ID: " << vehicle.id << "\n";
-        std::cout << "Speed (m/s): " << vehicle.speed_mps << "\n";
-        std::cout << "Distance (m): " << vehicle.distance_m << "\n";
-    }
+    std::cout << "ID: " << vehicle.id << '\n';
+    std::cout << "Speed (m/s): " << vehicle.speed_mps << '\n';
+    std::cout << "Distance (m): " << vehicle.distance_m << '\n';
+    std::cout << "Lane: " << static_cast<std::int32_t>(vehicle.lane) << '\n';
 }
 
 void print_neighbor_vehicles(const NeighborVehiclesType &vehicles)
@@ -66,7 +60,7 @@ void print_neighbor_vehicles(const NeighborVehiclesType &vehicles)
 
 void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles)
 {
-    std::cout << "    \t  L    C    R  \n";
+    std::cout << "    \t   L     C     R  \n";
 
     std::size_t left_idx = 0;
     std::size_t center_idx = 0;
@@ -77,18 +71,23 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
 
     for (std::int32_t i = view_range_m; i >= -view_range_m; i -= offset_m)
     {
+        const float range_m = static_cast<float>(i);
+
         const VehicleType *left_vehicle =
-            left_idx < NUM_VEHICLES_ON_LANE ? &vehicles.vehicles_left_lane[left_idx] : nullptr;
+            (left_idx < NUM_VEHICLES_ON_LANE) ? &vehicles.vehicles_left_lane[left_idx] : nullptr;
         const VehicleType *center_vehicle =
-            center_idx < NUM_VEHICLES_ON_LANE ? &vehicles.vehicles_center_lane[center_idx] : nullptr;
+            (center_idx < NUM_VEHICLES_ON_LANE) ? &vehicles.vehicles_center_lane[center_idx] : nullptr;
         const VehicleType *right_vehicle =
-            right_idx < NUM_VEHICLES_ON_LANE ? &vehicles.vehicles_right_lane[right_idx] : nullptr;
+            (right_idx < NUM_VEHICLES_ON_LANE) ? &vehicles.vehicles_right_lane[right_idx] : nullptr;
 
         char left_string[]{"   "};
         char center_string[]{"   "};
         char right_string[]{"   "};
 
-        const float range_m = static_cast<float>(i);
+        if ((range_m >= ego_vehicle.distance_m) && (ego_vehicle.distance_m > (range_m - offset_m)))
+        {
+            center_string[1] = 'E';
+        }
 
         if ((left_vehicle != nullptr) && (range_m >= left_vehicle->distance_m) &&
             (left_vehicle->distance_m > (range_m - offset_m)))
@@ -96,7 +95,7 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
             left_string[1] = 'V';
             left_idx++;
         }
-        else if ((left_vehicle != nullptr) && (std::abs(left_vehicle->distance_m) > VIEW_RANGE_M))
+        else if ((left_vehicle != nullptr) && (std::abs(right_vehicle->distance_m) > VIEW_RANGE_M))
         {
             left_idx++;
         }
@@ -123,22 +122,16 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
             right_idx++;
         }
 
-        if ((range_m >= ego_vehicle.distance_m) && (ego_vehicle.distance_m > (range_m - offset_m)))
-        {
-            center_string[1] = 'E';
-        }
-
-        std::cout << i << "\t| " << left_string << " |" << center_string << " |" << right_string
-                  << " |\n";
+        std::cout << i << "\t| " << left_string << " | " << center_string << " | " << right_string
+                  << " | \n";
     }
-
-    std::cout << "\n";
 }
 
 void compute_future_distance(VehicleType &vehicle, const float ego_driven_distance, const float seconds)
 {
     const float driven_distance = vehicle.speed_mps * seconds;
-    vehicle.distance_m += driven_distance - ego_driven_distance;
+
+    vehicle.distance_m += (driven_distance - ego_driven_distance);
 }
 
 void compute_future_state(const VehicleType &ego_vehicle,

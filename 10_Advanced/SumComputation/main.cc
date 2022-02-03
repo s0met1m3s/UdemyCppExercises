@@ -14,7 +14,7 @@ constexpr std::uint32_t NUM_RUNS = 100;
 template <typename T, typename RandomIter>
 T range_sum_asyn(RandomIter start, RandomIter stop)
 {
-    auto length = std::distance(start, stop);
+    const auto length = std::distance(start, stop);
     if (length < ELEMENTS_THRESHOLD)
     {
         return std::accumulate(start, stop, 0);
@@ -24,7 +24,7 @@ T range_sum_asyn(RandomIter start, RandomIter stop)
 
     auto handle = std::async(std::launch::async, range_sum_asyn<T, RandomIter>, mid, stop);
 
-    auto sum = range_sum_asyn<T, RandomIter>(start, mid);
+    const auto sum = range_sum_asyn<T, RandomIter>(start, mid);
 
     return sum + handle.get();
 }
@@ -34,7 +34,7 @@ int main()
     std::vector<std::int32_t> vector(30'000'000, 0);
     random_vector(vector);
 
-    double time1 = 0.0;
+    auto time1 = 0.0;
     volatile auto sum1 = 0;
     for (std::uint32_t i = 0; i < NUM_RUNS; ++i)
     {

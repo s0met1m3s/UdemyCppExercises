@@ -5,8 +5,6 @@
 #include "AdFunctions.hpp"
 #include "AdTypes.hpp"
 
-#include "utils.hpp"
-
 int main()
 {
     VehicleType ego_vehicle{};
@@ -26,12 +24,10 @@ int main()
 
     while (Input == 'y')
     {
-        clear_console();
-
-        compute_future_state(ego_vehicle, vehicles, 0.500F);
+        compute_future_state(ego_vehicle, vehicles, 1);
         print_scene(ego_vehicle, vehicles);
 
-        std::cout << "Compute forward (500 ms)?: ";
+        std::cout << "Compute forward (1sec)?: ";
         std::cin >> Input;
     }
 
