@@ -128,7 +128,8 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
             center_string[1] = 'E';
         }
 
-        std::cout << i << "\t| " << left_string << " |" << center_string << " |" << right_string << " |\n";
+        std::cout << i << "\t| " << left_string << " |" << center_string << " |" << right_string
+                  << " |\n";
     }
 
     std::cout << "\n";
@@ -140,7 +141,9 @@ void compute_future_distance(VehicleType &vehicle, const float ego_driven_distan
     vehicle.distance_m += driven_distance - ego_driven_distance;
 }
 
-void compute_future_state(const VehicleType &ego_vehicle, NeighborVehiclesType &vehicles, const float seconds)
+void compute_future_state(const VehicleType &ego_vehicle,
+                          NeighborVehiclesType &vehicles,
+                          const float seconds)
 {
     const float ego_driven_distance = ego_vehicle.speed_mps * seconds;
 

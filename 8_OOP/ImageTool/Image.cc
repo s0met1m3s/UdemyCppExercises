@@ -8,7 +8,8 @@
 
 
 Image::Image(const std::uint32_t width, const std::uint32_t height)
-    : m_width(width), m_height(height), m_matrix(GrayscaleImage(m_width, std::vector<std::uint8_t>(m_height, 0)))
+    : m_width(width), m_height(height),
+      m_matrix(GrayscaleImage(m_width, std::vector<std::uint8_t>(m_height, 0)))
 {
 }
 
@@ -69,7 +70,8 @@ void Image::draw_line(const std::uint32_t x1,
 {
     std::uint32_t length = 0;
 
-    if ((x1 < m_width) && (x2 < m_width) && (y1 < m_height) && (y2 < m_height) && ((x1 == x2) || (y1 == y2)))
+    if ((x1 < m_width) && (x2 < m_width) && (y1 < m_height) && (y2 < m_height) &&
+        ((x1 == x2) || (y1 == y2)))
     {
         if (x1 == x2)
         {

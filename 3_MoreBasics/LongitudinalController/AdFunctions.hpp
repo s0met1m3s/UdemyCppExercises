@@ -22,6 +22,8 @@ void print_vehicle_speed(const VehicleType &vehicle, const char *name);
 
 void compute_future_distance(VehicleType &vehicle, const float ego_driven_distance, const float seconds);
 
-void compute_future_state(const VehicleType &ego_vehicle, NeighborVehiclesType &vehicles, const float seconds);
+void compute_future_state(const VehicleType &ego_vehicle,
+                          NeighborVehiclesType &vehicles,
+                          const float seconds);
 
 void longitudinal_control(const VehicleType &front_vehicle, VehicleType &ego_vehicle);
