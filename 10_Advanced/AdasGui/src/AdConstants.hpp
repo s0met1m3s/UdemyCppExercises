@@ -3,9 +3,7 @@
 #include <cstdint>
 #include <cstring>
 
-constexpr auto INVALID_VEHICLE_ID{-1};
 constexpr auto EGO_VEHICLE_ID{-2};
-
 constexpr auto NUM_LANES = std::size_t{3};
 constexpr auto NUM_VEHICLES_ON_LANE = std::size_t{2};
 
@@ -18,4 +16,4 @@ constexpr auto RIGHT_RIGHT_BORDER{4.5F};
 
 constexpr auto MAX_VIEW_RANGE_M{100.0F};
 constexpr auto MAX_VEHICLE_SPEED_MPS{130.0F / 3.6F};
-constexpr auto SPEED_ADAPTAION_FACTOR{0.01F};
+constexpr auto LONGITUDINAL_DIFFERENCE_PERCENTAGE{0.01F};

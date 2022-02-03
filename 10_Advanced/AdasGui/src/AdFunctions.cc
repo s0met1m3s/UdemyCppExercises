@@ -9,7 +9,7 @@ float kph_to_mps(const float kph)
     return kph / 3.6F;
 }
 
-float mps_to_kmh(const float mps)
+float mps_to_kph(const float mps)
 {
     return mps * 3.6F;
 }
@@ -34,7 +34,7 @@ void compute_future_state(const VehicleType &ego_vehicle, NeighborVehiclesType &
 
 void decrease_speed(VehicleType &ego_vehicle)
 {
-    const float decrease = ego_vehicle.speed_mps * SPEED_ADAPTAION_FACTOR;
+    const float decrease = ego_vehicle.speed_mps * LONGITUDINAL_DIFFERENCE_PERCENTAGE;
 
     if (ego_vehicle.speed_mps - decrease > 0.0F)
     {
@@ -84,8 +84,8 @@ LaneAssociationType longitudinal_control(const NeighborVehiclesType &vehicles, V
     const VehicleType &front_vehicle = vehicles_array[0];
     const VehicleType &rear_vehicle = vehicles_array[1];
 
-    const float minimal_distance = mps_to_kmh(ego_vehicle.speed_mps) / 2.0F;
-    const float crash_distance = mps_to_kmh(ego_vehicle.speed_mps) / 4.0F;
+    const float minimal_distance = mps_to_kph(ego_vehicle.speed_mps) / 2.0F;
+    const float crash_distance = mps_to_kph(ego_vehicle.speed_mps) / 4.0F;
 
     const float front_distance = front_vehicle.distance_m;
     const float rear_distance = std::abs(rear_vehicle.distance_m);
@@ -185,7 +185,7 @@ LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
 
 bool gap_is_valid(const VehicleType &front_vehicle, const VehicleType &rear_vehicle, const VehicleType &ego_vehicle)
 {
-    const float minimal_distance = mps_to_kmh(ego_vehicle.speed_mps) / 5.0F;
+    const float minimal_distance = mps_to_kph(ego_vehicle.speed_mps) / 5.0F;
 
     const float front_distance = front_vehicle.distance_m;
     const float rear_distance = std::abs(rear_vehicle.distance_m);

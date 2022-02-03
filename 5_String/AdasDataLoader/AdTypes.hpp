@@ -6,7 +6,7 @@
 
 enum class LaneAssociationType
 {
-    UNKNOWN,
+    NONE,
     RIGHT,
     CENTER,
     LEFT,

@@ -12,7 +12,7 @@
 
 float kph_to_mps(const float kph);
 
-float mps_to_kmh(const float mps);
+float mps_to_kph(const float mps);
 
 void compute_future_distance(VehicleType &vehicle, const float ego_driven_distance, const float seconds);
 
@@ -20,7 +20,7 @@ void compute_future_state(const VehicleType &ego_vehicle, NeighborVehiclesType &
 
 void longitudinal_control(const VehicleType &front_vehicle, VehicleType &ego_vehicle);
 
-const VehicleType *get_lane_vehicles(const LaneAssociationType lane, const NeighborVehiclesType &vehicles);
+const VehicleType *get_vehicle_array(const LaneAssociationType lane, const NeighborVehiclesType &vehicles);
 
 LaneAssociationType longitudinal_control(const NeighborVehiclesType &vehicles, VehicleType &ego_vehicle);
 

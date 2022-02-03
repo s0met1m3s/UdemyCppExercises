@@ -55,22 +55,22 @@ int main(int argc, char **argv)
         clear_console();
 
         print_scene(ego_vehicle, vehicles);
-        compute_future_state(ego_vehicle, vehicles, 0.050F);
-        const auto lane_change_request = longitudinal_control(vehicles, ego_vehicle);
-        const auto lane_change_successful = lateral_control(vehicles, lane_change_request, ego_vehicle);
+        compute_future_state(ego_vehicle, vehicles, 0.100F);
 
-        if (lane_change_request != ego_vehicle.lane)
+        const VehicleType *ego_lane_vehicles = get_vehicle_array(ego_vehicle.lane, vehicles);
+        longitudinal_control(ego_lane_vehicles[0], ego_vehicle);
+
+        const LaneAssociationType lane_change_request = get_lane_change_request(ego_vehicle, vehicles);
+        const bool lane_change_executed = lateral_control(lane_change_request, ego_vehicle);
+
+        if (lane_change_executed)
         {
-            std::cout << "Lane change request: " << static_cast<int>(lane_change_request) << std::endl;
-        }
-        if (lane_change_successful)
-        {
-            std::cout << "Lane change successull" << std::endl;
+            printf("Executed lane change!");
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
         cycle++;
-
         load_cycle(cycle, vehicles);
     }
 

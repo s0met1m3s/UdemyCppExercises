@@ -6,7 +6,7 @@
 
 float kph_to_mps(const float kph);
 
-float mps_to_kmh(const float mps);
+float mps_to_kph(const float mps);
 
 void init_ego_vehicle(VehicleType &ego_vehicle);
 

@@ -73,12 +73,16 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
     std::size_t right_idx = 0;
 
     const std::int32_t offset_m = 20;
+    const std::int32_t view_range_m = static_cast<std::int32_t>(VIEW_RANGE_M);
 
-    for (std::int32_t i = 100; i >= -100; i -= offset_m)
+    for (std::int32_t i = view_range_m; i >= -view_range_m; i -= offset_m)
     {
-        const VehicleType &left_vehicle = vehicles.vehicles_left_lane[left_idx];
-        const VehicleType &center_vehicle = vehicles.vehicles_center_lane[center_idx];
-        const VehicleType &right_vehicle = vehicles.vehicles_right_lane[right_idx];
+        const VehicleType *left_vehicle =
+            left_idx < NUM_VEHICLES_ON_LANE ? &vehicles.vehicles_left_lane[left_idx] : nullptr;
+        const VehicleType *center_vehicle =
+            center_idx < NUM_VEHICLES_ON_LANE ? &vehicles.vehicles_center_lane[center_idx] : nullptr;
+        const VehicleType *right_vehicle =
+            right_idx < NUM_VEHICLES_ON_LANE ? &vehicles.vehicles_right_lane[right_idx] : nullptr;
 
         char left_string[]{"   "};
         char center_string[]{"   "};
@@ -86,26 +90,42 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
 
         const float range_m = static_cast<float>(i);
 
-        if ((range_m >= left_vehicle.distance_m) && (left_vehicle.distance_m > (range_m - offset_m)))
+        if ((left_vehicle != nullptr) && (range_m >= left_vehicle->distance_m) &&
+            (left_vehicle->distance_m > (range_m - offset_m)))
         {
             left_string[1] = 'V';
             left_idx++;
+        }
+        else if ((left_vehicle != nullptr) && (std::abs(left_vehicle->distance_m) > VIEW_RANGE_M))
+        {
+            left_idx++;
+        }
+
+        if ((center_vehicle != nullptr) && (range_m >= center_vehicle->distance_m) &&
+            (center_vehicle->distance_m > (range_m - offset_m)))
+        {
+            center_string[1] = 'V';
+            center_idx++;
+        }
+        else if ((center_vehicle != nullptr) && (std::abs(center_vehicle->distance_m) > VIEW_RANGE_M))
+        {
+            center_idx++;
+        }
+
+        if ((right_vehicle != nullptr) && (range_m >= right_vehicle->distance_m) &&
+            (right_vehicle->distance_m > (range_m - offset_m)))
+        {
+            right_string[1] = 'V';
+            right_idx++;
+        }
+        else if ((right_vehicle != nullptr) && (std::abs(right_vehicle->distance_m) > VIEW_RANGE_M))
+        {
+            right_idx++;
         }
 
         if ((range_m >= ego_vehicle.distance_m) && (ego_vehicle.distance_m > (range_m - offset_m)))
         {
             center_string[1] = 'E';
-        }
-        else if ((range_m >= center_vehicle.distance_m) && (center_vehicle.distance_m > (range_m - offset_m)))
-        {
-            center_string[1] = 'V';
-            center_idx++;
-        }
-
-        if ((range_m >= right_vehicle.distance_m) && (right_vehicle.distance_m > (range_m - offset_m)))
-        {
-            right_string[1] = 'V';
-            right_idx++;
         }
 
         std::cout << i << "\t| " << left_string << " |" << center_string << " |" << right_string << " |\n";
