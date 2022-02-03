@@ -11,8 +11,8 @@
 constexpr std::uint32_t ELEMENTS_THRESHOLD = 1'000'000;
 constexpr std::uint32_t NUM_RUNS = 100;
 
-template <typename RandomIter>
-auto range_sum_asyn(RandomIter start, RandomIter stop)
+template <typename T, typename RandomIter>
+T range_sum_asyn(RandomIter start, RandomIter stop)
 {
     auto length = std::distance(start, stop);
     if (length < ELEMENTS_THRESHOLD)
@@ -22,9 +22,9 @@ auto range_sum_asyn(RandomIter start, RandomIter stop)
 
     RandomIter mid = start + length / 2;
 
-    auto handle = std::async(std::launch::async, range_sum_asyn<RandomIter>, mid, stop);
+    auto handle = std::async(std::launch::async, range_sum_asyn<T, RandomIter>, mid, stop);
 
-    std::int32_t sum = range_sum_asyn<RandomIter>(start, mid);
+    auto sum = range_sum_asyn<T, RandomIter>(start, mid);
 
     return sum + handle.get();
 }
@@ -39,7 +39,7 @@ int main()
     for (std::uint32_t i = 0; i < NUM_RUNS; ++i)
     {
         cpptiming::Timer t1;
-        sum1 = range_sum_asyn(vector.begin(), vector.end());
+        sum1 = range_sum_asyn<std::int32_t>(vector.begin(), vector.end());
         time1 += t1.elapsed_time<cpptiming::millisecs, double>();
     }
     std::cout << "Mean Async: " << time1 / NUM_RUNS << "ms sum: " << sum1 << std::endl;
