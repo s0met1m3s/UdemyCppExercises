@@ -247,3 +247,85 @@ const VehicleType *get_vehicle_array(const LaneAssociationType lane,
 
     return vehicles_array;
 }
+
+LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
+                                            const NeighborVehiclesType &vehicles)
+{
+    const VehicleType *ego_lane_vehicles = get_vehicle_array(ego_vehicle.lane, vehicles);
+    const VehicleType *rear_vehicle = &ego_lane_vehicles[1];
+
+    const float minimal_distance_m = mps_to_kph(ego_vehicle.speed_mps) / 5.0F;
+    const float rear_distance_m = std::abs(rear_vehicle->distance_m);
+
+    if (rear_distance_m < minimal_distance_m)
+    {
+        switch (ego_vehicle.lane)
+        {
+        case LaneAssociationType::RIGHT: /* fall-thorugh */
+        case LaneAssociationType::LEFT:
+        {
+            const LaneAssociationType target_lane = LaneAssociationType::CENTER;
+            const VehicleType *center_vehicles = get_vehicle_array(target_lane, vehicles);
+
+            const float abs_front_center_distance_m = std::abs(center_vehicles[0].distance_m);
+            const float abs_rear_center_distance_m = std::abs(center_vehicles[1].distance_m);
+
+            if ((abs_front_center_distance_m > minimal_distance_m) &&
+                (abs_rear_center_distance_m > minimal_distance_m))
+            {
+                return target_lane;
+            }
+
+            break;
+        }
+        case LaneAssociationType::CENTER:
+        {
+            LaneAssociationType target_lane = LaneAssociationType::RIGHT;
+
+            const VehicleType *right_vehicles = get_vehicle_array(target_lane, vehicles);
+
+            const float abs_front_right_distance_m = std::abs(right_vehicles[0].distance_m);
+            const float abs_rear_right_distance_m = std::abs(right_vehicles[1].distance_m);
+
+            if ((abs_front_right_distance_m > minimal_distance_m) &&
+                (abs_rear_right_distance_m > minimal_distance_m))
+            {
+                return target_lane;
+            }
+
+            target_lane = LaneAssociationType::LEFT;
+            const VehicleType *left_vehicles = get_vehicle_array(target_lane, vehicles);
+
+            const float abs_front_left_distance_m = std::abs(left_vehicles[0].distance_m);
+            const float abs_rear_left_distance_m = std::abs(left_vehicles[1].distance_m);
+
+            if ((abs_front_left_distance_m > minimal_distance_m) &&
+                (abs_rear_left_distance_m > minimal_distance_m))
+            {
+                return target_lane;
+            }
+
+            break;
+        }
+        default:
+        {
+            break;
+        }
+        }
+    }
+
+    return ego_vehicle.lane;
+}
+
+
+bool lateral_control(const LaneAssociationType lane_change_request, VehicleType &ego_vehicle)
+{
+    if (lane_change_request == ego_vehicle.lane)
+    {
+        return false;
+    }
+
+    ego_vehicle.lane = lane_change_request;
+
+    return true;
+}
