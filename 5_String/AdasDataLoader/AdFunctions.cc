@@ -46,17 +46,10 @@ void init_vehicles(NeighborVehiclesType &vehicles)
 
 void print_vehicle(const VehicleType &vehicle)
 {
-    if (EGO_VEHICLE_ID == vehicle.id)
-    {
-        std::cout << "Ego Vehicle: \n";
-        std::cout << "Speed (m/s): " << vehicle.speed_mps << "\n";
-    }
-    else
-    {
-        std::cout << "ID: " << vehicle.id << "\n";
-        std::cout << "Speed (m/s): " << vehicle.speed_mps << "\n";
-        std::cout << "Distance (m): " << vehicle.distance_m << "\n";
-    }
+    std::cout << "ID: " << vehicle.id << '\n';
+    std::cout << "Speed (m/s): " << vehicle.speed_mps << '\n';
+    std::cout << "Distance (m): " << vehicle.distance_m << '\n';
+    std::cout << "Lane: " << static_cast<std::int32_t>(vehicle.lane) << '\n';
 }
 
 void print_neighbor_vehicles(const NeighborVehiclesType &vehicles)
