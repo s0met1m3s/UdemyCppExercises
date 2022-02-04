@@ -198,7 +198,7 @@ void decrease_speed(VehicleType &ego_vehicle)
 
 void longitudinal_control(const VehicleType &front_vehicle, VehicleType &ego_vehicle)
 {
-    const float minimal_distance_m = mps_to_kph(ego_vehicle.speed_mps) / 2.0f;
+    const float minimal_distance_m = mps_to_kph(ego_vehicle.speed_mps) / 2.0F;
     const float front_distance_m = front_vehicle.distance_m;
 
     if (front_distance_m < minimal_distance_m)
@@ -244,7 +244,7 @@ LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
     const VehicleType *ego_lane_vehicles = get_vehicle_array(ego_vehicle.lane, vehicles);
     const VehicleType *rear_vehicle = &ego_lane_vehicles[1];
 
-    const float minimal_distance_m = mps_to_kph(ego_vehicle.speed_mps) / 5.0f;
+    const float minimal_distance_m = mps_to_kph(ego_vehicle.speed_mps) / 5.0F;
     const float rear_distance_m = std::abs(rear_vehicle->distance_m);
 
     if (rear_distance_m < minimal_distance_m)

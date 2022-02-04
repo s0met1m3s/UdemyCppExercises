@@ -44,6 +44,37 @@ void init_vehicles(NeighborVehiclesType &vehicles)
     init_vehicle(vehicles.vehicles_right_lane[1], 5, 90.0F, -30.0F, LaneAssociationType::RIGHT);
 }
 
+char *get_ego_string(const VehicleType &ego_vehicle,
+                     char *left_string,
+                     char *center_string,
+                     char *right_string)
+{
+    switch (ego_vehicle.lane)
+    {
+    case LaneAssociationType::LEFT:
+    {
+        return left_string;
+        break;
+    }
+    case LaneAssociationType::CENTER:
+    {
+        return center_string;
+        break;
+    }
+    case LaneAssociationType::RIGHT:
+    {
+        return right_string;
+        break;
+    }
+    default:
+    {
+        break;
+    }
+    }
+
+    return nullptr;
+}
+
 void print_vehicle(const VehicleType &vehicle)
 {
     std::cout << "ID: " << vehicle.id << '\n';
@@ -70,7 +101,7 @@ bool check_vehicle_in_tile(const VehicleType *const vehicle, const float range_m
 
 bool check_vehicle_out_of_range(const VehicleType *const vehicle)
 {
-    return (vehicle != nullptr) && (std::abs(vehicle->distance_m) > VIEW_RANGE_M);
+    return ((vehicle != nullptr) && (std::abs(vehicle->distance_m) > VIEW_RANGE_M));
 }
 
 void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles)
@@ -96,30 +127,7 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
         char left_string[]{"   "};
         char center_string[]{"   "};
         char right_string[]{"   "};
-        char *ego_string = nullptr;
-
-        switch (ego_vehicle.lane)
-        {
-        case LaneAssociationType::LEFT:
-        {
-            ego_string = left_string;
-            break;
-        }
-        case LaneAssociationType::CENTER:
-        {
-            ego_string = center_string;
-            break;
-        }
-        case LaneAssociationType::RIGHT:
-        {
-            ego_string = right_string;
-            break;
-        }
-        default:
-        {
-            break;
-        }
-        }
+        char *ego_string = get_ego_string(ego_vehicle, left_string, center_string, right_string);
 
         const auto range_m = static_cast<float>(i);
 
@@ -208,7 +216,7 @@ void decrease_speed(VehicleType &ego_vehicle)
 
 void longitudinal_control(const VehicleType &front_vehicle, VehicleType &ego_vehicle)
 {
-    const auto minimal_distance_m = mps_to_kph(ego_vehicle.speed_mps) / 2.0f;
+    const auto minimal_distance_m = mps_to_kph(ego_vehicle.speed_mps) / 2.0F;
     const auto front_distance_m = front_vehicle.distance_m;
 
     if (front_distance_m < minimal_distance_m)
