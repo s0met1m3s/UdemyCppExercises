@@ -3,7 +3,8 @@
 #include <cstdint>
 #include <cstring>
 
-constexpr auto EGO_VEHICLE_ID{-2};
+constexpr auto VIEW_RANGE_M{100.0F};
+constexpr auto EGO_VEHICLE_ID{-1};
 constexpr auto NUM_LANES = std::size_t{3};
 constexpr auto NUM_VEHICLES_ON_LANE = std::size_t{2};
 

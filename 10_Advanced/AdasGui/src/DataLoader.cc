@@ -1,4 +1,3 @@
-#include <exception>
 #include <fstream>
 #include <iostream>
 
@@ -29,27 +28,20 @@ void init_vehicles(std::string_view filepath, NeighborVehiclesType &vehicles)
 
     std::size_t vehicle_idx = 0;
 
-    try
+    for (; vehicle_idx < NUM_VEHICLES; ++vehicle_idx)
     {
-        for (; vehicle_idx < NUM_VEHICLES; ++vehicle_idx)
+        const auto &vehicle_data = parsed_data[std::to_string(vehicle_idx)];
+
+        const auto lane = static_cast<LaneAssociationType>(vehicle_data["Lane"]);
+        const auto distance = static_cast<float>(vehicle_data["Distance"]);
+
+        for (std::size_t iteration_idx = 0; iteration_idx < NUM_ITERATIONS; ++iteration_idx)
         {
-            const auto &vehicle_data = parsed_data[std::to_string(vehicle_idx)];
+            const auto speed = static_cast<float>(vehicle_data["Speed"][iteration_idx]);
 
-            const auto lane = static_cast<LaneAssociationType>(vehicle_data["Lane"]);
-            const auto distance = static_cast<float>(vehicle_data["Distance"]);
-
-            for (std::size_t iteration_idx = 0; iteration_idx < NUM_ITERATIONS; ++iteration_idx)
-            {
-                const auto speed = static_cast<float>(vehicle_data["Speed"][iteration_idx]);
-
-                vehicles_data[vehicle_idx][iteration_idx] =
-                    VehicleType{static_cast<std::int32_t>(vehicle_idx), lane, speed, distance};
-            }
+            vehicles_data[vehicle_idx][iteration_idx] =
+                VehicleType{static_cast<std::int32_t>(vehicle_idx), lane, speed, distance};
         }
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
     }
 
     vehicles.vehicles_left_lane[0] = vehicles_data[0][0];

@@ -123,19 +123,13 @@ static void cycle(const fs::path &ego_filepath, const fs::path &data_filepath, G
         if (!pressed_pause && is_playing && cycle < NUM_ITERATIONS)
         {
             render_cycle(cycle, ego_vehicle, vehicles);
+            compute_future_state(ego_vehicle, vehicles, 0.100F);
 
-            compute_future_state(ego_vehicle, vehicles, 0.050F);
-            const auto lane_change_request = longitudinal_control(vehicles, ego_vehicle);
-            const auto lane_change_successful = lateral_control(vehicles, lane_change_request, ego_vehicle);
+            const auto &ego_lane_vehicles = get_vehicle_array(ego_vehicle.lane, vehicles);
+            longitudinal_control(ego_lane_vehicles[0], ego_vehicle);
 
-            if (lane_change_request != ego_vehicle.lane)
-            {
-                std::cout << "Lane change request: " << static_cast<int>(lane_change_request) << std::endl;
-            }
-            if (lane_change_successful)
-            {
-                std::cout << "Lane change successull" << std::endl;
-            }
+            const auto lane_change_request = get_lane_change_request(ego_vehicle, vehicles);
+            (void)lateral_control(lane_change_request, ego_vehicle);
 
             cycle++;
             load_cycle(cycle, vehicles);
