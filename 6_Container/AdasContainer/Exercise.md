@@ -1,6 +1,6 @@
 # Exercise
 
-Update the code such that we use *std::string* and *std::array*.  
+Update the *AdFunctions* code such that we use *std::string* and *std::array*.  
 For this exercise, I would recommend not using any string_views.
 
 Update the following functions:
@@ -54,10 +54,10 @@ int main(int argc, char **argv)
     }
     else
     {
-        auto vehicles_input_path = std::string(argv[1]);
+        const auto vehicles_input_path = std::string(argv[1]);
         data_filepath = fs::path(vehicles_input_path);
 
-        auto ego_input_path = std::string(argv[2]);
+        const auto ego_input_path = std::string(argv[2]);
         ego_filepath = fs::path(ego_input_path);
     }
 

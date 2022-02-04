@@ -17,8 +17,8 @@ void init_ego_vehicle(std::string_view filepath, VehicleType &ego_vehicle)
     ego_vehicle.id = EGO_VEHICLE_ID;
     ego_vehicle.distance_m = 0.0F;
 
-    ego_vehicle.speed_mps = parsed_data["Speed"];
-    ego_vehicle.lane = parsed_data["Lane"];
+    ego_vehicle.speed_mps = static_cast<float>(parsed_data["Speed"]);
+    ego_vehicle.lane = static_cast<LaneAssociationType>(parsed_data["Lane"]);
 }
 
 void init_vehicles(std::string_view filepath, NeighborVehiclesType &vehicles)
@@ -27,7 +27,6 @@ void init_vehicles(std::string_view filepath, NeighborVehiclesType &vehicles)
     json parsed_data = json::parse(ifs);
 
     std::size_t vehicle_idx = 0;
-
 
     for (; vehicle_idx < NUM_VEHICLES; ++vehicle_idx)
     {

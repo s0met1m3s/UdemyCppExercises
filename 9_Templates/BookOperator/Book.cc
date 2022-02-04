@@ -9,9 +9,9 @@ Book::Book(std::string_view name_, std::string_view author_, std::uint32_t pubye
 
 bool Book::operator==(const Book &other) const
 {
-    auto same_name = (name == other.name);
-    auto same_author = (author == other.author);
-    auto same_pubyear = (pubyear == other.pubyear);
+    const auto same_name = (name == other.name);
+    const auto same_author = (author == other.author);
+    const auto same_pubyear = (pubyear == other.pubyear);
     return (same_name && same_author && same_pubyear);
 }
 

@@ -62,7 +62,7 @@ To load the whole object, use the following code:
 std::ifstream ifs("ego_data.json");
 json parsed_data = json::parse(ifs);
 
-float speed_value = parsed_data["Speed"];
+float speed_value = static_cast<float>(parsed_data["Speed"]);
 
 std::cout << speed_value << '\n'; // 33.0109415
 ```
@@ -101,10 +101,10 @@ int main(int argc, char **argv)
     }
     else
     {
-        auto vehicles_input_path = std::string(argv[1]);
+        const auto vehicles_input_path = std::string(argv[1]);
         data_filepath = fs::path(vehicles_input_path);
 
-        auto ego_input_path = std::string(argv[2]);
+        const auto ego_input_path = std::string(argv[2]);
         ego_filepath = fs::path(ego_input_path);
     }
 

@@ -178,10 +178,10 @@ int main(int argc, char **argv)
     }
     else
     {
-        auto vehicles_input_path = std::string(argv[1]);
+        const auto vehicles_input_path = std::string(argv[1]);
         data_filepath = fs::path(vehicles_input_path);
 
-        auto ego_input_path = std::string(argv[2]);
+        const auto ego_input_path = std::string(argv[2]);
         ego_filepath = fs::path(ego_input_path);
     }
 
