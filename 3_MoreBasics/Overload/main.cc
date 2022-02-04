@@ -28,7 +28,7 @@ void print_array(const std::int32_t *array, const std::size_t length)
         std::cout << array[i] << ", ";
     }
 
-    std::cout << array[length - 1] << std::endl;
+    std::cout << array[length - 1] << '\n';
 }
 
 void print_array(const char *array)
@@ -44,5 +44,5 @@ void print_array(const char *array)
         array++;
     }
 
-    std::cout << std::endl;
+    std::cout << '\n';
 }

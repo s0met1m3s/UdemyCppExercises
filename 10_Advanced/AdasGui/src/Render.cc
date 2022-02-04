@@ -11,7 +11,7 @@
 
 void render_cycle(std::size_t cycle, const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles)
 {
-    ImGui::SetNextWindowPos(ImVec2(0, 0));
+    ImGui::SetNextWindowPos(ImVec2(0.0F, 0.0F));
     ImGui::SetNextWindowSize(ImVec2(WINDOWS_WIDTH, LANE_PLOT_TOTAL_HEIGHT));
     if (ImGui::Begin("MainWindow", nullptr, WINDOW_FLAGS_CLEAN))
     {
@@ -91,7 +91,7 @@ void plot_vehicle_in_table(const VehicleType &vehicle, std::string_view position
     ImGui::TableNextColumn();
     ImGui::Text("%d", vehicle.id);
     ImGui::TableNextColumn();
-    ImGui::Text("%d", static_cast<int>(vehicle.lane));
+    ImGui::Text("%d", static_cast<std::int32_t>(vehicle.lane));
     ImGui::TableNextColumn();
     ImGui::Text("%f", vehicle.distance_m);
     ImGui::TableNextColumn();
@@ -100,7 +100,7 @@ void plot_vehicle_in_table(const VehicleType &vehicle, std::string_view position
 
 void plot_table(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles)
 {
-    ImGui::SetNextWindowPos(ImVec2(0, BELOW_LANES));
+    ImGui::SetNextWindowPos(ImVec2(0.0F, BELOW_LANES));
     ImGui::SetNextWindowSize(ImVec2(VEHICLE_TABLE_WIDTH, VEHICLE_TABLE_HEIGHT));
     if (ImGui::Begin("TableWindow", nullptr, WINDOW_FLAGS_CLEAN))
     {
@@ -135,11 +135,11 @@ void plot_table(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehi
 
 void plot_cycle_number(const std::size_t cycle)
 {
-    ImGui::SetNextWindowPos(ImVec2(0, BELOW_LANES + CYCLE_OFFSET));
+    ImGui::SetNextWindowPos(ImVec2(0.0F, BELOW_LANES + CYCLE_OFFSET));
     ImGui::SetNextWindowSize(ImVec2(CYCLE_NUMBER_WIDTH, CYCLE_NUMBER_HEIGHT));
     if (ImGui::Begin("CycleWindow", nullptr, WINDOW_FLAGS_CLEAN))
     {
-        ImGui::Text("Cycle: %d", static_cast<int>(cycle));
+        ImGui::Text("Cycle: %d", static_cast<std::int32_t>(cycle));
         ImGui::End();
     }
 }

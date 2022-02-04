@@ -22,10 +22,10 @@ std::vector<std::string> split_text(const std::string &text, char delimiter);
 int main()
 {
     auto text = readFile("/mnt/c/Users/Jan/Dropbox/_Coding/UdemyCppExt/5_String/SplitWords/text.txt");
-    std::cout << text << std::endl << std::endl;
+    std::cout << text << std::endl << '\n';
 
     clean_text(text);
-    std::cout << text << std::endl << std::endl;
+    std::cout << text << std::endl << '\n';
 
     const auto splittedText = split_text(text, ' ');
     print_vector(splittedText);
