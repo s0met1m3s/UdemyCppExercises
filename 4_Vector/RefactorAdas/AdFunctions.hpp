@@ -16,10 +16,6 @@ void print_vehicle(const VehicleType &vehicle);
 
 void print_neighbor_vehicles(const NeighborVehiclesType &vehicles);
 
-bool check_vehicle_in_tile(const VehicleType *const vehicle, const float range_m, const float offset_m);
-
-bool check_vehicle_out_of_range(const VehicleType *const vehicle);
-
 void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles);
 
 void print_vehicle_speed(const VehicleType &vehicle, const char *name);
