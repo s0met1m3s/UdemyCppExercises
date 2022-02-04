@@ -69,7 +69,7 @@ void remove_duplicates(std::vector<std::int32_t> &vector)
     for (std::size_t i = 0; i < vector.size(); i++)
     {
         auto duplicate_index = static_cast<std::size_t>(-1);
-        auto current_value = vector[i];
+        const auto current_value = vector[i];
 
         for (std::size_t j = i + 1; j < vector.size(); j++)
         {
@@ -97,7 +97,7 @@ void remove_duplicates(std::vector<std::int32_t> &vector)
 
 void rotate_left(std::vector<std::int32_t> &vector)
 {
-    auto first_element = vector[0];
+    const auto first_element = vector[0];
 
     for (std::size_t i = 1; i < vector.size(); i++)
     {
@@ -109,7 +109,7 @@ void rotate_left(std::vector<std::int32_t> &vector)
 
 void rotate_right(std::vector<std::int32_t> &vector)
 {
-    auto last_element = vector[vector.size() - 1];
+    const auto last_element = vector[vector.size() - 1];
 
     for (std::size_t i = vector.size() - 1; i > 0; i--)
     {

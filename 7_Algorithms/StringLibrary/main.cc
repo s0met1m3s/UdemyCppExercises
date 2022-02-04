@@ -3,15 +3,15 @@
 #include <iostream>
 #include <string>
 
-bool is_numeric(char character);
+bool is_numeric(const char character);
 
-bool is_alpha(char character);
+bool is_alpha(const char character);
 
-bool is_alpha_numeric(char character);
+bool is_alpha_numeric(const char character);
 
-bool is_upper_case(char character);
+bool is_upper_case(const char character);
 
-bool is_lower_case(char character);
+bool is_lower_case(const char character);
 
 char to_upper_case(char character);
 
@@ -23,7 +23,7 @@ std::string to_lower_case(std::string_view text);
 
 std::size_t string_length(std::string_view text);
 
-const char *char_search(std::string_view text, char character);
+const char *char_search(std::string_view text, const char character);
 
 bool string_equal(std::string_view string1, std::string_view string2);
 
@@ -47,7 +47,7 @@ int main()
     return 0;
 }
 
-bool is_numeric(char character)
+bool is_numeric(const char character)
 {
     if ((character >= '0') && (character <= '9'))
     {
@@ -57,7 +57,7 @@ bool is_numeric(char character)
     return false;
 }
 
-bool is_alpha(char character)
+bool is_alpha(const char character)
 {
     if (is_upper_case(character) || is_lower_case(character))
     {
@@ -67,12 +67,12 @@ bool is_alpha(char character)
     return false;
 }
 
-bool is_alpha_numeric(char character)
+bool is_alpha_numeric(const char character)
 {
     return is_numeric(character) || is_alpha(character);
 }
 
-bool is_upper_case(char character)
+bool is_upper_case(const char character)
 {
     if ((character >= 'A') && (character <= 'Z'))
     {
@@ -82,7 +82,7 @@ bool is_upper_case(char character)
     return false;
 }
 
-bool is_lower_case(char character)
+bool is_lower_case(const char character)
 {
     if ((character >= 'a') && (character <= 'z'))
     {
@@ -135,7 +135,7 @@ std::size_t string_length(std::string_view text)
     return static_cast<std::size_t>(std::distance(text.begin(), text.end()));
 }
 
-const char *char_search(std::string_view text, char character)
+const char *char_search(std::string_view text, const char character)
 {
     return std::find(text.begin(), text.end(), character);
 }
