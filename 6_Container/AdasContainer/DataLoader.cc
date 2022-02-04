@@ -28,6 +28,7 @@ void init_vehicles(std::string_view filepath, NeighborVehiclesType &vehicles)
 
     std::size_t vehicle_idx = 0;
 
+
     for (; vehicle_idx < NUM_VEHICLES; ++vehicle_idx)
     {
         const auto &vehicle_data = parsed_data[std::to_string(vehicle_idx)];

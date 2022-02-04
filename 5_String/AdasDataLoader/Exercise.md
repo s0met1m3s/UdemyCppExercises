@@ -112,8 +112,8 @@ int main(int argc, char **argv)
     VehicleType ego_vehicle{};
     NeighborVehiclesType vehicles{};
 
-    init_vehicles(data_filepath.c_str(), vehicles);
-    init_ego_vehicle(ego_filepath.c_str(), ego_vehicle);
+    init_vehicles(data_filepath.string(), vehicles);
+    init_ego_vehicle(ego_filepath.string(), ego_vehicle);
 
     print_vehicle(ego_vehicle);
     print_neighbor_vehicles(vehicles);

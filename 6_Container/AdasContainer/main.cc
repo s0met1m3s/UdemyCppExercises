@@ -1,31 +1,47 @@
-# Exercise
-
-Update the code from the lateral controller video:
-
-- Use the *auto* keyword where it is appropriate
-- You can also refactor the *print_scene* function such that the code is more readable and easier to update
-
-## Main Function
-
-```cpp
 #include <chrono>
 #include <cstring>
+#include <filesystem>
 #include <iostream>
 #include <numeric>
 #include <thread>
 
 #include "AdFunctions.hpp"
 #include "AdTypes.hpp"
+#include "DataLoader.hpp"
 
 #include "utils.hpp"
 
-int main()
+namespace fs = std::filesystem;
+
+int main(int argc, char **argv)
 {
+    fs::path data_filepath;
+    fs::path ego_filepath;
+
+    if (argc != 3)
+    {
+        data_filepath /= fs::current_path();
+        data_filepath /= "data";
+        ego_filepath = data_filepath;
+
+        data_filepath /= "vehicle_data.json";
+        ego_filepath /= "ego_data.json";
+    }
+    else
+    {
+        auto vehicles_input_path = std::string(argv[1]);
+        data_filepath = fs::path(vehicles_input_path);
+
+        auto ego_input_path = std::string(argv[2]);
+        ego_filepath = fs::path(ego_input_path);
+    }
+
+    std::uint32_t cycle = 0;
     VehicleType ego_vehicle{};
     NeighborVehiclesType vehicles{};
 
-    init_ego_vehicle(ego_vehicle);
-    init_vehicles(vehicles);
+    init_vehicles(data_filepath.string(), vehicles);
+    init_ego_vehicle(ego_filepath.string(), ego_vehicle);
 
     print_vehicle(ego_vehicle);
     print_neighbor_vehicles(vehicles);
@@ -41,7 +57,7 @@ int main()
         print_scene(ego_vehicle, vehicles);
         compute_future_state(ego_vehicle, vehicles, 0.100F);
 
-        const VehicleType *ego_lane_vehicles = get_vehicle_array(ego_vehicle.lane, vehicles);
+        const auto &ego_lane_vehicles = get_vehicle_array(ego_vehicle.lane, vehicles);
         longitudinal_control(ego_lane_vehicles[0], ego_vehicle);
 
         const auto lane_change_request = get_lane_change_request(ego_vehicle, vehicles);
@@ -53,8 +69,10 @@ int main()
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+        cycle++;
+        load_cycle(cycle, vehicles);
     }
 
     return 0;
 }
-```

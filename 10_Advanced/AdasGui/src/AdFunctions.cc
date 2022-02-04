@@ -198,9 +198,7 @@ bool gap_is_valid(const VehicleType &front_vehicle, const VehicleType &rear_vehi
     return false;
 }
 
-bool lateral_control(const NeighborVehiclesType &vehicles,
-                     const LaneAssociationType lane_change_request,
-                     VehicleType &ego_vehicle)
+bool lateral_control(const NeighborVehiclesType &vehicles, const auto lane_change_request, VehicleType &ego_vehicle)
 {
     if (lane_change_request == ego_vehicle.lane)
     {

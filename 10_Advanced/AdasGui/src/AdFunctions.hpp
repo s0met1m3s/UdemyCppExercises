@@ -30,6 +30,4 @@ LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
 
 bool gap_is_valid(const VehicleType &front_vehicle, const VehicleType &rear_vehicle, const VehicleType &ego_vehicle);
 
-bool lateral_control(const NeighborVehiclesType &vehicles,
-                     const LaneAssociationType lane_change_request,
-                     VehicleType &ego_vehicle);
+bool lateral_control(const NeighborVehiclesType &vehicles, const auto lane_change_request, VehicleType &ego_vehicle);
