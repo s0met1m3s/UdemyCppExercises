@@ -178,7 +178,7 @@ void decrease_speed(VehicleType &ego_vehicle)
 {
     const auto decrease = ego_vehicle.speed_mps * LONGITUDINAL_DIFFERENCE_PERCENTAGE;
 
-    if (ego_vehicle.speed_mps - decrease >= 0.0F)
+    if ((ego_vehicle.speed_mps - decrease) >= 0.0F)
     {
         ego_vehicle.speed_mps -= decrease;
     }
