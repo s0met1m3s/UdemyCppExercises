@@ -2,8 +2,7 @@
 
 ## Update Ad
 
-Update the *AdFunctions* code such that we use *std::string*, *std::string_view* and *std::array*.  
-For this exercise, I would recommend not using any string_views.
+Update the *AdFunctions* code such that we use *std::string*, *std::string_view* and *std::array*.
 
 Update the following functions:
 
@@ -12,8 +11,6 @@ const VehicleType *get_vehicle_array(const LaneAssociationType lane,
                                      const NeighborVehiclesType &vehicles);
 ```
 
-- get_ego_string
-  - Instead of **char \*** return a reference to a string
 - get_vehicle_array
   - Instead of **VehicleType \*** return a reference to a vehicle type array
 
