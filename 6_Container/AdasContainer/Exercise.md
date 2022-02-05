@@ -1,16 +1,13 @@
 # Exercise
 
-Update the *AdFunctions* code such that we use *std::string* and *std::array*.  
+## Update Ad
+
+Update the *AdFunctions* code such that we use *std::string*, *std::string_view* and *std::array*.  
 For this exercise, I would recommend not using any string_views.
 
 Update the following functions:
 
 ```cpp
-char *get_ego_string(const VehicleType &ego_vehicle,
-                     char *left_string,
-                     char *center_string,
-                     char *right_string);
-
 const VehicleType *get_vehicle_array(const LaneAssociationType lane,
                                      const NeighborVehiclesType &vehicles);
 ```
@@ -19,6 +16,29 @@ const VehicleType *get_vehicle_array(const LaneAssociationType lane,
   - Instead of **char \*** return a reference to a string
 - get_vehicle_array
   - Instead of **VehicleType \*** return a reference to a vehicle type array
+
+## Update DataLoader
+
+We will now use a new struct that is more memory efficient to store the log data.
+
+```cpp
+struct VehicleLogData
+{
+    std::int32_t id;
+    LaneAssociationType lane;
+    float start_distance_m;
+    std::array<float, NUM_ITERATIONS> speeds_mps;
+};
+
+using VehiclesLogData = std::array<VehicleLogData, NUM_VEHICLES>;
+```
+
+Hence, we will only store the speed for every cycle (iteration) and not as before the other vehicle attributes, because these doesn't change in the cycles anyway.
+
+Update the following functions regarding the new *VehiclesLogData* struct.
+
+- init_vehicles
+- load_cycle
 
 ## Main Function
 

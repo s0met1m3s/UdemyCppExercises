@@ -35,6 +35,10 @@ Note:
     static VehiclesData vehicles_data =
         std::vector<std::vector<VehicleType>>(NUM_VEHICLES, std::vector<VehicleType>(NUM_ITERATIONS));
     ```
+  - This struct holds for every vehicle (6 in total) and for every cycle one struct of the type *VehicleType*
+    - So there re $6 * 1000 = 6000$ *VehicleType* structs
+  - Every entry of this struct will then hold as usual the
+    - id, lane, speed_mps, distance_m
 
 Afterwards, implement the following function:
 

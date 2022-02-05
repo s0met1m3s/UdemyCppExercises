@@ -1,13 +1,12 @@
 #include <fstream>
-#include <iostream>
+#include <vector>
 
-#include "AdConstants.hpp"
-#include "AdFunctions.hpp"
 #include "AdTypes.hpp"
 #include "DataLoader.hpp"
+#include "DataLoaderConstants.hpp"
+#include "DataLoaderTypes.hpp"
 
-static VehiclesData vehicles_data =
-    std::vector<std::vector<VehicleType>>(NUM_VEHICLES, std::vector<VehicleType>(NUM_ITERATIONS));
+static auto vehicles_log_data = VehiclesLogData{};
 
 void init_ego_vehicle(std::string_view filepath, VehicleType &ego_vehicle)
 {
@@ -21,43 +20,48 @@ void init_ego_vehicle(std::string_view filepath, VehicleType &ego_vehicle)
     ego_vehicle.lane = static_cast<LaneAssociationType>(parsed_data["Lane"]);
 }
 
+void set_vehicle_start_data(VehicleType &vehicle, const VehicleLogData &vehicle_log_data)
+{
+    vehicle.id = vehicle_log_data.id;
+    vehicle.lane = vehicle_log_data.lane;
+    vehicle.distance_m = vehicle_log_data.start_distance_m;
+    vehicle.speed_mps = vehicle_log_data.speeds_mps[0];
+}
+
 void init_vehicles(std::string_view filepath, NeighborVehiclesType &vehicles)
 {
     std::ifstream ifs(filepath.data());
     json parsed_data = json::parse(ifs);
 
-    std::size_t vehicle_idx = 0;
-
-    for (; vehicle_idx < NUM_VEHICLES; ++vehicle_idx)
+    for (std::size_t vehicle_idx = 0; vehicle_idx < NUM_VEHICLES; vehicle_idx++)
     {
         const auto &vehicle_data = parsed_data[std::to_string(vehicle_idx)];
+        auto &vehicle_log_data = vehicles_log_data[vehicle_idx];
 
+        const auto id = static_cast<std::int32_t>(vehicle_idx);
         const auto lane = static_cast<LaneAssociationType>(vehicle_data["Lane"]);
-        const auto distance = static_cast<float>(vehicle_data["Distance"]);
+        const auto distance_m = static_cast<float>(vehicle_data["Distance"]);
 
-        for (std::size_t iteration_idx = 0; iteration_idx < NUM_ITERATIONS; ++iteration_idx)
-        {
-            const auto speed = static_cast<float>(vehicle_data["Speed"][iteration_idx]);
-
-            vehicles_data[vehicle_idx][iteration_idx] =
-                VehicleType{static_cast<std::int32_t>(vehicle_idx), lane, speed, distance};
-        }
+        vehicle_log_data.id = id;
+        vehicle_log_data.lane = lane;
+        vehicle_log_data.start_distance_m = distance_m;
+        vehicle_log_data.speeds_mps = vehicle_data["Speed"];
     }
 
-    vehicles.vehicles_left_lane[0] = vehicles_data[0][0];
-    vehicles.vehicles_left_lane[1] = vehicles_data[1][0];
-    vehicles.vehicles_center_lane[0] = vehicles_data[2][0];
-    vehicles.vehicles_center_lane[1] = vehicles_data[3][0];
-    vehicles.vehicles_right_lane[0] = vehicles_data[4][0];
-    vehicles.vehicles_right_lane[1] = vehicles_data[5][0];
+    set_vehicle_start_data(vehicles.vehicles_left_lane[0], vehicles_log_data[0]);
+    set_vehicle_start_data(vehicles.vehicles_left_lane[1], vehicles_log_data[1]);
+    set_vehicle_start_data(vehicles.vehicles_center_lane[0], vehicles_log_data[2]);
+    set_vehicle_start_data(vehicles.vehicles_center_lane[1], vehicles_log_data[3]);
+    set_vehicle_start_data(vehicles.vehicles_right_lane[0], vehicles_log_data[4]);
+    set_vehicle_start_data(vehicles.vehicles_right_lane[1], vehicles_log_data[5]);
 }
 
 void load_cycle(const std::uint32_t cycle, NeighborVehiclesType &vehicles)
 {
-    vehicles.vehicles_left_lane[0].speed_mps = vehicles_data[0][cycle].speed_mps;
-    vehicles.vehicles_left_lane[1].speed_mps = vehicles_data[1][cycle].speed_mps;
-    vehicles.vehicles_center_lane[0].speed_mps = vehicles_data[2][cycle].speed_mps;
-    vehicles.vehicles_center_lane[1].speed_mps = vehicles_data[3][cycle].speed_mps;
-    vehicles.vehicles_right_lane[0].speed_mps = vehicles_data[4][cycle].speed_mps;
-    vehicles.vehicles_right_lane[1].speed_mps = vehicles_data[5][cycle].speed_mps;
+    vehicles.vehicles_left_lane[0].speed_mps = vehicles_log_data[0].speeds_mps[cycle];
+    vehicles.vehicles_left_lane[1].speed_mps = vehicles_log_data[1].speeds_mps[cycle];
+    vehicles.vehicles_center_lane[0].speed_mps = vehicles_log_data[2].speeds_mps[cycle];
+    vehicles.vehicles_center_lane[1].speed_mps = vehicles_log_data[3].speeds_mps[cycle];
+    vehicles.vehicles_right_lane[0].speed_mps = vehicles_log_data[4].speeds_mps[cycle];
+    vehicles.vehicles_right_lane[1].speed_mps = vehicles_log_data[5].speeds_mps[cycle];
 }
