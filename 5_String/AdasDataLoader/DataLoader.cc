@@ -1,10 +1,10 @@
 #include <fstream>
-#include <iostream>
+#include <vector>
 
-#include "AdConstants.hpp"
-#include "AdFunctions.hpp"
 #include "AdTypes.hpp"
 #include "DataLoader.hpp"
+#include "DataLoaderConstants.hpp"
+#include "DataLoaderTypes.hpp"
 
 static VehiclesData vehicles_data =
     std::vector<std::vector<VehicleType>>(NUM_VEHICLES, std::vector<VehicleType>(NUM_ITERATIONS));
@@ -26,21 +26,22 @@ void init_vehicles(std::string_view filepath, NeighborVehiclesType &vehicles)
     std::ifstream ifs(filepath.data());
     json parsed_data = json::parse(ifs);
 
-    std::size_t vehicle_idx = 0;
-
-    for (; vehicle_idx < NUM_VEHICLES; ++vehicle_idx)
+    for (std::size_t vehicle_idx = 0; vehicle_idx < NUM_VEHICLES; vehicle_idx++)
     {
         const auto &vehicle_data = parsed_data[std::to_string(vehicle_idx)];
 
+        const auto id = static_cast<std::int32_t>(vehicle_idx);
         const auto lane = static_cast<LaneAssociationType>(vehicle_data["Lane"]);
-        const auto distance = static_cast<float>(vehicle_data["Distance"]);
+        const auto distance_m = static_cast<float>(vehicle_data["Distance"]);
 
-        for (std::size_t iteration_idx = 0; iteration_idx < NUM_ITERATIONS; ++iteration_idx)
+        for (std::size_t it = 0; it < NUM_ITERATIONS; it++)
         {
-            const auto speed = static_cast<float>(vehicle_data["Speed"][iteration_idx]);
+            const auto speed_mps = static_cast<float>(vehicle_data["Speed"][it]);
 
-            vehicles_data[vehicle_idx][iteration_idx] =
-                VehicleType{static_cast<std::int32_t>(vehicle_idx), lane, speed, distance};
+            vehicles_data[vehicle_idx][it] = {.id = id,
+                                              .lane = lane,
+                                              .speed_mps = speed_mps,
+                                              .distance_m = distance_m};
         }
     }
 
@@ -51,6 +52,7 @@ void init_vehicles(std::string_view filepath, NeighborVehiclesType &vehicles)
     vehicles.vehicles_right_lane[0] = vehicles_data[4][0];
     vehicles.vehicles_right_lane[1] = vehicles_data[5][0];
 }
+
 
 void load_cycle(const std::uint32_t cycle, NeighborVehiclesType &vehicles)
 {

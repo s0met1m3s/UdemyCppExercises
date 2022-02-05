@@ -14,37 +14,6 @@ float mps_to_kph(const float mps)
     return mps * 3.6F;
 }
 
-char *get_ego_string(const VehicleType &ego_vehicle,
-                     char *left_string,
-                     char *center_string,
-                     char *right_string)
-{
-    switch (ego_vehicle.lane)
-    {
-    case LaneAssociationType::LEFT:
-    {
-        return left_string;
-        break;
-    }
-    case LaneAssociationType::CENTER:
-    {
-        return center_string;
-        break;
-    }
-    case LaneAssociationType::RIGHT:
-    {
-        return right_string;
-        break;
-    }
-    default:
-    {
-        break;
-    }
-    }
-
-    return nullptr;
-}
-
 void print_vehicle(const VehicleType &vehicle)
 {
     std::cout << "ID: " << vehicle.id << '\n';
@@ -63,13 +32,13 @@ void print_neighbor_vehicles(const NeighborVehiclesType &vehicles)
     print_vehicle(vehicles.vehicles_right_lane[1]);
 }
 
-bool check_vehicle_in_tile(const VehicleType *const vehicle, const float range_m, const float offset_m)
+bool check_vehicle_in_tile(const VehicleType *vehicle, const float range_m, const float offset_m)
 {
     return ((vehicle != nullptr) && (range_m >= vehicle->distance_m) &&
             (vehicle->distance_m > (range_m - offset_m)));
 }
 
-bool check_vehicle_out_of_range(const VehicleType *const vehicle)
+bool check_vehicle_is_out_of_view(const VehicleType *vehicle)
 {
     return ((vehicle != nullptr) && (std::abs(vehicle->distance_m) > VIEW_RANGE_M));
 }
@@ -97,7 +66,30 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
         char left_string[]{"   "};
         char center_string[]{"   "};
         char right_string[]{"   "};
-        char *ego_string = get_ego_string(ego_vehicle, left_string, center_string, right_string);
+        char *ego_string = nullptr;
+
+        switch (ego_vehicle.lane)
+        {
+        case LaneAssociationType::LEFT:
+        {
+            ego_string = left_string;
+            break;
+        }
+        case LaneAssociationType::CENTER:
+        {
+            ego_string = center_string;
+            break;
+        }
+        case LaneAssociationType::RIGHT:
+        {
+            ego_string = right_string;
+            break;
+        }
+        default:
+        {
+            break;
+        }
+        }
 
         const auto range_m = static_cast<float>(i);
 
@@ -111,7 +103,7 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
             left_string[1] = 'V';
             left_idx++;
         }
-        else if (check_vehicle_out_of_range(left_vehicle))
+        else if (check_vehicle_is_out_of_view(left_vehicle))
         {
             left_idx++;
         }
@@ -121,7 +113,7 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
             center_string[1] = 'V';
             center_idx++;
         }
-        else if (check_vehicle_out_of_range(center_vehicle))
+        else if (check_vehicle_is_out_of_view(center_vehicle))
         {
             center_idx++;
         }
@@ -131,7 +123,7 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
             right_string[1] = 'V';
             right_idx++;
         }
-        else if (check_vehicle_out_of_range(right_vehicle))
+        else if (check_vehicle_is_out_of_view(right_vehicle))
         {
             right_idx++;
         }
@@ -259,6 +251,7 @@ LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
         case LaneAssociationType::CENTER:
         {
             LaneAssociationType target_lane = LaneAssociationType::RIGHT;
+
             const VehicleType *right_vehicles = get_vehicle_array(target_lane, vehicles);
 
             const auto abs_front_right_distance_m = std::abs(right_vehicles[0].distance_m);
@@ -293,6 +286,7 @@ LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
 
     return ego_vehicle.lane;
 }
+
 
 bool lateral_control(const LaneAssociationType lane_change_request, VehicleType &ego_vehicle)
 {
