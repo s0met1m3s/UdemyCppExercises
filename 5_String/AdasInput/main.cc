@@ -30,7 +30,6 @@ int main(int argc, char **argv)
     {
         const auto vehicles_input_path = std::string(argv[1]);
         data_filepath = fs::path(vehicles_input_path);
-
         const auto ego_input_path = std::string(argv[2]);
         ego_filepath = fs::path(ego_input_path);
     }

@@ -1,12 +1,12 @@
 # Exercise
 
-After this video we will implement a feature to load in *recorded* data of a test drive of our fictional autonoums car.  
-For that we will read in JSON files.  
-In order to be able to read in the files, update the code from the refactoring video:
+After this video, we will implement a feature to load in *recorded* data of a test drive of our fictional autonomous car.  
+For that, we will read in JSON files.  
+To be able to read in the files, update the code from the refactoring video:
 
-- Add the argc, \*\*argv to the main function such that the user can input the filepaths:
-  - *ego_data* filepath
-  - *vehicle_data* filepath
+- Add the argc, \*\*argv to the main function such that the user can input the file paths:
+  - *ego_data* file path
+  - *vehicle_data* file path
 - If the user does not provide these paths just assume that these files are relative to the main file
   - *./data/ego_data.json*
   - *./data/vehicle_data.json*
