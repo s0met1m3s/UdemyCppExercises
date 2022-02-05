@@ -80,7 +80,7 @@ int main(int argc, char **argv)
         clear_console();
 
         print_scene(ego_vehicle, vehicles);
-        compute_future_state(ego_vehicle, vehicles, 0.050F);
+        compute_future_state(ego_vehicle, vehicles, 0.100F);
         const auto lane_change_request = longitudinal_control(vehicles, ego_vehicle);
         const auto lane_change_successful = lateral_control(vehicles, lane_change_request, ego_vehicle);
 
@@ -93,7 +93,7 @@ int main(int argc, char **argv)
             std::cout << "Lane change successull" << '\n';
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
         cycle++;
 
         load_cycle(cycle, vehicles);
