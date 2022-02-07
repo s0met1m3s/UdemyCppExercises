@@ -14,6 +14,3 @@ constexpr auto CENTER_LEFT_BORDER{-1.5F};
 constexpr auto CENTER_RIGHT_BORDER{1.5F};
 constexpr auto RIGHT_LEFT_BORDER{1.5F};
 constexpr auto RIGHT_RIGHT_BORDER{4.5F};
-
-constexpr auto MAX_VIEW_RANGE_M{100.0F};
-constexpr auto MAX_VEHICLE_SPEED_MPS{130.0F / 3.6F};

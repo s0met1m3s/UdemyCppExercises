@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <array>
+#include <vector>
 
 #include "imgui.h"
 #include "implot.h"
@@ -9,7 +10,7 @@
 #include "Render.hpp"
 #include "RenderConstants.hpp"
 
-void render_cycle(std::size_t cycle, const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles)
+void render_cycle(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles)
 {
     ImGui::SetNextWindowPos(ImVec2(0.0F, 0.0F));
     ImGui::SetNextWindowSize(ImVec2(WINDOWS_WIDTH, LANE_PLOT_TOTAL_HEIGHT));
@@ -18,66 +19,109 @@ void render_cycle(std::size_t cycle, const VehicleType &ego_vehicle, const Neigh
         ImPlot::CreateContext();
         plot_lanes(ego_vehicle, vehicles);
         plot_table(ego_vehicle, vehicles);
-        plot_cycle_number(cycle);
         ImGui::End();
     }
 }
 
+void plot_solid_line(const float border, std::string_view label)
+{
+    const float xs_left_left[2] = {-VIEW_RANGE_M, VIEW_RANGE_M};
+    const float ys_left_left[2] = {border, border};
+    ImPlot::SetNextLineStyle(LINE_COLOR, 3.0F);
+    ImPlot::PlotLine(label.data(), xs_left_left, ys_left_left, 2);
+}
+
+void plot_dashed_lines(const float border, std::string_view label)
+{
+    const auto slice_length = (2.0F * VIEW_RANGE_M) / 40.0F;
+    const auto empty_length = 2.0F;
+    const auto dashed_length = slice_length - empty_length;
+    const auto num_slices = static_cast<std::uint32_t>((2.0F * VIEW_RANGE_M) / slice_length);
+
+    for (uint32_t it = 0; it < num_slices; it++)
+    {
+        float it_f32 = static_cast<float>(it);
+
+        const float xs_center_left[2] = {-VIEW_RANGE_M + it_f32 * slice_length,
+                                         -VIEW_RANGE_M + it_f32 * slice_length + dashed_length};
+        const float ys_center_left[2] = {border, border};
+        ImPlot::SetNextLineStyle(LINE_COLOR, 3.0F);
+        ImPlot::PlotLine(label.data(), xs_center_left, ys_center_left, 2);
+    }
+}
+
+void plot_ego_vehicle(const VehicleType &ego_vehicle, std::string_view label)
+{
+    const auto ego_marker = ImPlotMarker_Square;
+    const auto ego_color = ImVec4(0.7F, 0.5F, 0.5F, 1.0F);
+
+    switch (ego_vehicle.lane)
+    {
+    case LaneAssociationType::LEFT:
+    {
+        ImPlot::SetNextMarkerStyle(ego_marker, VEHICLE_SCATTER_SIZE, ego_color);
+        ImPlot::PlotScatter(label.data(), &ego_vehicle.distance_m, &LEFT_LANE_OFFSET_M, 1);
+        break;
+    }
+    case LaneAssociationType::CENTER:
+    {
+        ImPlot::SetNextMarkerStyle(ego_marker, VEHICLE_SCATTER_SIZE, ego_color);
+        ImPlot::PlotScatter(label.data(), &ego_vehicle.distance_m, &CENTER_LANE_OFFSET_M, 1);
+
+        break;
+    }
+    case LaneAssociationType::RIGHT:
+    {
+        ImPlot::SetNextMarkerStyle(ego_marker, VEHICLE_SCATTER_SIZE, ego_color);
+        ImPlot::PlotScatter(label.data(), &ego_vehicle.distance_m, &RIGHT_LANE_OFFSET_M, 1);
+
+        break;
+    }
+    case LaneAssociationType::NONE:
+    default:
+    {
+        break;
+    }
+    }
+}
+
+void plot_lane_vehicles(const std::array<VehicleType, 2> &vehicles,
+                        const float offset_m,
+                        std::string_view label_front,
+                        std::string_view label_rear)
+{
+    ImPlot::SetNextMarkerStyle(ImPlotMarker_Square, VEHICLE_SCATTER_SIZE);
+    const auto xs_front = vehicles[0].distance_m;
+    const auto ys_front = offset_m;
+    ImPlot::PlotScatter(label_front.data(), &xs_front, &ys_front, 1);
+
+    ImPlot::SetNextMarkerStyle(ImPlotMarker_Square, VEHICLE_SCATTER_SIZE);
+    const auto xs_rear = vehicles[1].distance_m;
+    const auto ys_rear = offset_m;
+    ImPlot::PlotScatter(label_rear.data(), &xs_rear, &ys_rear, 1);
+}
+
 void plot_lanes(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles)
 {
-    if (ImPlot::BeginPlot("##Lane1", PLOT_DIM, PLOT_FLAGS))
+    if (ImPlot::BeginPlot("##Lanes", PLOT_DIM, PLOT_FLAGS))
     {
-        ImPlot::SetupAxes(NULL, NULL, ImPlotAxisFlags_Lock, ImPlotAxisFlags_Lock | ImPlotAxisFlags_Invert);
-        ImPlot::SetupAxisLimits(ImAxis_X1, -MAX_VIEW_RANGE_M, MAX_VIEW_RANGE_M, ImGuiCond_Always);
-        ImPlot::SetupAxisLimits(ImAxis_Y1, LEFT_LEFT_BORDER, LEFT_RIGHT_BORDER, ImGuiCond_Always);
-        ImPlot::SetNextMarkerStyle(ImPlotMarker_Square, VEHICLE_SCATTER_SIZE, ImVec4(0.5F, 0.5F, 0.5F, 1.0F));
-        ImPlot::PlotScatter("FrontLeft", &vehicles.vehicles_left_lane[0].distance_m, &LEFT_LANE_OFFSET_M, 1);
-        ImPlot::SetNextMarkerStyle(ImPlotMarker_Square, VEHICLE_SCATTER_SIZE, ImVec4(1.0F, 0.5F, 0.5F, 1.0F));
-        ImPlot::PlotScatter("RearLeft", &vehicles.vehicles_left_lane[1].distance_m, &LEFT_LANE_OFFSET_M, 1);
+        ImPlot::SetupAxes("Rel. LongDist. (m)", "Rel. LatDist. (m)", ImPlotAxisFlags_Lock, AXES_FLAGS);
+        ImPlot::SetupAxisLimits(ImAxis_X1, -VIEW_RANGE_M, VIEW_RANGE_M, ImGuiCond_Always);
+        ImPlot::SetupAxisLimits(ImAxis_Y1,
+                                LEFT_LEFT_BORDER - 0.05F,
+                                RIGHT_RIGHT_BORDER + 0.05F,
+                                ImGuiCond_Always);
 
-        if (ego_vehicle.lane == LaneAssociationType::LEFT)
-        {
-            ImPlot::SetNextMarkerStyle(ImPlotMarker_Square, VEHICLE_SCATTER_SIZE, ImVec4(0.7F, 0.5F, 0.5F, 1.0F));
-            ImPlot::PlotScatter("Ego", &ego_vehicle.distance_m, &LEFT_LANE_OFFSET_M, 1);
-        }
+        plot_solid_line(LEFT_LEFT_BORDER, "LeftLeftLane");
+        plot_dashed_lines(CENTER_LEFT_BORDER, "CenterLeftLane");
+        plot_dashed_lines(CENTER_RIGHT_BORDER, "CenterRightLane");
+        plot_solid_line(RIGHT_RIGHT_BORDER, "RightRightLane");
 
-        ImPlot::EndPlot();
-    }
+        plot_lane_vehicles(vehicles.vehicles_left_lane, LEFT_LANE_OFFSET_M, "LeftFront", "LeftRear");
+        plot_lane_vehicles(vehicles.vehicles_center_lane, CENTER_LANE_OFFSET_M, "CenterFront", "CenterRear");
+        plot_lane_vehicles(vehicles.vehicles_right_lane, RIGHT_LANE_OFFSET_M, "RightFront", "RightRear");
 
-    if (ImPlot::BeginPlot("##Lane2", PLOT_DIM, PLOT_FLAGS))
-    {
-        ImPlot::SetupAxes(NULL, NULL, ImPlotAxisFlags_Lock, ImPlotAxisFlags_Lock | ImPlotAxisFlags_Invert);
-        ImPlot::SetupAxisLimits(ImAxis_X1, -MAX_VIEW_RANGE_M, MAX_VIEW_RANGE_M, ImGuiCond_Always);
-        ImPlot::SetupAxisLimits(ImAxis_Y1, CENTER_LEFT_BORDER, CENTER_RIGHT_BORDER, ImGuiCond_Always);
-        ImPlot::SetNextMarkerStyle(ImPlotMarker_Square, VEHICLE_SCATTER_SIZE, ImVec4(0.5F, 0.5F, 1.0F, 1.0F));
-        ImPlot::PlotScatter("FrontCenter", &vehicles.vehicles_center_lane[0].distance_m, &CENTER_LANE_OFFSET_M, 1);
-        ImPlot::SetNextMarkerStyle(ImPlotMarker_Square, VEHICLE_SCATTER_SIZE, ImVec4(0.75F, 0.5F, 1.0F, 1.0F));
-        ImPlot::PlotScatter("RearCenter", &vehicles.vehicles_center_lane[1].distance_m, &CENTER_LANE_OFFSET_M, 1);
-
-        if (ego_vehicle.lane == LaneAssociationType::CENTER)
-        {
-            ImPlot::SetNextMarkerStyle(ImPlotMarker_Square, VEHICLE_SCATTER_SIZE, ImVec4(0.7F, 0.5F, 0.5F, 1.0F));
-            ImPlot::PlotScatter("Ego", &ego_vehicle.distance_m, &CENTER_LANE_OFFSET_M, 1);
-        }
-
-        ImPlot::EndPlot();
-    }
-
-    if (ImPlot::BeginPlot("##Lane3", PLOT_DIM, PLOT_FLAGS))
-    {
-        ImPlot::SetupAxes(NULL, NULL, ImPlotAxisFlags_Lock, ImPlotAxisFlags_Lock | ImPlotAxisFlags_Invert);
-        ImPlot::SetupAxisLimits(ImAxis_X1, -MAX_VIEW_RANGE_M, MAX_VIEW_RANGE_M, ImGuiCond_Always);
-        ImPlot::SetupAxisLimits(ImAxis_Y1, RIGHT_LEFT_BORDER, RIGHT_RIGHT_BORDER, ImGuiCond_Always);
-        ImPlot::SetNextMarkerStyle(ImPlotMarker_Square, VEHICLE_SCATTER_SIZE, ImVec4(0.75F, 0.5F, 0.75F, 1.0F));
-        ImPlot::PlotScatter("FrontRight", &vehicles.vehicles_right_lane[0].distance_m, &RIGHT_LANE_OFFSET_M, 1);
-        ImPlot::SetNextMarkerStyle(ImPlotMarker_Square, VEHICLE_SCATTER_SIZE, ImVec4(0.75F, 0.75F, 1.0F, 1.0F));
-        ImPlot::PlotScatter("RearRight", &vehicles.vehicles_right_lane[1].distance_m, &RIGHT_LANE_OFFSET_M, 1);
-
-        if (ego_vehicle.lane == LaneAssociationType::RIGHT)
-        {
-            ImPlot::SetNextMarkerStyle(ImPlotMarker_Square, VEHICLE_SCATTER_SIZE, ImVec4(0.7F, 0.5F, 0.5F, 1.0F));
-            ImPlot::PlotScatter("Ego", &ego_vehicle.distance_m, &RIGHT_LANE_OFFSET_M, 1);
-        }
+        plot_ego_vehicle(ego_vehicle, "Ego");
 
         ImPlot::EndPlot();
     }
@@ -129,17 +173,6 @@ void plot_table(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehi
             ImGui::EndTable();
         }
 
-        ImGui::End();
-    }
-}
-
-void plot_cycle_number(const std::size_t cycle)
-{
-    ImGui::SetNextWindowPos(ImVec2(0.0F, BELOW_LANES + CYCLE_OFFSET));
-    ImGui::SetNextWindowSize(ImVec2(CYCLE_NUMBER_WIDTH, CYCLE_NUMBER_HEIGHT));
-    if (ImGui::Begin("CycleWindow", nullptr, WINDOW_FLAGS_CLEAN))
-    {
-        ImGui::Text("Cycle: %d", static_cast<std::int32_t>(cycle));
         ImGui::End();
     }
 }
