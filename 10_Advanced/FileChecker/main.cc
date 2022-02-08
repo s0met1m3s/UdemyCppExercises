@@ -57,7 +57,7 @@ int main(int argc, char **argv)
         std::cout << "is_c_header_file: " << is_c_header_file(file) << '\n';
         std::cout << "is_c_source_file: " << is_c_source_file(file) << '\n';
         std::cout << "is_cpp_header_file: " << is_cpp_header_file(file) << '\n';
-        std::cout << "is_cpp_source_file: " << is_cpp_source_file(file) << std::endl << '\n';
+        std::cout << "is_cpp_source_file: " << is_cpp_source_file(file) << '\n' << '\n';
     }
 }
 

@@ -8,8 +8,8 @@
 #include "Timer.hpp"
 #include "utils.hpp"
 
-constexpr std::uint32_t ELEMENTS_THRESHOLD = 1'000'000;
-constexpr std::uint32_t NUM_RUNS = 100;
+constexpr std::uint32_t ELEMENTS_THRESHOLD = 5'000'000;
+constexpr std::uint32_t NUM_RUNS = 1'000;
 
 template <typename T, typename RandomIter>
 T range_sum_asyn(RandomIter start, RandomIter stop)
