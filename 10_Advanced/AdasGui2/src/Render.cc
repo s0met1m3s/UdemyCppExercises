@@ -2,7 +2,6 @@
 #include <array>
 #include <cstdint>
 #include <string_view>
-#include <vector>
 
 #include "imgui.h"
 #include "implot.h"
@@ -26,13 +25,6 @@ void render_cycle(const VehicleType &ego_vehicle, const NeighborVehiclesType &ve
     }
 }
 
-void plot_lanes_settings()
-{
-    ImPlot::SetupAxes("Rel. LongDist. (m)", "Rel. LatDist. (m)", ImPlotAxisFlags_Lock, AXES_FLAGS);
-    ImPlot::SetupAxisLimits(ImAxis_X1, -VIEW_RANGE_M, VIEW_RANGE_M, ImGuiCond_Always);
-    ImPlot::SetupAxisLimits(ImAxis_Y1, LEFT_LEFT_BORDER - 0.05F, RIGHT_RIGHT_BORDER + 0.05, ImGuiCond_Always);
-}
-
 void plot_lanes_solid_line(const float border_y, std::string_view label)
 {
     const auto num_points = std::size_t{2};
@@ -54,7 +46,7 @@ void plot_lanes_dashed_line(const float border_y, std::string_view label)
 
     for (std::uint32_t slice_idx = 0; slice_idx < num_slices; slice_idx++)
     {
-        auto slice_m = static_cast<float>(slice_idx);
+        const auto slice_m = static_cast<float>(slice_idx);
 
         const float xs[num_points] = {-VIEW_RANGE_M + slice_m * slice_length_m,
                                       -VIEW_RANGE_M + slice_m * slice_length_m + dash_length_m};
@@ -65,22 +57,20 @@ void plot_lanes_dashed_line(const float border_y, std::string_view label)
     }
 }
 
-void plot_lanes_vehicles(const std::array<VehicleType, 2> &vehicles,
-                         const float offset_y,
-                         std::string_view label_front,
-                         std::string_view label_rear)
+void plot_lanes_vehicles(const std::array<VehicleType, NUM_VEHICLES_ON_LANE> &vehicles,
+                         const std::array<std::string_view, NUM_VEHICLES_ON_LANE> &labels,
+                         const float offset_y)
 {
     const auto num_elements = std::size_t{1};
-
-    const auto xs_front = vehicles[0].distance_m;
     const auto ys_front = offset_y;
-    ImPlot::SetNextMarkerStyle(VEHICLE_MARKER, VEHICLE_SCATTER_SIZE);
-    ImPlot::PlotScatter(label_front.data(), &xs_front, &ys_front, num_elements);
 
-    const auto xs_rear = vehicles[1].distance_m;
-    const auto ys_rear = offset_y;
-    ImPlot::SetNextMarkerStyle(VEHICLE_MARKER, VEHICLE_SCATTER_SIZE);
-    ImPlot::PlotScatter(label_front.data(), &xs_rear, &ys_rear, num_elements);
+    for (std::size_t i = 0; i < NUM_VEHICLES_ON_LANE; i++)
+    {
+        const auto xs_front = vehicles[i].distance_m;
+
+        ImPlot::SetNextMarkerStyle(VEHICLE_MARKER, VEHICLE_SCATTER_SIZE);
+        ImPlot::PlotScatter(labels[i].data(), &xs_front, &ys_front, num_elements);
+    }
 }
 
 void plot_lanes_ego_vehicle(const VehicleType &ego_vehicle, std::string_view label)
@@ -118,16 +108,21 @@ void plot_lanes(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehi
 {
     if (ImPlot::BeginPlot("Lanes", PLOT_DIM, PLOT_FLAGS))
     {
-        plot_lanes_settings();
+        ImPlot::SetupAxes("Rel. LongDist. (m)", "Rel. LatDist. (m)", ImPlotAxisFlags_Lock, AXES_FLAGS);
+        ImPlot::SetupAxisLimits(ImAxis_X1, -VIEW_RANGE_M, VIEW_RANGE_M, ImGuiCond_Always);
+        ImPlot::SetupAxisLimits(ImAxis_Y1,
+                                LEFT_LEFT_BORDER - 0.05F,
+                                RIGHT_RIGHT_BORDER + 0.05,
+                                ImGuiCond_Always);
 
         plot_lanes_solid_line(LEFT_LEFT_BORDER, "LeftLeftBorder");
         plot_lanes_dashed_line(CENTER_LEFT_BORDER, "CenterLeftBorder");
         plot_lanes_dashed_line(CENTER_RIGHT_BORDER, "CenterRightBorder");
         plot_lanes_solid_line(RIGHT_RIGHT_BORDER, "RightRightBorder");
 
-        plot_lanes_vehicles(vehicles.vehicles_left_lane, LEFT_LANE_OFFSET_M, "LeftFront", "LeftRear");
-        plot_lanes_vehicles(vehicles.vehicles_center_lane, CENTER_LANE_OFFSET_M, "CenterFront", "CenterRear");
-        plot_lanes_vehicles(vehicles.vehicles_right_lane, RIGHT_LANE_OFFSET_M, "RightFront", "RightRear");
+        plot_lanes_vehicles(vehicles.vehicles_left_lane, {"LF", "LR"}, LEFT_LANE_OFFSET_M);
+        plot_lanes_vehicles(vehicles.vehicles_center_lane, {"CF", "CR"}, CENTER_LANE_OFFSET_M);
+        plot_lanes_vehicles(vehicles.vehicles_right_lane, {"RF", "RR"}, RIGHT_LANE_OFFSET_M);
         plot_lanes_ego_vehicle(ego_vehicle, "Ego");
 
         ImPlot::EndPlot();
