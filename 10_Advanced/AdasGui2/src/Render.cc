@@ -129,11 +129,11 @@ void plot_lanes(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehi
     }
 }
 
-void plot_vehicle_in_table(const VehicleType &vehicle, std::string_view vehicle_name)
+void plot_vehicle_in_table(const VehicleType &vehicle, std::string_view label)
 {
     ImGui::TableNextRow();
     ImGui::TableNextColumn();
-    ImGui::Text("%s", vehicle_name.data());
+    ImGui::Text("%s", label.data());
     ImGui::TableNextColumn();
     ImGui::Text("%d", vehicle.id);
     ImGui::TableNextColumn();
