@@ -15,9 +15,10 @@ template <typename T, typename RandomIter>
 T range_sum_asyn(RandomIter start, RandomIter stop)
 {
     const auto length = std::distance(start, stop);
+
     if (length < ELEMENTS_THRESHOLD)
     {
-        return std::accumulate(start, stop, 0);
+        return std::accumulate(start, stop, T{});
     }
 
     RandomIter mid = start + length / 2;

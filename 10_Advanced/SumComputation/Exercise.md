@@ -22,17 +22,35 @@ std::async(std::launch::async, range_sum_asyn<RandomIter>, mid, stop);
 ## Main Function
 
 ```cpp
+#include <algorithm>
+#include <future>
+#include <iostream>
+#include <numeric>
+#include <thread>
+#include <vector>
+
+#include "Timer.hpp"
+#include "utils.hpp"
+
+constexpr std::uint32_t NUM_RUNS = 1'000;
+
+template <typename T, typename RandomIter>
+T range_sum_asyn(RandomIter start, RandomIter stop)
+{
+    // ...
+}
+
 int main()
 {
-    std::vector<int> my_vector(30'000'000, 0);
-    random_vector(my_vector);
+    std::vector<std::int32_t> vector(30'000'000, 0);
+    random_vector(vector);
 
-    double time1 = 0.0;
+    auto time1 = 0.0;
     volatile auto sum1 = 0;
     for (std::uint32_t i = 0; i < NUM_RUNS; ++i)
     {
         cpptiming::Timer t1;
-        sum1 = range_sum_asyn(my_vector.begin(), my_vector.end());
+        sum1 = range_sum_asyn<std::int32_t>(vector.begin(), vector.end());
         time1 += t1.elapsed_time<cpptiming::millisecs, double>();
     }
     std::cout << "Mean Async: " << time1 / NUM_RUNS << "ms sum: " << sum1 << '\n';
