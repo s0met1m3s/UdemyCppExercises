@@ -10,14 +10,20 @@ template <typename RandomIter>
 auto range_sum_asyn(RandomIter start, RandomIter stop)
 ```
 
-Implement an async function that computes the sum of a container in the range of the **start** and **stop** iterator.  
-The function should launch several tasks within an async context.
+Implement an async function that computes the sum of a vector in the range of the **start** and **stop** iterator.  
+The function should launch several tasks within an async context by calling itself recursively.
 
 E.g.
 
 ```cpp
 std::async(std::launch::async, range_sum_asyn<RandomIter>, mid, stop);
 ```
+
+Pseudo-code:
+
+1. If Length from *start* to *stop* is below THRESHOLD => call accumulate for 
+2. Else call the function recursively by dividing the [start, stop) range in two halves
+3. Repeat 1. - 2.
 
 ## Main Function
 
