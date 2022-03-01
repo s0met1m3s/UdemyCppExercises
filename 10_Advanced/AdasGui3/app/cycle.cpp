@@ -58,7 +58,10 @@ void plot_cycle_number(const std::size_t cycle)
     }
 }
 
-void cycle_function(const fs::path &ego_filepath, const fs::path &data_filepath, GLFWwindow *const window)
+void cycle_function(const fs::path &ego_filepath,
+                    const fs::path &data_filepath,
+                    const fs::path &lane_filepath,
+                    GLFWwindow *const window)
 {
     static bool is_playing = false;
     static bool pressed_play = false;
@@ -69,9 +72,11 @@ void cycle_function(const fs::path &ego_filepath, const fs::path &data_filepath,
     std::size_t cycle = 0;
     VehicleType ego_vehicle{};
     NeighborVehiclesType vehicles{};
+    LanesType lanes{};
 
     init_ego_vehicle(ego_filepath.string(), ego_vehicle);
     init_vehicles(data_filepath.string(), vehicles);
+    init_lanes(lane_filepath.string(), lanes);
 
     // Main loop
     while (!glfwWindowShouldClose(window))
@@ -130,7 +135,7 @@ void cycle_function(const fs::path &ego_filepath, const fs::path &data_filepath,
 
         if (!pressed_pause && is_playing && cycle < NUM_ITERATIONS)
         {
-            render_cycle(ego_vehicle, vehicles);
+            render_cycle(ego_vehicle, vehicles, lanes);
             compute_future_state(ego_vehicle, vehicles, 0.100F);
 
             const auto &ego_lane_vehicles = get_vehicle_array(ego_vehicle.lane, vehicles);
@@ -140,16 +145,16 @@ void cycle_function(const fs::path &ego_filepath, const fs::path &data_filepath,
             (void)lateral_control(lane_change_request, ego_vehicle);
 
             cycle++;
-            load_cycle(cycle, vehicles);
+            load_cycle(cycle, vehicles, lanes);
         }
         else if (pressed_pause)
         {
-            render_cycle(ego_vehicle, vehicles);
+            render_cycle(ego_vehicle, vehicles, lanes);
             is_playing = false;
         }
         else if (!is_playing)
         {
-            render_cycle(ego_vehicle, vehicles);
+            render_cycle(ego_vehicle, vehicles, lanes);
         }
         else if (cycle >= NUM_ITERATIONS)
         {

@@ -7,6 +7,7 @@
 #include "DataLoaderTypes.hpp"
 
 static auto vehicles_log_data = VehiclesLogData{};
+static auto lanes_log_data = LanesLogData{};
 
 void init_ego_vehicle(std::string_view filepath, VehicleType &ego_vehicle)
 {
@@ -56,7 +57,7 @@ void init_vehicles(std::string_view filepath, NeighborVehiclesType &vehicles)
     set_vehicle_start_data(vehicles.vehicles_right_lane[1], vehicles_log_data[5]);
 }
 
-void load_cycle(const std::uint32_t cycle, NeighborVehiclesType &vehicles)
+void load_cycle(const std::uint32_t cycle, NeighborVehiclesType &vehicles, LanesType &lanes)
 {
     vehicles.vehicles_left_lane[0].speed_mps = vehicles_log_data[0].speeds_mps[cycle];
     vehicles.vehicles_left_lane[1].speed_mps = vehicles_log_data[1].speeds_mps[cycle];
@@ -64,4 +65,53 @@ void load_cycle(const std::uint32_t cycle, NeighborVehiclesType &vehicles)
     vehicles.vehicles_center_lane[1].speed_mps = vehicles_log_data[3].speeds_mps[cycle];
     vehicles.vehicles_right_lane[0].speed_mps = vehicles_log_data[4].speeds_mps[cycle];
     vehicles.vehicles_right_lane[1].speed_mps = vehicles_log_data[5].speeds_mps[cycle];
+
+    lanes.left_lane.left_polynomial = lanes_log_data[0].left_polynomials[cycle];
+    lanes.left_lane.right_polynomial = lanes_log_data[0].right_polynomials[cycle];
+    lanes.center_lane.left_polynomial = lanes_log_data[1].left_polynomials[cycle];
+    lanes.center_lane.right_polynomial = lanes_log_data[1].right_polynomials[cycle];
+    lanes.right_lane.left_polynomial = lanes_log_data[2].left_polynomials[cycle];
+    lanes.right_lane.right_polynomial = lanes_log_data[2].right_polynomials[cycle];
+}
+
+void get_lane_border_data(const std::uint32_t i, const size_t lane_idx, const json &parsed_data)
+{
+    const auto i_str = std::to_string(i);
+    const auto lane_str = std::to_string(lane_idx);
+
+    lanes_log_data[lane_idx].left_polynomials[i].x3 = parsed_data[lane_str]["0"][i_str]["x3"];
+    lanes_log_data[lane_idx].left_polynomials[i].x2 = parsed_data[lane_str]["0"][i_str]["x2"];
+    lanes_log_data[lane_idx].left_polynomials[i].x1 = parsed_data[lane_str]["0"][i_str]["x1"];
+    lanes_log_data[lane_idx].left_polynomials[i].x0 = parsed_data[lane_str]["0"][i_str]["x0"];
+
+    lanes_log_data[lane_idx].right_polynomials[i].x3 = parsed_data[lane_str]["1"][i_str]["x3"];
+    lanes_log_data[lane_idx].right_polynomials[i].x2 = parsed_data[lane_str]["1"][i_str]["x2"];
+    lanes_log_data[lane_idx].right_polynomials[i].x1 = parsed_data[lane_str]["1"][i_str]["x1"];
+    lanes_log_data[lane_idx].right_polynomials[i].x0 = parsed_data[lane_str]["1"][i_str]["x0"];
+}
+
+void set_lanes_start_data(LaneType &lane, const size_t lane_idx)
+{
+    lane.left_polynomial = lanes_log_data[lane_idx].left_polynomials[0];
+    lane.right_polynomial = lanes_log_data[lane_idx].right_polynomials[0];
+}
+
+void init_lanes(std::string_view filepath, LanesType &lanes)
+{
+    std::ifstream ifs(filepath.data());
+    json parsed_data = json::parse(ifs);
+
+    for (std::uint32_t i = 0; i < NUM_ITERATIONS; ++i)
+    {
+        get_lane_border_data(i, 0, parsed_data);
+        get_lane_border_data(i, 0, parsed_data);
+        get_lane_border_data(i, 1, parsed_data);
+        get_lane_border_data(i, 1, parsed_data);
+        get_lane_border_data(i, 2, parsed_data);
+        get_lane_border_data(i, 2, parsed_data);
+    }
+
+    set_lanes_start_data(lanes.left_lane, 0);
+    set_lanes_start_data(lanes.center_lane, 1);
+    set_lanes_start_data(lanes.right_lane, 2);
 }

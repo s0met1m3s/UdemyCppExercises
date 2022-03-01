@@ -31,8 +31,9 @@ int main(int argc, char **argv)
 {
     fs::path data_filepath;
     fs::path ego_filepath;
+    fs::path lane_filepath;
 
-    if (argc != 3)
+    if (argc != 4)
     {
 #if defined(_MSC_VER)
         data_filepath /= fs::current_path().parent_path().parent_path();
@@ -41,9 +42,11 @@ int main(int argc, char **argv)
 #endif
         data_filepath /= "data";
         ego_filepath = data_filepath;
+        lane_filepath = data_filepath;
 
         data_filepath /= "vehicle_data.json";
         ego_filepath /= "ego_data.json";
+        lane_filepath /= "lane_data.json";
     }
     else
     {
@@ -52,6 +55,9 @@ int main(int argc, char **argv)
 
         const auto ego_input_path = std::string(argv[2]);
         ego_filepath = fs::path(ego_input_path);
+
+        const auto lane_input_path = std::string(argv[3]);
+        lane_filepath = fs::path(lane_input_path);
     }
 
     // Setup window
@@ -110,7 +116,7 @@ int main(int argc, char **argv)
     style.Colors[ImGuiCol_TableBorderStrong] = ImVec4(1.0, 1.0, 1.0, 1.0);
     style.Colors[ImGuiCol_TableBorderLight] = ImVec4(1.0, 1.0, 1.0, 1.0);
 
-    cycle_function(ego_filepath, data_filepath, window);
+    cycle_function(ego_filepath, data_filepath, lane_filepath, window);
 
     // Cleanup
     ImGui_ImplOpenGL3_Shutdown();

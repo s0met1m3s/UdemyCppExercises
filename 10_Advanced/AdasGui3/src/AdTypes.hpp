@@ -7,10 +7,10 @@
 
 enum class LaneAssociationType
 {
-    NONE,
+    LEFT,
     RIGHT,
     CENTER,
-    LEFT,
+    NONE,
 };
 
 struct VehicleType
@@ -26,4 +26,25 @@ struct NeighborVehiclesType
     std::array<VehicleType, NUM_VEHICLES_ON_LANE> vehicles_left_lane;
     std::array<VehicleType, NUM_VEHICLES_ON_LANE> vehicles_center_lane;
     std::array<VehicleType, NUM_VEHICLES_ON_LANE> vehicles_right_lane;
+};
+
+struct Polynomial3rdDegreeType
+{
+    float x3;
+    float x2;
+    float x1;
+    float x0;
+};
+
+struct LaneType
+{
+    Polynomial3rdDegreeType left_polynomial;
+    Polynomial3rdDegreeType right_polynomial;
+};
+
+struct LanesType
+{
+    LaneType left_lane;
+    LaneType center_lane;
+    LaneType right_lane;
 };

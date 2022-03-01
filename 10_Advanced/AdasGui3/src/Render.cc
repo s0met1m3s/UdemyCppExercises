@@ -11,7 +11,9 @@
 #include "Render.hpp"
 #include "RenderConstants.hpp"
 
-void render_cycle(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles)
+void render_cycle(const VehicleType &ego_vehicle,
+                  const NeighborVehiclesType &vehicles,
+                  const LanesType &lanes)
 {
     ImGui::SetNextWindowPos(ImVec2(0.0F, 0.0F));
     ImGui::SetNextWindowSize(ImVec2(WINDOWS_WIDTH, LANE_PLOT_TOTAL_HEIGHT));
@@ -19,7 +21,7 @@ void render_cycle(const VehicleType &ego_vehicle, const NeighborVehiclesType &ve
     if (ImGui::Begin("MainWindow", nullptr, WINDOW_FLAGS_CLEAN))
     {
         ImPlot::CreateContext();
-        plot_lanes(ego_vehicle, vehicles);
+        plot_lanes(ego_vehicle, vehicles, lanes);
         plot_table(ego_vehicle, vehicles);
         ImGui::End();
     }
@@ -104,7 +106,7 @@ void plot_lanes_ego_vehicle(const VehicleType &ego_vehicle, std::string_view lab
     }
 }
 
-void plot_lanes(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles)
+void plot_lanes(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles, const LanesType &lanes)
 {
     if (ImPlot::BeginPlot("Lanes", PLOT_DIM, PLOT_FLAGS))
     {

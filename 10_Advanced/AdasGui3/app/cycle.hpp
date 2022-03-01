@@ -23,4 +23,7 @@ void reset_state(const fs::path &ego_filepath,
                  VehicleType &ego_vehicle,
                  NeighborVehiclesType &vehicles);
 
-void cycle_function(const fs::path &ego_filepath, const fs::path &data_filepath, GLFWwindow *const window);
+void cycle_function(const fs::path &ego_filepath,
+                    const fs::path &data_filepath,
+                    const fs::path &lane_filepath,
+                    GLFWwindow *const window);
