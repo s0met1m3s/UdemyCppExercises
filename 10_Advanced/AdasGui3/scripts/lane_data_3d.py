@@ -20,20 +20,20 @@ GIF_FILEPATH = os.path.join(DATA_PATH, GIF_FILENAME)
 
 
 class Poly3(TypedDict):
-    x3: float
-    x2: float
-    x1: float
-    x0: float
+    a: float
+    b: float
+    c: float
+    d: float
 
 
-POLY = Poly3(x3=1.0, x2=0.0, x1=0.0, x0=0.0)
+POLY = Poly3(a=0.0, b=0.0, c=0.0, d=0.0)
 
 fig, ax = plt.subplots()
 p2 = POLY
 
 
-def poly_2nd_values(x: np.ndarray, poly: Poly3) -> np.ndarray:
-    y = (poly['x2']*x)**2 + (poly['x1']*x)**1 + poly['x0']
+def p(x: np.ndarray, poly: Poly3) -> np.ndarray:
+    y = (poly['a']*x)**3 + (poly['b']*x)**2 + (poly['c']*x)**1 + poly['d']
     return y
 
 
@@ -52,57 +52,57 @@ def update(frame: int):
     plt.hlines(y=-1.5, xmin=-100.0, xmax=0.0, colors='black')
     plt.hlines(y=1.5, xmin=-100.0, xmax=0.0, colors='black')
     plt.hlines(y=4.5, xmin=-100.0, xmax=0.0, colors='black')
-    p2['x3'] += pertubation(scale=0.0100)
-    p2['x2'] += pertubation(scale=0.0001)
-    p2['x1'] += pertubation(scale=0.0010)
-    x3 = round(p2['x3'], 5)
-    x2 = round(p2['x2'], 5)
-    x1 = round(p2['x1'], 5)
+    p2['a'] += pertubation(scale=0.00001)
+    p2['b'] += pertubation(scale=0.00020)
+    p2['c'] += pertubation(scale=0.00010)
+    a = round(p2['a'], 5)
+    b = round(p2['b'], 5)
+    c = round(p2['c'], 5)
     title_str = (
-        f'p(x) = {x3}$x^3$ + {x2}$x^2$ + {x1}$x^1$ + $x_0$'
+        f'p(x) = {a}$x^3$ + {b}$x^2$ + {c}$x^1$ + $x_0$'
     )
     plt.title(title_str)
-    p2['x0'] = -4.5
-    y = poly_2nd_values(x, p2)
+    p2['d'] = -4.5
+    y = p(x, p2)
     plt.plot(x, y, color="black")
-    p2['x0'] = -1.5
-    y = poly_2nd_values(x, p2)
+    p2['d'] = -1.5
+    y = p(x, p2)
     plt.plot(x, y, color="black")
-    p2['x0'] = 1.5
-    y = poly_2nd_values(x, p2)
+    p2['d'] = 1.5
+    y = p(x, p2)
     plt.plot(x, y, color="black")
-    p2['x0'] = 4.5
-    y = poly_2nd_values(x, p2)
+    p2['d'] = 4.5
+    y = p(x, p2)
     plt.plot(x, y, color="black")
     plt.gca().invert_yaxis()
     return ax
 
 
 def generate_data(num_frames: int):
-    lane_data = {i: {j: {k: Poly3(x3=0.0, x2=0.0, x1=0.0, x0=0.0)
+    lane_data = {i: {j: {k: Poly3(a=0.0, b=0.0, c=0.0, d=0.0)
                  for k in range(num_frames)} for j in range(2)} for i in range(3)}
     p2 = POLY
     for i in range(num_frames):
-        p2['x3'] += pertubation(scale=0.0100)
-        p2['x2'] += pertubation(scale=0.0001)
-        p2['x1'] += pertubation(scale=0.0010)
-        p2['x3'] = round(p2['x3'], 5)
-        p2['x2'] = round(p2['x2'], 5)
-        p2['x1'] = round(p2['x1'], 5)
+        p2['a'] += pertubation(scale=0.00001)
+        p2['b'] += pertubation(scale=0.00020)
+        p2['c'] += pertubation(scale=0.00010)
+        p2['a'] = round(p2['a'], 5)
+        p2['b'] = round(p2['b'], 5)
+        p2['c'] = round(p2['c'], 5)
         # Left lane
-        p2['x0'] = -4.5
+        p2['d'] = -4.5
         lane_data[0][0][i] = copy.deepcopy(p2)
-        p2['x0'] = -1.5
+        p2['d'] = -1.5
         lane_data[0][1][i] = copy.deepcopy(p2)
         # Center lane
-        p2['x0'] = -1.5
+        p2['d'] = -1.5
         lane_data[1][0][i] = copy.deepcopy(p2)
-        p2['x0'] = 1.5
+        p2['d'] = 1.5
         lane_data[1][1][i] = copy.deepcopy(p2)
         # Right lane
-        p2['x0'] = 1.5
+        p2['d'] = 1.5
         lane_data[2][0][i] = copy.deepcopy(p2)
-        p2['x0'] = 4.5
+        p2['d'] = 4.5
         lane_data[2][1][i] = copy.deepcopy(p2)
     return lane_data
 
@@ -113,10 +113,10 @@ def animation():
 
 
 def main() -> int:
-    animation()
-    # lane_data = generate_data(num_frames=1000)
-    # with open(DATA_FILEPATH, "w") as file_object:
-    #     json.dump(lane_data, file_object)
+    # animation()
+    lane_data = generate_data(num_frames=1000)
+    with open(DATA_FILEPATH, "w") as file_object:
+        json.dump(lane_data, file_object)
     return 0
 
 

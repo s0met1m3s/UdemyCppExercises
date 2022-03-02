@@ -27,57 +27,89 @@ void render_cycle(const VehicleType &ego_vehicle,
     }
 }
 
-void plot_lanes_solid_line(const float border_y, std::string_view label)
+void plot_lanes_solid_line(const Polynomial3rdDegreeType &polynomial, std::string_view label)
 {
-    const auto num_points = std::size_t{2};
-    const float xs[num_points] = {-VIEW_RANGE_M, VIEW_RANGE_M};
-    const float ys[num_points] = {border_y, border_y};
+    const auto num_rear_points = std::size_t{2};
+    const auto num_front_points = std::size_t{100};
+    const auto slice_length_m = VIEW_RANGE_M / static_cast<float>(num_front_points);
+
+    auto x_rear = std::array<float, num_rear_points>{-VIEW_RANGE_M, 0.0F};
+    auto y_rear = std::array<float, num_rear_points>{polynomial.d, polynomial.d};
+    ImPlot::SetNextLineStyle(LINE_COLOR, LINE_WIDTH);
+
+    const auto rear_label = label.data() + std::string{"###rear"};
+    ImPlot::PlotLine(rear_label.data(), x_rear.data(), y_rear.data(), num_rear_points);
+
+    auto xs = std::array<float, num_front_points>{};
+    auto ys = std::array<float, num_front_points>{};
+
+    for (std::int32_t slice_idx = 0; slice_idx < num_front_points; ++slice_idx)
+    {
+        const auto x = static_cast<float>(slice_idx) * slice_length_m;
+        xs[slice_idx] = x;
+        ys[slice_idx] = polynomial(x);
+    }
 
     ImPlot::SetNextLineStyle(LINE_COLOR, LINE_WIDTH);
-    ImPlot::PlotLine(label.data(), xs, ys, num_points);
+    const auto front_label = label.data() + std::string{"###front"};
+    ImPlot::PlotLine(front_label.data(), xs.data(), ys.data(), num_front_points);
 }
 
-void plot_lanes_dashed_line(const float border_y, std::string_view label)
+void plot_lanes_dashed_line(const Polynomial3rdDegreeType &polynomial, std::string_view label)
 {
     const auto num_points = std::size_t{2};
 
-    const auto num_slices = std::uint32_t{40};
-    const auto slice_length_m = (2.0F * VIEW_RANGE_M) / static_cast<float>(num_slices);
+    const auto slice_length_m = 5.0F;
     const auto empty_length_m = 2.0F;
     const auto dash_length_m = slice_length_m - empty_length_m;
+    const auto num_slices = static_cast<std::uint32_t>(VIEW_RANGE_M / slice_length_m);
 
     for (std::uint32_t slice_idx = 0; slice_idx < num_slices; slice_idx++)
     {
         const auto slice_m = static_cast<float>(slice_idx);
 
-        const float xs[num_points] = {-VIEW_RANGE_M + slice_m * slice_length_m,
-                                      -VIEW_RANGE_M + slice_m * slice_length_m + dash_length_m};
-        const float ys[num_points] = {border_y, border_y};
+        const auto xs =
+            std::array<float, num_points>{-VIEW_RANGE_M + slice_m * slice_length_m,
+                                          -VIEW_RANGE_M + slice_m * slice_length_m + dash_length_m};
+        const auto ys = std::array<float, num_points>{polynomial.d, polynomial.d};
 
         ImPlot::SetNextLineStyle(LINE_COLOR, LINE_WIDTH);
-        ImPlot::PlotLine(label.data(), xs, ys, num_points);
+        ImPlot::PlotLine(label.data(), xs.data(), ys.data(), num_points);
+    }
+
+    for (std::uint32_t slice_idx = 0; slice_idx < num_slices; slice_idx++)
+    {
+        const auto slice_m = static_cast<float>(slice_idx);
+
+        const auto xs =
+            std::array<float, num_points>{slice_m * slice_length_m, slice_m * slice_length_m + dash_length_m};
+        const auto ys = std::array<float, num_points>{polynomial(xs[0]), polynomial(xs[1])};
+
+        ImPlot::SetNextLineStyle(LINE_COLOR, LINE_WIDTH);
+        ImPlot::PlotLine(label.data(), xs.data(), ys.data(), num_points);
     }
 }
 
-void plot_lanes_vehicles(const std::array<VehicleType, NUM_VEHICLES_ON_LANE> &vehicles,
-                         const std::array<std::string_view, NUM_VEHICLES_ON_LANE> &labels,
-                         const float offset_y)
+void plot_lanes_vehicles(const LaneType &lane,
+                         const std::array<VehicleType, NUM_VEHICLES_ON_LANE> &vehicles,
+                         const std::array<std::string_view, NUM_VEHICLES_ON_LANE> &labels)
 {
     const auto num_elements = std::size_t{1};
-    const auto ys_front = offset_y;
 
     for (std::size_t i = 0; i < NUM_VEHICLES_ON_LANE; i++)
     {
-        const auto xs_front = vehicles[i].distance_m;
+        const auto xs = vehicles[i].distance_m;
+        const auto ys = lane.get_lateral_position(xs);
 
         ImPlot::SetNextMarkerStyle(VEHICLE_MARKER, VEHICLE_SCATTER_SIZE);
-        ImPlot::PlotScatter(labels[i].data(), &xs_front, &ys_front, num_elements);
+        ImPlot::PlotScatter(labels[i].data(), &xs, &ys, num_elements);
     }
 }
 
-void plot_lanes_ego_vehicle(const VehicleType &ego_vehicle, std::string_view label)
+void plot_lanes_ego_vehicle(const LanesType &lanes, const VehicleType &ego_vehicle, std::string_view label)
 {
     const auto num_elements = std::size_t{1};
+    auto lateral_distance_m = 0.0F;
 
     ImPlot::SetNextMarkerStyle(VEHICLE_MARKER, VEHICLE_SCATTER_SIZE);
 
@@ -85,25 +117,28 @@ void plot_lanes_ego_vehicle(const VehicleType &ego_vehicle, std::string_view lab
     {
     case LaneAssociationType::LEFT:
     {
-        ImPlot::PlotScatter(label.data(), &ego_vehicle.distance_m, &LEFT_LANE_OFFSET_M, num_elements);
+        lateral_distance_m = lanes.left_lane.get_lateral_position(ego_vehicle.distance_m);
         break;
     }
     case LaneAssociationType::CENTER:
     {
-        ImPlot::PlotScatter(label.data(), &ego_vehicle.distance_m, &CENTER_LANE_OFFSET_M, num_elements);
+        lateral_distance_m = lanes.center_lane.get_lateral_position(ego_vehicle.distance_m);
         break;
     }
     case LaneAssociationType::RIGHT:
     {
-        ImPlot::PlotScatter(label.data(), &ego_vehicle.distance_m, &RIGHT_LANE_OFFSET_M, num_elements);
+        lateral_distance_m = lanes.right_lane.get_lateral_position(ego_vehicle.distance_m);
         break;
     }
     case LaneAssociationType::NONE:
     default:
     {
+        return;
         break;
     }
     }
+
+    ImPlot::PlotScatter(label.data(), &ego_vehicle.distance_m, &lateral_distance_m, num_elements);
 }
 
 void plot_lanes(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles, const LanesType &lanes)
@@ -113,19 +148,19 @@ void plot_lanes(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehi
         ImPlot::SetupAxes("Rel. LongDist. (m)", "Rel. LatDist. (m)", ImPlotAxisFlags_Lock, AXES_FLAGS);
         ImPlot::SetupAxisLimits(ImAxis_X1, -VIEW_RANGE_M, VIEW_RANGE_M, ImGuiCond_Always);
         ImPlot::SetupAxisLimits(ImAxis_Y1,
-                                LEFT_LEFT_BORDER - 0.05F,
-                                RIGHT_RIGHT_BORDER + 0.05,
+                                LEFT_LEFT_BORDER - 3.0F,
+                                RIGHT_RIGHT_BORDER + 3.0F,
                                 ImGuiCond_Always);
 
-        plot_lanes_solid_line(LEFT_LEFT_BORDER, "LeftLeftBorder");
-        plot_lanes_dashed_line(CENTER_LEFT_BORDER, "CenterLeftBorder");
-        plot_lanes_dashed_line(CENTER_RIGHT_BORDER, "CenterRightBorder");
-        plot_lanes_solid_line(RIGHT_RIGHT_BORDER, "RightRightBorder");
+        plot_lanes_solid_line(lanes.left_lane.left_polynomial, "LeftLeftBorder");
+        plot_lanes_dashed_line(lanes.center_lane.left_polynomial, "CenterLeftBorder");
+        plot_lanes_dashed_line(lanes.center_lane.right_polynomial, "CenterRightBorder");
+        plot_lanes_solid_line(lanes.right_lane.right_polynomial, "RightRightBorder");
 
-        plot_lanes_vehicles(vehicles.vehicles_left_lane, {"LF", "LR"}, LEFT_LANE_OFFSET_M);
-        plot_lanes_vehicles(vehicles.vehicles_center_lane, {"CF", "CR"}, CENTER_LANE_OFFSET_M);
-        plot_lanes_vehicles(vehicles.vehicles_right_lane, {"RF", "RR"}, RIGHT_LANE_OFFSET_M);
-        plot_lanes_ego_vehicle(ego_vehicle, "Ego");
+        plot_lanes_vehicles(lanes.left_lane, vehicles.vehicles_left_lane, {"LF", "LR"});
+        plot_lanes_vehicles(lanes.center_lane, vehicles.vehicles_center_lane, {"CF", "CR"});
+        plot_lanes_vehicles(lanes.right_lane, vehicles.vehicles_right_lane, {"RF", "RR"});
+        plot_lanes_ego_vehicle(lanes, ego_vehicle, "Ego");
 
         ImPlot::EndPlot();
     }

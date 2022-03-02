@@ -79,15 +79,15 @@ void get_lane_border_data(const std::uint32_t i, const size_t lane_idx, const js
     const auto i_str = std::to_string(i);
     const auto lane_str = std::to_string(lane_idx);
 
-    lanes_log_data[lane_idx].left_polynomials[i].x3 = parsed_data[lane_str]["0"][i_str]["x3"];
-    lanes_log_data[lane_idx].left_polynomials[i].x2 = parsed_data[lane_str]["0"][i_str]["x2"];
-    lanes_log_data[lane_idx].left_polynomials[i].x1 = parsed_data[lane_str]["0"][i_str]["x1"];
-    lanes_log_data[lane_idx].left_polynomials[i].x0 = parsed_data[lane_str]["0"][i_str]["x0"];
+    lanes_log_data[lane_idx].left_polynomials[i].a = parsed_data[lane_str]["0"][i_str]["a"];
+    lanes_log_data[lane_idx].left_polynomials[i].b = parsed_data[lane_str]["0"][i_str]["b"];
+    lanes_log_data[lane_idx].left_polynomials[i].c = parsed_data[lane_str]["0"][i_str]["c"];
+    lanes_log_data[lane_idx].left_polynomials[i].d = parsed_data[lane_str]["0"][i_str]["d"];
 
-    lanes_log_data[lane_idx].right_polynomials[i].x3 = parsed_data[lane_str]["1"][i_str]["x3"];
-    lanes_log_data[lane_idx].right_polynomials[i].x2 = parsed_data[lane_str]["1"][i_str]["x2"];
-    lanes_log_data[lane_idx].right_polynomials[i].x1 = parsed_data[lane_str]["1"][i_str]["x1"];
-    lanes_log_data[lane_idx].right_polynomials[i].x0 = parsed_data[lane_str]["1"][i_str]["x0"];
+    lanes_log_data[lane_idx].right_polynomials[i].a = parsed_data[lane_str]["1"][i_str]["a"];
+    lanes_log_data[lane_idx].right_polynomials[i].b = parsed_data[lane_str]["1"][i_str]["b"];
+    lanes_log_data[lane_idx].right_polynomials[i].c = parsed_data[lane_str]["1"][i_str]["c"];
+    lanes_log_data[lane_idx].right_polynomials[i].d = parsed_data[lane_str]["1"][i_str]["d"];
 }
 
 void set_lanes_start_data(LaneType &lane, const size_t lane_idx)

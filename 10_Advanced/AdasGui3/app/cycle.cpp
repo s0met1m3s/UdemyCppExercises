@@ -37,13 +37,16 @@ void end_cycle(GLFWwindow *const window)
 
 void reset_state(const fs::path &ego_filepath,
                  const fs::path &data_filepath,
+                 const fs::path &lanes_filepath,
                  std::size_t &cycle,
                  VehicleType &ego_vehicle,
-                 NeighborVehiclesType &vehicles)
+                 NeighborVehiclesType &vehicles,
+                 LanesType &lanes)
 {
     cycle = 0;
     init_ego_vehicle(ego_filepath.string(), ego_vehicle);
     init_vehicles(data_filepath.string(), vehicles);
+    init_lanes(lanes_filepath.string(), lanes);
 }
 
 
@@ -117,7 +120,7 @@ void cycle_function(const fs::path &ego_filepath,
         {
             if (cycle == 0 && cycle >= NUM_ITERATIONS)
             {
-                reset_state(ego_filepath, data_filepath, cycle, ego_vehicle, vehicles);
+                reset_state(ego_filepath, data_filepath, lane_filepath, cycle, ego_vehicle, vehicles, lanes);
             }
 
             pressed_pause = false;
@@ -127,7 +130,7 @@ void cycle_function(const fs::path &ego_filepath,
 
         if (pressed_replay)
         {
-            reset_state(ego_filepath, data_filepath, cycle, ego_vehicle, vehicles);
+            reset_state(ego_filepath, data_filepath, lane_filepath, cycle, ego_vehicle, vehicles, lanes);
 
             pressed_replay = false;
             is_playing = true;
