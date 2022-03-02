@@ -36,6 +36,9 @@ struct Polynomial3rdDegreeType
     float c;
     float d;
 
+    /**
+     * @brief To compute p(x) = a^3 * x + b^2 * x + c * x + d
+     */
     float operator()(const float x) const
     {
         const auto x_3 = std::powf(a, 3.0F) * x;
