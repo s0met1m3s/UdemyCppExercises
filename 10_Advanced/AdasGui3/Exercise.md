@@ -7,7 +7,7 @@
 ## Intro
 
 In a self-driving car, the camera will deliver the lane information.  
-In this exercise the lane border shape is given by a 3rd-degree polynomial:
+In this exercise the lane boundary shape is given by a 3rd-degree polynomial:
 
 $p(x) = a^3x + b^2x + cx + d$
 
@@ -79,6 +79,7 @@ struct LanesInformationType
 
 For plotting the lanes you have to use the polynomials.  
 Note: The polynomials are only used to plot the lane in front of us (x > 0).  
-The lane behind us will be just a straight line, as it was before.  
+The lane behind us will be just a straight line.  
+
 Furthermore, we will plot the vehicle in the middle of the lanes.  
 Hence, you have to compute the center point of the lane.  
