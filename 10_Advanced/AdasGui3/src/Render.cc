@@ -13,7 +13,7 @@
 
 void render_cycle(const VehicleType &ego_vehicle,
                   const NeighborVehiclesType &vehicles,
-                  const LanesType &lanes)
+                  const LanesInformationType &lanes)
 {
     ImGui::SetNextWindowPos(ImVec2(0.0F, 0.0F));
     ImGui::SetNextWindowSize(ImVec2(WINDOWS_WIDTH, LANE_PLOT_TOTAL_HEIGHT));
@@ -27,18 +27,28 @@ void render_cycle(const VehicleType &ego_vehicle,
     }
 }
 
-void plot_lanes_solid_line(const Polynomial3rdDegreeType &polynomial, std::string_view label)
+void plot_lanes_straight_solid_line(const Polynomial3rdDegreeType &polynomial,
+                                    std::string_view label,
+                                    const float start_m,
+                                    const float end_m)
 {
     const auto num_rear_points = std::size_t{2};
-    const auto num_front_points = std::size_t{100};
-    const auto slice_length_m = VIEW_RANGE_M / static_cast<float>(num_front_points);
 
-    auto x_rear = std::array<float, num_rear_points>{-VIEW_RANGE_M, 0.0F};
-    auto y_rear = std::array<float, num_rear_points>{polynomial.d, polynomial.d};
-    ImPlot::SetNextLineStyle(LINE_COLOR, LINE_WIDTH);
-
+    const auto x_rear = std::array<float, num_rear_points>{start_m, end_m};
+    const auto y_rear = std::array<float, num_rear_points>{polynomial.d, polynomial.d};
+    ImPlot::SetNextLineStyle(WHITE, LINE_WIDTH);
     const auto rear_label = label.data() + std::string{"###rear"};
     ImPlot::PlotLine(rear_label.data(), x_rear.data(), y_rear.data(), num_rear_points);
+}
+
+void plot_lanes_polynomial_solid_line(const Polynomial3rdDegreeType &polynomial,
+                                      std::string_view label,
+                                      const float start_m,
+                                      const float end_m)
+{
+    const auto num_front_points = std::size_t{100};
+    const auto range_m = std::abs(end_m - start_m);
+    const auto slice_length_m = range_m / static_cast<float>(num_front_points);
 
     auto xs = std::array<float, num_front_points>{};
     auto ys = std::array<float, num_front_points>{};
@@ -50,47 +60,68 @@ void plot_lanes_solid_line(const Polynomial3rdDegreeType &polynomial, std::strin
         ys[slice_idx] = polynomial(x);
     }
 
-    ImPlot::SetNextLineStyle(LINE_COLOR, LINE_WIDTH);
+    ImPlot::SetNextLineStyle(WHITE, LINE_WIDTH);
     const auto front_label = label.data() + std::string{"###front"};
     ImPlot::PlotLine(front_label.data(), xs.data(), ys.data(), num_front_points);
 }
 
-void plot_lanes_dashed_line(const Polynomial3rdDegreeType &polynomial, std::string_view label)
+void plot_lanes_solid_line(const Polynomial3rdDegreeType &polynomial, std::string_view label)
+{
+    plot_lanes_straight_solid_line(polynomial, label, -VIEW_RANGE_M, 0.0F);
+    plot_lanes_polynomial_solid_line(polynomial, label, 0.0F, VIEW_RANGE_M);
+}
+
+void plot_lanes_straight_dashed_line(const Polynomial3rdDegreeType &polynomial,
+                                     std::string_view label,
+                                     const float start_m,
+                                     const float end_m)
 {
     const auto num_points = std::size_t{2};
-
-    const auto slice_length_m = 5.0F;
-    const auto empty_length_m = 2.0F;
-    const auto dash_length_m = slice_length_m - empty_length_m;
-    const auto num_slices = static_cast<std::uint32_t>(VIEW_RANGE_M / slice_length_m);
+    const auto range_m = std::abs(end_m - start_m);
+    const auto num_slices = static_cast<std::uint32_t>(range_m / SLICE_LENGTH_M);
 
     for (std::uint32_t slice_idx = 0; slice_idx < num_slices; slice_idx++)
     {
         const auto slice_m = static_cast<float>(slice_idx);
 
-        const auto xs =
-            std::array<float, num_points>{-VIEW_RANGE_M + slice_m * slice_length_m,
-                                          -VIEW_RANGE_M + slice_m * slice_length_m + dash_length_m};
+        const auto xs = std::array<float, num_points>{start_m + slice_m * SLICE_LENGTH_M,
+                                                      start_m + slice_m * SLICE_LENGTH_M + DASHED_LENGTH_M};
         const auto ys = std::array<float, num_points>{polynomial.d, polynomial.d};
 
-        ImPlot::SetNextLineStyle(LINE_COLOR, LINE_WIDTH);
-        ImPlot::PlotLine(label.data(), xs.data(), ys.data(), num_points);
-    }
-
-    for (std::uint32_t slice_idx = 0; slice_idx < num_slices; slice_idx++)
-    {
-        const auto slice_m = static_cast<float>(slice_idx);
-
-        const auto xs =
-            std::array<float, num_points>{slice_m * slice_length_m, slice_m * slice_length_m + dash_length_m};
-        const auto ys = std::array<float, num_points>{polynomial(xs[0]), polynomial(xs[1])};
-
-        ImPlot::SetNextLineStyle(LINE_COLOR, LINE_WIDTH);
+        ImPlot::SetNextLineStyle(WHITE, LINE_WIDTH);
         ImPlot::PlotLine(label.data(), xs.data(), ys.data(), num_points);
     }
 }
 
-void plot_lanes_vehicles(const LaneType &lane,
+void plot_lanes_polynomial_dashed_line(const Polynomial3rdDegreeType &polynomial,
+                                       std::string_view label,
+                                       const float start_m,
+                                       const float end_m)
+{
+    const auto num_points = std::size_t{2};
+    const auto range_m = std::abs(end_m - start_m);
+    const auto num_slices = static_cast<std::uint32_t>(range_m / SLICE_LENGTH_M);
+
+    for (std::uint32_t slice_idx = 0; slice_idx < num_slices; slice_idx++)
+    {
+        const auto slice_m = static_cast<float>(slice_idx);
+
+        const auto xs = std::array<float, num_points>{start_m + slice_m * SLICE_LENGTH_M,
+                                                      start_m + slice_m * SLICE_LENGTH_M + DASHED_LENGTH_M};
+        const auto ys = std::array<float, num_points>{polynomial(xs[0]), polynomial(xs[1])};
+
+        ImPlot::SetNextLineStyle(WHITE, LINE_WIDTH);
+        ImPlot::PlotLine(label.data(), xs.data(), ys.data(), num_points);
+    }
+}
+
+void plot_lanes_dashed_line(const Polynomial3rdDegreeType &polynomial, std::string_view label)
+{
+    plot_lanes_straight_dashed_line(polynomial, label, -VIEW_RANGE_M, 0.0F);
+    plot_lanes_polynomial_dashed_line(polynomial, label, 0.0F, VIEW_RANGE_M);
+}
+
+void plot_lanes_vehicles(const LaneInformationType &lane,
                          const std::array<VehicleType, NUM_VEHICLES_ON_LANE> &vehicles,
                          const std::array<std::string_view, NUM_VEHICLES_ON_LANE> &labels)
 {
@@ -106,7 +137,9 @@ void plot_lanes_vehicles(const LaneType &lane,
     }
 }
 
-void plot_lanes_ego_vehicle(const LanesType &lanes, const VehicleType &ego_vehicle, std::string_view label)
+void plot_lanes_ego_vehicle(const LanesInformationType &lanes,
+                            const VehicleType &ego_vehicle,
+                            std::string_view label)
 {
     const auto num_elements = std::size_t{1};
     auto lateral_distance_m = 0.0F;
@@ -141,7 +174,9 @@ void plot_lanes_ego_vehicle(const LanesType &lanes, const VehicleType &ego_vehic
     ImPlot::PlotScatter(label.data(), &ego_vehicle.distance_m, &lateral_distance_m, num_elements);
 }
 
-void plot_lanes(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles, const LanesType &lanes)
+void plot_lanes(const VehicleType &ego_vehicle,
+                const NeighborVehiclesType &vehicles,
+                const LanesInformationType &lanes)
 {
     if (ImPlot::BeginPlot("Lanes", PLOT_DIM, PLOT_FLAGS))
     {
