@@ -68,10 +68,24 @@ void load_cycle(const std::uint32_t cycle, NeighborVehiclesType &vehicles, Lanes
 
     lanes.left_lane.left_polynomial = lanes_log_data[0].left_polynomials[cycle];
     lanes.left_lane.right_polynomial = lanes_log_data[0].right_polynomials[cycle];
+    lanes.left_lane.left_view_range_m = lanes_log_data[0].left_view_ranges_m[cycle];
+    lanes.left_lane.left_boundary_type = lanes_log_data[0].left_boundary_types[cycle];
+    lanes.left_lane.right_view_range_m = lanes_log_data[0].right_view_ranges_m[cycle];
+    lanes.left_lane.right_boundary_type = lanes_log_data[0].right_boundary_types[cycle];
+
     lanes.center_lane.left_polynomial = lanes_log_data[1].left_polynomials[cycle];
     lanes.center_lane.right_polynomial = lanes_log_data[1].right_polynomials[cycle];
+    lanes.center_lane.left_view_range_m = lanes_log_data[1].left_view_ranges_m[cycle];
+    lanes.center_lane.left_boundary_type = lanes_log_data[1].left_boundary_types[cycle];
+    lanes.center_lane.right_view_range_m = lanes_log_data[1].right_view_ranges_m[cycle];
+    lanes.center_lane.right_boundary_type = lanes_log_data[1].right_boundary_types[cycle];
+
     lanes.right_lane.left_polynomial = lanes_log_data[2].left_polynomials[cycle];
     lanes.right_lane.right_polynomial = lanes_log_data[2].right_polynomials[cycle];
+    lanes.right_lane.left_view_range_m = lanes_log_data[2].left_view_ranges_m[cycle];
+    lanes.right_lane.left_boundary_type = lanes_log_data[2].left_boundary_types[cycle];
+    lanes.right_lane.right_view_range_m = lanes_log_data[2].right_view_ranges_m[cycle];
+    lanes.right_lane.right_boundary_type = lanes_log_data[2].right_boundary_types[cycle];
 }
 
 void get_lane_border_data(const std::uint32_t i, const size_t lane_idx, const json &parsed_data)
@@ -79,21 +93,30 @@ void get_lane_border_data(const std::uint32_t i, const size_t lane_idx, const js
     const auto i_str = std::to_string(i);
     const auto lane_str = std::to_string(lane_idx);
 
-    lanes_log_data[lane_idx].left_polynomials[i].a = parsed_data[lane_str]["0"][i_str]["a"];
-    lanes_log_data[lane_idx].left_polynomials[i].b = parsed_data[lane_str]["0"][i_str]["b"];
-    lanes_log_data[lane_idx].left_polynomials[i].c = parsed_data[lane_str]["0"][i_str]["c"];
-    lanes_log_data[lane_idx].left_polynomials[i].d = parsed_data[lane_str]["0"][i_str]["d"];
+    lanes_log_data[lane_idx].left_polynomials[i].a = parsed_data[lane_str]["0"][i_str]["p"]["a"];
+    lanes_log_data[lane_idx].left_polynomials[i].b = parsed_data[lane_str]["0"][i_str]["p"]["b"];
+    lanes_log_data[lane_idx].left_polynomials[i].c = parsed_data[lane_str]["0"][i_str]["p"]["c"];
+    lanes_log_data[lane_idx].left_polynomials[i].d = parsed_data[lane_str]["0"][i_str]["p"]["d"];
+    lanes_log_data[lane_idx].left_view_ranges_m[i] = parsed_data[lane_str]["0"][i_str]["r"];
+    lanes_log_data[lane_idx].left_boundary_types[i] = parsed_data[lane_str]["0"][i_str]["t"];
 
-    lanes_log_data[lane_idx].right_polynomials[i].a = parsed_data[lane_str]["1"][i_str]["a"];
-    lanes_log_data[lane_idx].right_polynomials[i].b = parsed_data[lane_str]["1"][i_str]["b"];
-    lanes_log_data[lane_idx].right_polynomials[i].c = parsed_data[lane_str]["1"][i_str]["c"];
-    lanes_log_data[lane_idx].right_polynomials[i].d = parsed_data[lane_str]["1"][i_str]["d"];
+    lanes_log_data[lane_idx].right_polynomials[i].a = parsed_data[lane_str]["1"][i_str]["p"]["a"];
+    lanes_log_data[lane_idx].right_polynomials[i].b = parsed_data[lane_str]["1"][i_str]["p"]["b"];
+    lanes_log_data[lane_idx].right_polynomials[i].c = parsed_data[lane_str]["1"][i_str]["p"]["c"];
+    lanes_log_data[lane_idx].right_polynomials[i].d = parsed_data[lane_str]["1"][i_str]["p"]["d"];
+    lanes_log_data[lane_idx].right_view_ranges_m[i] = parsed_data[lane_str]["1"][i_str]["r"];
+    lanes_log_data[lane_idx].right_boundary_types[i] = parsed_data[lane_str]["1"][i_str]["t"];
 }
 
 void set_lanes_start_data(LaneInformationType &lane, const size_t lane_idx)
 {
     lane.left_polynomial = lanes_log_data[lane_idx].left_polynomials[0];
+    lane.left_view_range_m = lanes_log_data[lane_idx].left_view_ranges_m[0];
+    lane.left_boundary_type = lanes_log_data[lane_idx].left_boundary_types[0];
+
     lane.right_polynomial = lanes_log_data[lane_idx].right_polynomials[0];
+    lane.right_view_range_m = lanes_log_data[lane_idx].right_view_ranges_m[0];
+    lane.right_boundary_type = lanes_log_data[lane_idx].right_boundary_types[0];
 }
 
 void init_lanes(std::string_view filepath, LanesInformationType &lanes)

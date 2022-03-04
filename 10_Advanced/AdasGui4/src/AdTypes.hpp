@@ -41,14 +41,25 @@ struct Polynomial3rdDegreeType
      */
     float operator()(const float x) const
     {
-        return std::powf(a, 3.0F) * x + std::powf(b, 2.0F) * x + std::powf(c, 1.0F) * x + d;
+        return std::pow(a, 3.0F) * x + std::pow(b, 2.0F) * x + std::pow(c, 1.0F) * x + d;
     }
+};
+
+enum class LaneBoundaryType
+{
+    DASHED,
+    SOLID,
+    NONE,
 };
 
 struct LaneInformationType
 {
     Polynomial3rdDegreeType left_polynomial;
     Polynomial3rdDegreeType right_polynomial;
+    LaneBoundaryType left_boundary_type;
+    LaneBoundaryType right_boundary_type;
+    float left_view_range_m;
+    float right_view_range_m;
 
     /**
      * @brief To compute the middle point of the two polynomials at pos. x

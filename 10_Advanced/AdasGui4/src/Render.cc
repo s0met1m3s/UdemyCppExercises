@@ -36,7 +36,7 @@ void plot_lanes_straight_solid_line(const Polynomial3rdDegreeType &polynomial,
 
     const auto x_rear = std::array<float, num_rear_points>{start_m, end_m};
     const auto y_rear = std::array<float, num_rear_points>{polynomial.d, polynomial.d};
-    ImPlot::SetNextLineStyle(WHITE, LINE_WIDTH);
+    ImPlot::SetNextLineStyle(WHITE, REAR_LINE_WIDTH);
     const auto rear_label = label.data() + std::string{"###rear"};
     ImPlot::PlotLine(rear_label.data(), x_rear.data(), y_rear.data(), num_rear_points);
 }
@@ -65,34 +65,6 @@ void plot_lanes_polynomial_solid_line(const Polynomial3rdDegreeType &polynomial,
     ImPlot::PlotLine(front_label.data(), xs.data(), ys.data(), num_front_points);
 }
 
-void plot_lanes_solid_line(const Polynomial3rdDegreeType &polynomial, std::string_view label)
-{
-    plot_lanes_straight_solid_line(polynomial, label, -VIEW_RANGE_M, 0.0F);
-    plot_lanes_polynomial_solid_line(polynomial, label, 0.0F, VIEW_RANGE_M);
-}
-
-void plot_lanes_straight_dashed_line(const Polynomial3rdDegreeType &polynomial,
-                                     std::string_view label,
-                                     const float start_m,
-                                     const float end_m)
-{
-    const auto num_points = std::size_t{2};
-    const auto range_m = std::abs(end_m - start_m);
-    const auto num_slices = static_cast<std::uint32_t>(range_m / SLICE_LENGTH_M);
-
-    for (std::uint32_t slice_idx = 0; slice_idx < num_slices; slice_idx++)
-    {
-        const auto slice_m = static_cast<float>(slice_idx);
-
-        const auto xs = std::array<float, num_points>{start_m + slice_m * SLICE_LENGTH_M,
-                                                      start_m + slice_m * SLICE_LENGTH_M + DASHED_LENGTH_M};
-        const auto ys = std::array<float, num_points>{polynomial.d, polynomial.d};
-
-        ImPlot::SetNextLineStyle(WHITE, LINE_WIDTH);
-        ImPlot::PlotLine(label.data(), xs.data(), ys.data(), num_points);
-    }
-}
-
 void plot_lanes_polynomial_dashed_line(const Polynomial3rdDegreeType &polynomial,
                                        std::string_view label,
                                        const float start_m,
@@ -115,10 +87,30 @@ void plot_lanes_polynomial_dashed_line(const Polynomial3rdDegreeType &polynomial
     }
 }
 
-void plot_lanes_dashed_line(const Polynomial3rdDegreeType &polynomial, std::string_view label)
+void plot_lane_boundary(const Polynomial3rdDegreeType &polynomial,
+                        const LaneBoundaryType boundary_type,
+                        const float view_range_m,
+                        std::string_view label)
 {
-    plot_lanes_straight_dashed_line(polynomial, label, -VIEW_RANGE_M, 0.0F);
-    plot_lanes_polynomial_dashed_line(polynomial, label, 0.0F, VIEW_RANGE_M);
+    plot_lanes_straight_solid_line(polynomial, label, -VIEW_RANGE_M, 0.0F);
+
+    switch (boundary_type)
+    {
+    case LaneBoundaryType::DASHED:
+    {
+        plot_lanes_polynomial_dashed_line(polynomial, label, 0.0F, view_range_m);
+        break;
+    }
+    case LaneBoundaryType::SOLID:
+    {
+        plot_lanes_polynomial_solid_line(polynomial, label, 0.0F, view_range_m);
+        break;
+    }
+    default:
+    {
+        return;
+    }
+    }
 }
 
 void plot_lanes_vehicles(const LaneInformationType &lane,
@@ -187,10 +179,22 @@ void plot_lanes(const VehicleType &ego_vehicle,
                                 RIGHT_RIGHT_BORDER + 3.0F,
                                 ImGuiCond_Always);
 
-        plot_lanes_solid_line(lanes.left_lane.left_polynomial, "LeftLeftBorder");
-        plot_lanes_dashed_line(lanes.center_lane.left_polynomial, "CenterLeftBorder");
-        plot_lanes_dashed_line(lanes.center_lane.right_polynomial, "CenterRightBorder");
-        plot_lanes_solid_line(lanes.right_lane.right_polynomial, "RightRightBorder");
+        plot_lane_boundary(lanes.left_lane.left_polynomial,
+                           lanes.left_lane.left_boundary_type,
+                           lanes.left_lane.left_view_range_m,
+                           "LeftLeftBorder");
+        plot_lane_boundary(lanes.center_lane.left_polynomial,
+                           lanes.center_lane.left_boundary_type,
+                           lanes.center_lane.left_view_range_m,
+                           "CenterLeftBorder");
+        plot_lane_boundary(lanes.center_lane.right_polynomial,
+                           lanes.center_lane.right_boundary_type,
+                           lanes.center_lane.right_view_range_m,
+                           "CenterRightBorder");
+        plot_lane_boundary(lanes.right_lane.right_polynomial,
+                           lanes.right_lane.right_boundary_type,
+                           lanes.right_lane.right_view_range_m,
+                           "RightRightBorder");
 
         plot_lanes_vehicles(lanes.left_lane, vehicles.vehicles_left_lane, {"LF", "LR"});
         plot_lanes_vehicles(lanes.center_lane, vehicles.vehicles_center_lane, {"CF", "CR"});
