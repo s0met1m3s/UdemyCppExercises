@@ -59,21 +59,6 @@ struct LaneInformationType
 
     float lane_width_m;
     LaneClassType lane_class;
-
-    /**
-     * @brief To compute the middle point of the two polynomials at pos. x
-     */
-    float get_lateral_position(const float x) const
-    {
-        if (x < 0.0F)
-        {
-            return (left_polynomial.d + right_polynomial.d) / 2.0F;
-        }
-        else
-        {
-            return (left_polynomial(x) + right_polynomial(x)) / 2.0F;
-        }
-    }
 };
 ```
 
@@ -102,6 +87,7 @@ Update the vehicle plotting code:
   - Acceleration: Blue-ish color
   - Deceleration: Blue-ish color
   - Hard-Shoulder: Red-ish color
+- Such that the ID of the vehicle is plotted nearby of the marker
 
 Note: The colors are already defined in the RenderConstants.hpp
 
@@ -111,5 +97,5 @@ Function for the lane class coloring is:
 
 ```cpp
 ImPlot::SetNextFillStyle(color);
-ImPlot::PlotShaded("###rear", xs_front_upper.data(), ys_front_upper.data(), num_front_points, offset_m);
+ImPlot::PlotShaded("label", x_data, y_data, num_points, offset); // offset can be used to "shift" the shaded area
 ```

@@ -35,12 +35,7 @@ struct VehicleInformationType
     float lat_distance_m;
 };
 
-struct NeighborVehiclesType
-{
-    std::array<VehicleInformationType, NUM_VEHICLES_ON_LANE> vehicles_left_lane;
-    std::array<VehicleInformationType, NUM_VEHICLES_ON_LANE> vehicles_center_lane;
-    std::array<VehicleInformationType, NUM_VEHICLES_ON_LANE> vehicles_right_lane;
-};
+using NeighborVehiclesType = std::array<VehicleInformationType, MAX_NUM_VEHICLES>;
 
 struct Polynomial3rdDegreeType
 {
@@ -87,21 +82,6 @@ struct LaneInformationType
 
     float lane_width_m;
     LaneClassType lane_class;
-
-    /**
-     * @brief To compute the middle point of the two polynomials at pos. x
-     */
-    float get_lateral_position(const float x) const
-    {
-        if (x < 0.0F)
-        {
-            return (left_polynomial.d + right_polynomial.d) / 2.0F;
-        }
-        else
-        {
-            return (left_polynomial(x) + right_polynomial(x)) / 2.0F;
-        }
-    }
 };
 
 struct LanesInformationType

@@ -61,6 +61,22 @@ void plot_cycle_number(const std::size_t cycle)
     }
 }
 
+
+void execute_cycle(const std::size_t cycle,
+                   VehicleInformationType &ego_vehicle,
+                   NeighborVehiclesType &vehicles,
+                   LanesInformationType &lanes)
+{
+    const auto ego_lane_vehicles = get_vehicles_on_lane(ego_vehicle.lane, vehicles);
+    const auto front_vehicle = get_impeding_vehicle(ego_lane_vehicles);
+    const auto long_request = get_longitudinal_request(front_vehicle, ego_vehicle);
+    const auto lat_request = get_lat_request(ego_vehicle, vehicles);
+
+    load_cycle(cycle, vehicles, lanes);
+    render_cycle(ego_vehicle, vehicles, lanes, long_request, lat_request);
+}
+
+
 void cycle_function(const fs::path &ego_filepath,
                     const fs::path &data_filepath,
                     const fs::path &lane_filepath,
@@ -71,7 +87,7 @@ void cycle_function(const fs::path &ego_filepath,
     static bool pressed_pause = false;
     static bool pressed_replay = false;
 
-    constexpr std::int64_t sleep_time = 50;
+    constexpr std::int64_t sleep_time_ms = 50;
     std::size_t cycle = 0;
     VehicleInformationType ego_vehicle{};
     NeighborVehiclesType vehicles{};
@@ -84,6 +100,9 @@ void cycle_function(const fs::path &ego_filepath,
     // Main loop
     while (!glfwWindowShouldClose(window))
     {
+        bool pressed_next = false;
+        bool pressed_prev = false;
+
         start_cycle();
 
         ImGui::NewFrame();
@@ -112,6 +131,19 @@ void cycle_function(const fs::path &ego_filepath,
             {
                 pressed_replay = true;
             }
+            ImGui::SameLine(3 * BUTTON_LINE_SHIFT);
+            if (ImGui::Button("Prev", ImVec2(BUTTON_WIDTH, BUTTON_HEIGHT)))
+            {
+                pressed_prev = true;
+                is_playing = false;
+            }
+            ImGui::SameLine(4 * BUTTON_LINE_SHIFT);
+            if (ImGui::Button("Next", ImVec2(BUTTON_WIDTH, BUTTON_HEIGHT)))
+            {
+                pressed_next = true;
+                is_playing = false;
+            }
+
 
             ImGui::End();
         }
@@ -138,24 +170,34 @@ void cycle_function(const fs::path &ego_filepath,
 
         if (!pressed_pause && is_playing && cycle < NUM_ITERATIONS)
         {
-            render_cycle(ego_vehicle, vehicles, lanes);
+            execute_cycle(cycle, ego_vehicle, vehicles, lanes);
+        }
+        else if (pressed_next)
+        {
+            if (cycle < NUM_ITERATIONS - 1U)
+            {
+                cycle++;
+            }
 
-            // const auto &ego_lane_vehicles = get_vehicle_array(ego_vehicle.lane, vehicles);
-            // longitudinal_control(ego_lane_vehicles[0], ego_vehicle);
-            // const auto lane_change_request = get_lane_change_request(ego_vehicle, vehicles);
-            // (void)lateral_control(lane_change_request, ego_vehicle);
+            execute_cycle(cycle, ego_vehicle, vehicles, lanes);
+        }
+        else if (pressed_prev)
+        {
+            if (cycle > 0)
+            {
+                cycle--;
+            }
 
-            cycle++;
-            load_cycle(cycle, vehicles, lanes);
+            execute_cycle(cycle, ego_vehicle, vehicles, lanes);
         }
         else if (pressed_pause)
         {
-            render_cycle(ego_vehicle, vehicles, lanes);
+            render_cycle(ego_vehicle, vehicles, lanes, false, LaneAssociationType::NONE);
             is_playing = false;
         }
         else if (!is_playing)
         {
-            render_cycle(ego_vehicle, vehicles, lanes);
+            render_cycle(ego_vehicle, vehicles, lanes, false, LaneAssociationType::NONE);
         }
         else if (cycle >= NUM_ITERATIONS)
         {
@@ -166,8 +208,8 @@ void cycle_function(const fs::path &ego_filepath,
 
         ImGui::Render();
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time));
-        ImGui::GetIO().DeltaTime = static_cast<float>(sleep_time) / 1000.0F;
+        std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time_ms));
+        ImGui::GetIO().DeltaTime = static_cast<float>(sleep_time_ms) / 1000.0F;
 
         end_cycle(window);
 

@@ -9,8 +9,8 @@ import numpy as np
 
 class LaneAssociation(enum.Enum):
     LEFT = 0
-    RIGHT = 1
-    CENTER = 2
+    CENTER = 1
+    RIGHT = 2
     NONE = 3
 
 
@@ -23,7 +23,7 @@ class ObjectClass(enum.Enum):
 
 NUM_VEHICLES = 6
 NUM_ITERATIONS = 1_000
-FRAME_DURATION_MS = 100
+FRAME_DURATION_MS = 50
 FRAME_DURATION_S = FRAME_DURATION_MS / 1000.0
 
 VEHICLE_FILENAME = "vehicle_data.json"

@@ -67,45 +67,43 @@ void init_vehicles(std::string_view filepath, NeighborVehiclesType &vehicles)
         vehicle_log_data.lat_distances_m = vehicle_data["LatDistance"];
     }
 
-    set_vehicle_start_data(vehicles.vehicles_left_lane[0], vehicles_log_data[0]);
-    set_vehicle_start_data(vehicles.vehicles_left_lane[1], vehicles_log_data[1]);
-    set_vehicle_start_data(vehicles.vehicles_center_lane[0], vehicles_log_data[2]);
-    set_vehicle_start_data(vehicles.vehicles_center_lane[1], vehicles_log_data[3]);
-    set_vehicle_start_data(vehicles.vehicles_right_lane[0], vehicles_log_data[4]);
-    set_vehicle_start_data(vehicles.vehicles_right_lane[1], vehicles_log_data[5]);
+    set_vehicle_start_data(vehicles[0], vehicles_log_data[0]);
+    set_vehicle_start_data(vehicles[1], vehicles_log_data[1]);
+    set_vehicle_start_data(vehicles[2], vehicles_log_data[2]);
+    set_vehicle_start_data(vehicles[3], vehicles_log_data[3]);
+    set_vehicle_start_data(vehicles[4], vehicles_log_data[4]);
+    set_vehicle_start_data(vehicles[5], vehicles_log_data[5]);
 }
 
-void load_cycle_vehicles_on_lane(const std::uint32_t cycle,
-                                 const std::uint32_t log_data_idx_start,
-                                 std::array<VehicleInformationType, NUM_VEHICLES_ON_LANE> &vehicles)
+void load_cycle_vehicle(const std::uint32_t cycle,
+                        const std::uint32_t vehicle_idx,
+                        std::array<VehicleInformationType, MAX_NUM_VEHICLES> &vehicles)
 {
-    vehicles[0].speed_mps = vehicles_log_data[log_data_idx_start].speeds_mps[cycle];
-    vehicles[0].long_distance_m = vehicles_log_data[log_data_idx_start].long_distances_m[cycle];
-    vehicles[0].lat_distance_m = vehicles_log_data[log_data_idx_start].lat_distances_m[cycle];
-    vehicles[1].speed_mps = vehicles_log_data[log_data_idx_start + 1].speeds_mps[cycle];
-    vehicles[1].long_distance_m = vehicles_log_data[log_data_idx_start + 1].long_distances_m[cycle];
-    vehicles[1].lat_distance_m = vehicles_log_data[log_data_idx_start + 1].lat_distances_m[cycle];
+    vehicles[vehicle_idx].speed_mps = vehicles_log_data[vehicle_idx].speeds_mps[cycle];
+    vehicles[vehicle_idx].long_distance_m = vehicles_log_data[vehicle_idx].long_distances_m[cycle];
+    vehicles[vehicle_idx].lat_distance_m = vehicles_log_data[vehicle_idx].lat_distances_m[cycle];
 }
 
-void load_cycle_lane(const std::uint32_t cycle,
-                     const std::uint32_t log_data_idx_start,
-                     LaneInformationType &lane)
+void load_cycle_lane(const std::uint32_t cycle, const std::uint32_t lane_idx, LaneInformationType &lane)
 {
-    lane.left_polynomial = lanes_log_data[log_data_idx_start].left_polynomials[cycle];
-    lane.right_polynomial = lanes_log_data[log_data_idx_start].right_polynomials[cycle];
-    lane.left_view_range_m = lanes_log_data[log_data_idx_start].left_view_ranges_m[cycle];
-    lane.left_boundary_type = lanes_log_data[log_data_idx_start].left_boundary_types[cycle];
-    lane.right_view_range_m = lanes_log_data[log_data_idx_start].right_view_ranges_m[cycle];
-    lane.right_boundary_type = lanes_log_data[log_data_idx_start].right_boundary_types[cycle];
-    lane.lane_class = lanes_log_data[log_data_idx_start].lane_classes[cycle];
-    lane.lane_width_m = lanes_log_data[log_data_idx_start].lane_widths_m[cycle];
+    lane.left_polynomial = lanes_log_data[lane_idx].left_polynomials[cycle];
+    lane.left_view_range_m = lanes_log_data[lane_idx].left_view_ranges_m[cycle];
+    lane.left_boundary_type = lanes_log_data[lane_idx].left_boundary_types[cycle];
+
+    lane.right_polynomial = lanes_log_data[lane_idx].right_polynomials[cycle];
+    lane.right_view_range_m = lanes_log_data[lane_idx].right_view_ranges_m[cycle];
+    lane.right_boundary_type = lanes_log_data[lane_idx].right_boundary_types[cycle];
+
+    lane.lane_class = lanes_log_data[lane_idx].lane_classes[cycle];
+    lane.lane_width_m = lanes_log_data[lane_idx].lane_widths_m[cycle];
 }
 
 void load_cycle(const std::uint32_t cycle, NeighborVehiclesType &vehicles, LanesInformationType &lanes)
 {
-    load_cycle_vehicles_on_lane(cycle, 0, vehicles.vehicles_left_lane);
-    load_cycle_vehicles_on_lane(cycle, 2, vehicles.vehicles_center_lane);
-    load_cycle_vehicles_on_lane(cycle, 4, vehicles.vehicles_right_lane);
+    for (std::uint32_t vehicle_idx = 0; vehicle_idx < MAX_NUM_VEHICLES; ++vehicle_idx)
+    {
+        load_cycle_vehicle(cycle, vehicle_idx, vehicles);
+    }
 
     load_cycle_lane(cycle, 0, lanes.left_lane);
     load_cycle_lane(cycle, 1, lanes.center_lane);

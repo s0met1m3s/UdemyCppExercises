@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <string_view>
+#include <vector>
 
 #include "AdTypes.hpp"
 
@@ -9,13 +10,21 @@ float kph_to_mps(const float kph);
 
 float mps_to_kph(const float mps);
 
-void longitudinal_control(const VehicleInformationType &front_vehicle, VehicleInformationType &ego_vehicle);
+std::vector<const VehicleInformationType *> get_vehicles_on_lane(const LaneAssociationType lane,
+                                                                 const NeighborVehiclesType &vehicles);
 
-const std::array<VehicleInformationType, NUM_VEHICLES_ON_LANE> &get_vehicle_array(
-    const LaneAssociationType lane,
-    const NeighborVehiclesType &vehicles);
+const VehicleInformationType *get_impeding_vehicle(
+    const std::vector<const VehicleInformationType *> &vehicles);
 
-LaneAssociationType get_lane_change_request(const VehicleInformationType &ego_vehicle,
-                                            const NeighborVehiclesType &vehicles);
+const VehicleInformationType *get_closing_vehicle(
+    const std::vector<const VehicleInformationType *> &vehicles);
 
-bool lateral_control(const LaneAssociationType lane_change_request, VehicleInformationType &ego_vehicle);
+bool get_longitudinal_request(const VehicleInformationType *const front_vehicle,
+                              VehicleInformationType &ego_vehicle);
+
+void longitudinal_control(VehicleInformationType &ego_vehicle);
+
+LaneAssociationType get_lat_request(const VehicleInformationType &ego_vehicle,
+                                    const NeighborVehiclesType &vehicles);
+
+bool lateral_control(const LaneAssociationType lat_request, VehicleInformationType &ego_vehicle);

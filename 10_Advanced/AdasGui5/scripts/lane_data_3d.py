@@ -71,7 +71,7 @@ def pertubation(scale: float = 0.1):
 
 
 def random_view_range():
-    view_range_m = min(int(np.random.normal(loc=95.0, scale=0.5)), 100)
+    view_range_m = min(int(np.random.normal(loc=95.0, scale=1.5)), 100)
     return view_range_m
 
 
