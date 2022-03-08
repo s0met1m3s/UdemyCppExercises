@@ -30,7 +30,6 @@ void render_cycle(const VehicleInformationType &ego_vehicle,
 }
 
 void plot_lanes_straight_solid_line(const Polynomial3rdDegreeType &polynomial,
-                                    std::string_view label,
                                     const float start_m,
                                     const float end_m)
 {
@@ -39,12 +38,10 @@ void plot_lanes_straight_solid_line(const Polynomial3rdDegreeType &polynomial,
     const auto x_rear = std::array<float, num_rear_points>{start_m, end_m};
     const auto y_rear = std::array<float, num_rear_points>{polynomial.d, polynomial.d};
     ImPlot::SetNextLineStyle(WHITE_MARKER, REAR_LINE_WIDTH);
-    const auto rear_label = label.data() + std::string{"###rear"};
-    ImPlot::PlotLine(rear_label.data(), x_rear.data(), y_rear.data(), num_rear_points);
+    ImPlot::PlotLine("straight_solid_line", x_rear.data(), y_rear.data(), num_rear_points);
 }
 
 void plot_lanes_polynomial_solid_line(const Polynomial3rdDegreeType &polynomial,
-                                      std::string_view label,
                                       const float start_m,
                                       const float end_m)
 {
@@ -63,12 +60,10 @@ void plot_lanes_polynomial_solid_line(const Polynomial3rdDegreeType &polynomial,
     }
 
     ImPlot::SetNextLineStyle(WHITE_MARKER, LINE_WIDTH);
-    const auto front_label = label.data() + std::string{"###front"};
-    ImPlot::PlotLine(front_label.data(), xs.data(), ys.data(), num_front_points);
+    ImPlot::PlotLine("###polynomial_solid_line", xs.data(), ys.data(), num_front_points);
 }
 
 void plot_lanes_polynomial_dashed_line(const Polynomial3rdDegreeType &polynomial,
-                                       std::string_view label,
                                        const float start_m,
                                        const float end_m)
 {
@@ -85,33 +80,32 @@ void plot_lanes_polynomial_dashed_line(const Polynomial3rdDegreeType &polynomial
         const auto ys = std::array<float, num_points>{polynomial(xs[0]), polynomial(xs[1])};
 
         ImPlot::SetNextLineStyle(WHITE_MARKER, LINE_WIDTH);
-        ImPlot::PlotLine(label.data(), xs.data(), ys.data(), num_points);
+        ImPlot::PlotLine("###polynomial_dashed_line", xs.data(), ys.data(), num_points);
     }
 }
 
 void plot_lane_boundary(const Polynomial3rdDegreeType &polynomial,
                         const LaneBoundaryType boundary_type,
                         const float view_range_m,
-                        const LaneClassType lane_class,
-                        std::string_view label)
+                        const LaneClassType lane_class)
 {
     if (LaneClassType::NONE == lane_class)
     {
         return;
     }
 
-    plot_lanes_straight_solid_line(polynomial, label, -VIEW_RANGE_M, 0.0F);
+    plot_lanes_straight_solid_line(polynomial, -VIEW_RANGE_M, 0.0F);
 
     switch (boundary_type)
     {
     case LaneBoundaryType::DASHED:
     {
-        plot_lanes_polynomial_dashed_line(polynomial, label, 0.0F, view_range_m);
+        plot_lanes_polynomial_dashed_line(polynomial, 0.0F, view_range_m);
         break;
     }
     case LaneBoundaryType::SOLID:
     {
-        plot_lanes_polynomial_solid_line(polynomial, label, 0.0F, view_range_m);
+        plot_lanes_polynomial_solid_line(polynomial, 0.0F, view_range_m);
         break;
     }
     default:
@@ -221,7 +215,7 @@ void plot_lanes_ego_vehicle(const VehicleInformationType &ego_vehicle,
     {
         const auto long_req_pos = ego_vehicle.long_distance_m - 2.0F;
 
-        ImPlot::SetNextMarkerStyle(ImPlotMarker_Left, VEHICLE_SCATTER_SIZE / 1.5F, WHITE_MARKER);
+        ImPlot::SetNextMarkerStyle(ImPlotMarker_Left, VEHICLE_SCATTER_SIZE / 1.5F, RED_MARKER);
         ImPlot::PlotScatter("longReq", &long_req_pos, &ego_vehicle.lat_distance_m, 1);
     }
 
@@ -232,14 +226,14 @@ void plot_lanes_ego_vehicle(const VehicleInformationType &ego_vehicle,
     {
         const auto lat_req_pos = ego_vehicle.lat_distance_m + 0.5F;
 
-        ImPlot::SetNextMarkerStyle(ImPlotMarker_Down, VEHICLE_SCATTER_SIZE / 1.5F, WHITE_MARKER);
+        ImPlot::SetNextMarkerStyle(ImPlotMarker_Down, VEHICLE_SCATTER_SIZE / 1.5F, RED_MARKER);
         ImPlot::PlotScatter("latReq", &ego_vehicle.long_distance_m, &lat_req_pos, 1);
     }
     else if (lat_request_int == ego_lane_int + 1)
     {
         const auto lat_req_pos = ego_vehicle.lat_distance_m - 0.5F;
 
-        ImPlot::SetNextMarkerStyle(ImPlotMarker_Up, VEHICLE_SCATTER_SIZE / 1.5F, WHITE_MARKER);
+        ImPlot::SetNextMarkerStyle(ImPlotMarker_Up, VEHICLE_SCATTER_SIZE / 1.5F, RED_MARKER);
         ImPlot::PlotScatter("latReq", &ego_vehicle.long_distance_m, &lat_req_pos, 1);
     }
 }
@@ -263,23 +257,19 @@ void plot_lanes(const VehicleInformationType &ego_vehicle,
         plot_lane_boundary(lanes.left_lane.left_polynomial,
                            lanes.left_lane.left_boundary_type,
                            lanes.left_lane.left_view_range_m,
-                           lanes.left_lane.lane_class,
-                           "LeftLeftBorder");
+                           lanes.left_lane.lane_class);
         plot_lane_boundary(lanes.center_lane.left_polynomial,
                            lanes.center_lane.left_boundary_type,
                            lanes.center_lane.left_view_range_m,
-                           lanes.center_lane.lane_class,
-                           "CenterLeftBorder");
+                           lanes.center_lane.lane_class);
         plot_lane_boundary(lanes.center_lane.right_polynomial,
                            lanes.center_lane.right_boundary_type,
                            lanes.center_lane.right_view_range_m,
-                           lanes.center_lane.lane_class,
-                           "CenterRightBorder");
+                           lanes.center_lane.lane_class);
         plot_lane_boundary(lanes.right_lane.right_polynomial,
                            lanes.right_lane.right_boundary_type,
                            lanes.right_lane.right_view_range_m,
-                           lanes.right_lane.lane_class,
-                           "RightRightBorder");
+                           lanes.right_lane.lane_class);
 
         plot_lanes_vehicles(vehicles);
         plot_lanes_ego_vehicle(ego_vehicle, long_request, lat_request);

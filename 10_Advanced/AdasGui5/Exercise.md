@@ -89,6 +89,10 @@ Update the vehicle plotting code:
   - Hard-Shoulder: Red-ish color
 - Such that the ID of the vehicle is plotted nearby of the marker
 
+- Update the plot_lanes_ego_vehicle function
+  - Such that the longitudinal and lateral request is displayed
+    - You can use a scatter point with a marker to indicate a lane change or braking request
+
 Note: The colors are already defined in the RenderConstants.hpp
 
 Hint:
