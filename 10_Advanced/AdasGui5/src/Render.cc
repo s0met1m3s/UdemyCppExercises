@@ -1,0 +1,322 @@
+#include <algorithm>
+#include <array>
+#include <cstdint>
+#include <string_view>
+
+#include "imgui.h"
+#include "implot.h"
+
+#include "DataLoader.hpp"
+#include "DataLoaderConstants.hpp"
+#include "Render.hpp"
+#include "RenderConstants.hpp"
+
+void render_cycle(const VehicleInformationType &ego_vehicle,
+                  const NeighborVehiclesType &vehicles,
+                  const LanesInformationType &lanes)
+{
+    ImGui::SetNextWindowPos(ImVec2(0.0F, 0.0F));
+    ImGui::SetNextWindowSize(ImVec2(WINDOWS_WIDTH, LANE_PLOT_TOTAL_HEIGHT));
+
+    if (ImGui::Begin("MainWindow", nullptr, WINDOW_FLAGS_CLEAN))
+    {
+        ImPlot::CreateContext();
+        plot_lanes(ego_vehicle, vehicles, lanes);
+        plot_table(ego_vehicle, vehicles);
+        ImGui::End();
+    }
+}
+
+void plot_lanes_straight_solid_line(const Polynomial3rdDegreeType &polynomial,
+                                    std::string_view label,
+                                    const float start_m,
+                                    const float end_m)
+{
+    const auto num_rear_points = std::size_t{2};
+
+    const auto x_rear = std::array<float, num_rear_points>{start_m, end_m};
+    const auto y_rear = std::array<float, num_rear_points>{polynomial.d, polynomial.d};
+    ImPlot::SetNextLineStyle(WHITE_MARKER, REAR_LINE_WIDTH);
+    const auto rear_label = label.data() + std::string{"###rear"};
+    ImPlot::PlotLine(rear_label.data(), x_rear.data(), y_rear.data(), num_rear_points);
+}
+
+void plot_lanes_polynomial_solid_line(const Polynomial3rdDegreeType &polynomial,
+                                      std::string_view label,
+                                      const float start_m,
+                                      const float end_m)
+{
+    const auto num_front_points = std::size_t{100};
+    const auto range_m = std::abs(end_m - start_m);
+    const auto slice_length_m = range_m / static_cast<float>(num_front_points);
+
+    auto xs = std::array<float, num_front_points>{};
+    auto ys = std::array<float, num_front_points>{};
+
+    for (std::int32_t slice_idx = 0; slice_idx < num_front_points; ++slice_idx)
+    {
+        const auto x = static_cast<float>(slice_idx) * slice_length_m;
+        xs[slice_idx] = x;
+        ys[slice_idx] = polynomial(x);
+    }
+
+    ImPlot::SetNextLineStyle(WHITE_MARKER, LINE_WIDTH);
+    const auto front_label = label.data() + std::string{"###front"};
+    ImPlot::PlotLine(front_label.data(), xs.data(), ys.data(), num_front_points);
+}
+
+void plot_lanes_polynomial_dashed_line(const Polynomial3rdDegreeType &polynomial,
+                                       std::string_view label,
+                                       const float start_m,
+                                       const float end_m)
+{
+    const auto num_points = std::size_t{2};
+    const auto range_m = std::abs(end_m - start_m);
+    const auto num_slices = static_cast<std::uint32_t>(range_m / SLICE_LENGTH_M);
+
+    for (std::uint32_t slice_idx = 0; slice_idx < num_slices; slice_idx++)
+    {
+        const auto slice_m = static_cast<float>(slice_idx);
+
+        const auto xs = std::array<float, num_points>{start_m + slice_m * SLICE_LENGTH_M,
+                                                      start_m + slice_m * SLICE_LENGTH_M + DASHED_LENGTH_M};
+        const auto ys = std::array<float, num_points>{polynomial(xs[0]), polynomial(xs[1])};
+
+        ImPlot::SetNextLineStyle(WHITE_MARKER, LINE_WIDTH);
+        ImPlot::PlotLine(label.data(), xs.data(), ys.data(), num_points);
+    }
+}
+
+void plot_lane_boundary(const Polynomial3rdDegreeType &polynomial,
+                        const LaneBoundaryType boundary_type,
+                        const float view_range_m,
+                        const LaneClassType lane_class,
+                        std::string_view label)
+{
+    if (LaneClassType::NONE == lane_class)
+    {
+        return;
+    }
+
+    plot_lanes_straight_solid_line(polynomial, label, -VIEW_RANGE_M, 0.0F);
+
+    switch (boundary_type)
+    {
+    case LaneBoundaryType::DASHED:
+    {
+        plot_lanes_polynomial_dashed_line(polynomial, label, 0.0F, view_range_m);
+        break;
+    }
+    case LaneBoundaryType::SOLID:
+    {
+        plot_lanes_polynomial_solid_line(polynomial, label, 0.0F, view_range_m);
+        break;
+    }
+    default:
+    {
+        return;
+    }
+    }
+}
+
+
+void plot_lane_class(const LaneInformationType &lane)
+{
+    auto color = ImVec4();
+
+    switch (lane.lane_class)
+    {
+    case LaneClassType::NORMAL:
+    {
+        color = GREEN_BACKGROUND;
+        break;
+    }
+    case LaneClassType::ACCELERATION:
+    case LaneClassType::DECELERATION:
+    {
+        color = BLUE_BACKGROUND;
+        break;
+    }
+    case LaneClassType::HARD_SHOULDER:
+    {
+        color = RED_BACKGROUND;
+        break;
+    }
+    default:
+    {
+        return;
+    }
+    }
+
+    const auto num_front_points = size_t{2};
+
+    const auto xs_rear_upper = std::array<float, num_front_points>{-VIEW_RANGE_M, 0.0};
+    const auto ys_rear_upper =
+        std::array<float, num_front_points>{lane.left_polynomial.d, lane.left_polynomial.d};
+    ImPlot::SetNextFillStyle(color);
+    const auto offset_m = lane.right_polynomial.d;
+    ImPlot::PlotShaded("###rear", xs_rear_upper.data(), ys_rear_upper.data(), num_front_points, offset_m);
+
+    const auto min_view_range = std::min(lane.left_view_range_m, lane.right_view_range_m);
+    const auto xs_front_upper = std::array<float, num_front_points>{0.0F, min_view_range};
+    const auto ys_front_upper =
+        std::array<float, num_front_points>{lane.left_polynomial.d, lane.left_polynomial.d};
+    ImPlot::SetNextFillStyle(color);
+    ImPlot::PlotShaded("###rear", xs_front_upper.data(), ys_front_upper.data(), num_front_points, offset_m);
+}
+
+void plot_lanes_vehicles(const std::array<VehicleInformationType, NUM_VEHICLES_ON_LANE> &vehicles,
+                         const std::array<std::string_view, NUM_VEHICLES_ON_LANE> &labels)
+{
+    const auto num_elements = std::size_t{1};
+
+    for (std::size_t i = 0; i < NUM_VEHICLES_ON_LANE; i++)
+    {
+        const auto xs = vehicles[i].long_distance_m;
+        const auto ys = vehicles[i].lat_distance_m;
+
+        auto color = ImVec4{};
+        auto scatter_size = 0.0F;
+
+        switch (vehicles[i].object_class)
+        {
+        case ObjectClassType::CAR:
+        {
+            color = BLUE_MARKER;
+            scatter_size = VEHICLE_SCATTER_SIZE;
+            break;
+        }
+        case ObjectClassType::TRUCK:
+        {
+            color = RED_MARKER;
+            scatter_size = TRUCK_SCATTER_SIZE;
+            break;
+        }
+        case ObjectClassType::MOTORBIKE:
+        {
+            color = GREEN_MARKER;
+            scatter_size = MOTORBIKE_SCATTER_SIZE;
+            break;
+        }
+        default:
+        {
+            return;
+        }
+        }
+
+        ImPlot::SetNextMarkerStyle(VEHICLE_MARKER, scatter_size, color);
+        ImPlot::PlotScatter(labels[i].data(), &xs, &ys, num_elements);
+    }
+}
+
+void plot_lanes_ego_vehicle(const VehicleInformationType &ego_vehicle, std::string_view label)
+{
+    ImPlot::SetNextMarkerStyle(VEHICLE_MARKER, VEHICLE_SCATTER_SIZE, WHITE_MARKER);
+    ImPlot::PlotScatter(label.data(), &ego_vehicle.long_distance_m, &ego_vehicle.lat_distance_m, 1);
+}
+
+void plot_lanes(const VehicleInformationType &ego_vehicle,
+                const NeighborVehiclesType &vehicles,
+                const LanesInformationType &lanes)
+{
+    if (ImPlot::BeginPlot("Lanes", PLOT_DIM, PLOT_FLAGS))
+    {
+        ImPlot::SetupAxes("Rel. LongDist. (m)", "Rel. LatDist. (m)", ImPlotAxisFlags_Lock, AXES_FLAGS);
+        ImPlot::SetupAxisLimits(ImAxis_X1, -VIEW_RANGE_M, VIEW_RANGE_M, ImGuiCond_Always);
+        ImPlot::SetupAxisLimits(ImAxis_Y1, -LATERAL_RANGE_M, LATERAL_RANGE_M, ImGuiCond_Always);
+
+        plot_lane_class(lanes.left_lane);
+        plot_lane_class(lanes.center_lane);
+        plot_lane_class(lanes.right_lane);
+
+        plot_lane_boundary(lanes.left_lane.left_polynomial,
+                           lanes.left_lane.left_boundary_type,
+                           lanes.left_lane.left_view_range_m,
+                           lanes.left_lane.lane_class,
+                           "LeftLeftBorder");
+        plot_lane_boundary(lanes.center_lane.left_polynomial,
+                           lanes.center_lane.left_boundary_type,
+                           lanes.center_lane.left_view_range_m,
+                           lanes.center_lane.lane_class,
+                           "CenterLeftBorder");
+        plot_lane_boundary(lanes.center_lane.right_polynomial,
+                           lanes.center_lane.right_boundary_type,
+                           lanes.center_lane.right_view_range_m,
+                           lanes.center_lane.lane_class,
+                           "CenterRightBorder");
+        plot_lane_boundary(lanes.right_lane.right_polynomial,
+                           lanes.right_lane.right_boundary_type,
+                           lanes.right_lane.right_view_range_m,
+                           lanes.right_lane.lane_class,
+                           "RightRightBorder");
+
+        plot_lanes_vehicles(vehicles.vehicles_left_lane, {"LF", "LR"});
+        plot_lanes_vehicles(vehicles.vehicles_center_lane, {"CF", "CR"});
+        plot_lanes_vehicles(vehicles.vehicles_right_lane, {"RF", "RR"});
+        plot_lanes_ego_vehicle(ego_vehicle, "Ego");
+
+        ImPlot::EndPlot();
+    }
+}
+
+void plot_vehicle_in_table(const VehicleInformationType &vehicle, std::string_view label)
+{
+    if (ObjectClassType::NONE == vehicle.object_class)
+    {
+        return;
+    }
+
+    ImGui::TableNextRow();
+    ImGui::TableNextColumn();
+    ImGui::Text("%s", label.data());
+    ImGui::TableNextColumn();
+    ImGui::Text("%d", vehicle.id);
+    ImGui::TableNextColumn();
+    ImGui::Text("%d", static_cast<std::int32_t>(vehicle.lane));
+    ImGui::TableNextColumn();
+    ImGui::Text("%f", vehicle.long_distance_m);
+    ImGui::TableNextColumn();
+    ImGui::Text("%f", vehicle.lat_distance_m);
+    ImGui::TableNextColumn();
+    ImGui::Text("%f", vehicle.speed_mps);
+}
+
+void plot_table(const VehicleInformationType &ego_vehicle, const NeighborVehiclesType &vehicles)
+{
+    const auto num_cols = std::size_t{6};
+
+    ImGui::SetNextWindowPos(ImVec2(0.0F, BELOW_LANES));
+    ImGui::SetNextWindowSize(ImVec2(VEHICLE_TABLE_WIDTH, VEHICLE_TABLE_HEIGHT));
+
+    if (ImGui::Begin("TableWindow", nullptr, WINDOW_FLAGS_CLEAN))
+    {
+        if (ImGui::BeginTable("Table", num_cols, TABLE_FLAGS))
+        {
+            ImGui::TableNextRow(ImGuiTableRowFlags_Headers);
+            ImGui::TableNextColumn();
+            ImGui::Text("Pos:");
+            ImGui::TableNextColumn();
+            ImGui::Text("ID:");
+            ImGui::TableNextColumn();
+            ImGui::Text("Lane:");
+            ImGui::TableNextColumn();
+            ImGui::Text("Long. Dist.:");
+            ImGui::TableNextColumn();
+            ImGui::Text("Lat. Dist.:");
+            ImGui::TableNextColumn();
+            ImGui::Text("Speed:");
+
+            plot_vehicle_in_table(ego_vehicle, "Ego");
+            plot_vehicle_in_table(vehicles.vehicles_left_lane[0], "Vehicle 1");
+            plot_vehicle_in_table(vehicles.vehicles_left_lane[1], "Vehicle 2");
+            plot_vehicle_in_table(vehicles.vehicles_center_lane[0], "Vehicle 3");
+            plot_vehicle_in_table(vehicles.vehicles_center_lane[1], "Vehicle 4");
+            plot_vehicle_in_table(vehicles.vehicles_right_lane[0], "Vehicle 5");
+            plot_vehicle_in_table(vehicles.vehicles_right_lane[1], "Vehicle 6");
+
+            ImGui::EndTable();
+        }
+
+        ImGui::End();
+    }
+}
