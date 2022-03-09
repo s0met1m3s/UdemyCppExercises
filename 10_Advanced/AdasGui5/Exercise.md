@@ -89,10 +89,6 @@ Update the vehicle plotting code:
   - Hard-Shoulder: Red-ish color
 - Such that the ID of the vehicle is plotted nearby of the marker
 
-- Update the plot_lanes_ego_vehicle function
-  - Such that the longitudinal and lateral request is displayed
-    - You can use a scatter point with a marker to indicate a lane change or braking request
-
 Note: The colors are already defined in the RenderConstants.hpp
 
 Hint:
@@ -101,5 +97,11 @@ Function for the lane class coloring is:
 
 ```cpp
 ImPlot::SetNextFillStyle(color);
-ImPlot::PlotShaded("label", x_data, y_data, num_points, offset); // offset can be used to "shift" the shaded area
+ImPlot::PlotShaded("label", x_data, y_data, num_points, offset); // offset can be used to "shift" the shaded area on the y-axis
 ```
+
+### Exercise 3
+
+- Update the plot_lanes_ego_vehicle function
+  - Such that the longitudinal and lateral request is displayed
+    - You can use a scatter point with a marker to indicate a lane change or braking request

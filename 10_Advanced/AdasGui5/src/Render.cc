@@ -211,7 +211,7 @@ void plot_lanes_ego_vehicle(const VehicleInformationType &ego_vehicle,
     ImPlot::SetNextMarkerStyle(VEHICLE_MARKER, VEHICLE_SCATTER_SIZE, WHITE_MARKER);
     ImPlot::PlotScatter("ego", &ego_vehicle.long_distance_m, &ego_vehicle.lat_distance_m, 1);
 
-    if (long_request == true)
+    if (true == long_request)
     {
         const auto long_req_pos = ego_vehicle.long_distance_m - 2.0F;
 
