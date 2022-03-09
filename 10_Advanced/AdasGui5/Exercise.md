@@ -8,16 +8,16 @@
 
 In this exercise, we will extend the vehicle and lane information.
 
-### Exercise 1
+### Intro
 
-Add a new enum class for the ObjectClassType with the following type:
+A new enum class for the ObjectClassType with the following type was added:
 
 - car
 - truck
 - motorbike
 - none/unknown
 
-Add a new enum class for the LaneClassType with the following type:
+A new enum class for the LaneClassType with the following type was added:
 
 - normal
 - acceleration
@@ -25,7 +25,7 @@ Add a new enum class for the LaneClassType with the following type:
 - hard-shoulder
 - none/unknown
 
-Extend the vehicle struct (from now on called *VehicleInformationType*):
+The vehicle struct (from now on called *VehicleInformationType*) was extended:
 
 ```cpp
 struct VehicleInformationType
@@ -62,9 +62,9 @@ struct LaneInformationType
 };
 ```
 
-The DataLoader code is already updated for you.
+The DataLoader code is also already updated for you.
 
-### Exercise 2
+### Exercise 1
 
 Update the vehicle plotting code:
 
