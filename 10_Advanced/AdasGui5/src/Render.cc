@@ -115,10 +115,9 @@ void plot_lane_boundary(const Polynomial3rdDegreeType &polynomial,
     }
 }
 
-
 void plot_lane_class(const LaneInformationType &lane)
 {
-    auto color = ImVec4();
+    auto color = ImVec4{};
 
     switch (lane.lane_class)
     {
@@ -144,16 +143,16 @@ void plot_lane_class(const LaneInformationType &lane)
     }
     }
 
-    const auto num_front_points = size_t{2};
+    const auto num_points = size_t{2};
 
     const auto offset_m = lane.right_polynomial.d;
     const auto min_view_range = std::min(lane.left_view_range_m, lane.right_view_range_m);
 
-    const auto xs_front_upper = std::array<float, num_front_points>{0.0F, min_view_range};
-    const auto ys_front_upper =
-        std::array<float, num_front_points>{lane.left_polynomial.d, lane.left_polynomial.d};
+    const auto xs = std::array<float, num_points>{0.0F, min_view_range};
+    const auto ys = std::array<float, num_points>{lane.left_polynomial.d, lane.left_polynomial.d};
+
     ImPlot::SetNextFillStyle(color);
-    ImPlot::PlotShaded("###rear", xs_front_upper.data(), ys_front_upper.data(), num_front_points, offset_m);
+    ImPlot::PlotShaded("label", xs.data(), ys.data(), num_points, offset_m);
 }
 
 void plot_lanes_vehicles(const std::array<VehicleInformationType, MAX_NUM_VEHICLES> &vehicles)
@@ -188,6 +187,7 @@ void plot_lanes_vehicles(const std::array<VehicleInformationType, MAX_NUM_VEHICL
             scatter_size = MOTORBIKE_SCATTER_SIZE;
             break;
         }
+        case ObjectClassType::NONE:
         default:
         {
             return;
@@ -199,8 +199,8 @@ void plot_lanes_vehicles(const std::array<VehicleInformationType, MAX_NUM_VEHICL
         ImPlot::SetNextMarkerStyle(VEHICLE_MARKER, scatter_size, color);
         ImPlot::PlotScatter(label.data(), &xs, &ys, num_elements);
 
-        const auto text = std::to_string(i);
-        ImPlot::PlotText(text.data(), xs, ys + 0.5);
+        const auto text = std::to_string(vehicles[i].id);
+        ImPlot::PlotText(text.data(), xs, ys + 0.5F);
     }
 }
 
@@ -219,21 +219,21 @@ void plot_lanes_ego_vehicle(const VehicleInformationType &ego_vehicle,
         ImPlot::PlotScatter("longReq", &long_req_pos, &ego_vehicle.lat_distance_m, 1);
     }
 
-    const auto lat_request_int = static_cast<int>(lat_request);
-    const auto ego_lane_int = static_cast<int>(ego_vehicle.lane);
+    const auto lat_request_int = static_cast<std::int32_t>(lat_request);
+    const auto ego_lane_int = static_cast<std::int32_t>(ego_vehicle.lane);
 
     if (lat_request_int == ego_lane_int - 1)
-    {
-        const auto lat_req_pos = ego_vehicle.lat_distance_m + 0.5F;
-
-        ImPlot::SetNextMarkerStyle(ImPlotMarker_Down, VEHICLE_SCATTER_SIZE / 1.5F, RED_MARKER);
-        ImPlot::PlotScatter("latReq", &ego_vehicle.long_distance_m, &lat_req_pos, 1);
-    }
-    else if (lat_request_int == ego_lane_int + 1)
     {
         const auto lat_req_pos = ego_vehicle.lat_distance_m - 0.5F;
 
         ImPlot::SetNextMarkerStyle(ImPlotMarker_Up, VEHICLE_SCATTER_SIZE / 1.5F, RED_MARKER);
+        ImPlot::PlotScatter("latReq", &ego_vehicle.long_distance_m, &lat_req_pos, 1);
+    }
+    else if (lat_request_int == ego_lane_int + 1)
+    {
+        const auto lat_req_pos = ego_vehicle.lat_distance_m + 0.5F;
+
+        ImPlot::SetNextMarkerStyle(ImPlotMarker_Down, VEHICLE_SCATTER_SIZE / 1.5F, RED_MARKER);
         ImPlot::PlotScatter("latReq", &ego_vehicle.long_distance_m, &lat_req_pos, 1);
     }
 }
