@@ -250,9 +250,14 @@ void plot_lanes(const VehicleInformationType &ego_vehicle,
         ImPlot::SetupAxisLimits(ImAxis_X1, -VIEW_RANGE_M, VIEW_RANGE_M, ImGuiCond_Always);
         ImPlot::SetupAxisLimits(ImAxis_Y1, -LATERAL_RANGE_M, LATERAL_RANGE_M, ImGuiCond_Always);
 
-        plot_lane_class(lanes.left_lane);
-        plot_lane_class(lanes.center_lane);
-        plot_lane_class(lanes.right_lane);
+        // plot_lane_class(lanes.left_lane);
+        // plot_lane_class(lanes.center_lane);
+        // plot_lane_class(lanes.right_lane);
+
+        float x_data[] = {0.0F, 10.0F};
+        float y_data[] = {5.0F, 5.0F};
+        ImPlot::SetNextFillStyle(GREEN_BACKGROUND);
+        ImPlot::PlotShaded("shaded", x_data, y_data, 2, 0.0F);
 
         plot_lane_boundary(lanes.left_lane.left_polynomial,
                            lanes.left_lane.left_boundary_type,

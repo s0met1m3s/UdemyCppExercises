@@ -6,10 +6,10 @@
 
 enum class LaneAssociationType
 {
-    NONE,
     LEFT,
     CENTER,
     RIGHT,
+    NONE,
 };
 
 struct VehicleType
