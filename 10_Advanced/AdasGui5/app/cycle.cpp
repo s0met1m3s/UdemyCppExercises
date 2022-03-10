@@ -249,7 +249,7 @@ void plot_cycle_number(const std::size_t cycle)
         ImGui::SliderInt("###sliderCycle",
                          &input_cycle,
                          0,
-                         NUM_ITERATIONS,
+                         NUM_ITERATIONS - 1U,
                          nullptr,
                          ImGuiSliderFlags_AlwaysClamp);
 
