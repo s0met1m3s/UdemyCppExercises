@@ -307,7 +307,7 @@ void plot_vehicle_in_table(const VehicleInformationType &vehicle)
     ImGui::TableNextColumn();
     ImGui::Text("%f", vehicle.lat_distance_m);
     ImGui::TableNextColumn();
-    ImGui::Text("%f", vehicle.speed_mps);
+    ImGui::Text("%f", vehicle.velocity_mps);
 }
 
 void plot_table(const VehicleInformationType &ego_vehicle, const NeighborVehiclesType &vehicles)
