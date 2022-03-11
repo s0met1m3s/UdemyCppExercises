@@ -10,3 +10,8 @@ constexpr std::size_t NUM_LANES = 3;
 
 constexpr float EGO_VEHICLE_WIDTH_M = 2.5F;
 constexpr float EGO_VEHICLE_HEIGHT_M = 5.0F;
+
+constexpr auto CYCLE_TIME_MS = std::int64_t{50};
+constexpr auto CYCLE_TIME_S = static_cast<float>(CYCLE_TIME_MS) / 1000.0F;
+
+constexpr auto PI = 3.14159265358979323846F;

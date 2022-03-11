@@ -29,6 +29,20 @@ void render_cycle(const VehicleInformationType &ego_vehicle,
     }
 }
 
+std::pair<float, float> rotate_point(const float alpha, float x, float y, const float cx, const float cy)
+{
+    x -= cx;
+    y -= cy;
+
+    float x_s = x * std::cos(alpha) - y * std::sin(alpha);
+    float y_s = x * std::sin(alpha) + y * std::cos(alpha);
+
+    x_s += cx;
+    y_s += cy;
+
+    return std::make_pair(x_s, y_s);
+}
+
 void plot_vehicle_marker(const VehicleInformationType &vehicle, const ImVec4 &color, std::string_view label)
 {
     const auto num_points = size_t{2};
@@ -36,12 +50,29 @@ void plot_vehicle_marker(const VehicleInformationType &vehicle, const ImVec4 &co
     const auto height_offset = (vehicle.height_m / 2.0F);
     const auto width_offset = (vehicle.width_m / 5.0F);
 
-    const auto xs = std::array<float, num_points>{vehicle.long_distance_m - height_offset,
-                                                  vehicle.long_distance_m + height_offset};
-    const auto ys1 = std::array<float, num_points>{vehicle.lat_distance_m + width_offset,
-                                                   vehicle.lat_distance_m + width_offset};
-    const auto ys2 = std::array<float, num_points>{vehicle.lat_distance_m - width_offset,
-                                                   vehicle.lat_distance_m - width_offset};
+    auto xs = std::array<float, num_points>{vehicle.long_distance_m - height_offset,
+                                            vehicle.long_distance_m + height_offset};
+    auto ys1 = std::array<float, num_points>{vehicle.lat_distance_m + width_offset,
+                                             vehicle.lat_distance_m + width_offset};
+    auto ys2 = std::array<float, num_points>{vehicle.lat_distance_m - width_offset,
+                                             vehicle.lat_distance_m - width_offset};
+
+    const auto rad = 45.0F * (PI / 180.0F);
+
+    const auto cx = (xs[0] + xs[1]) / 2.0F;
+    const auto cy = (ys1[0] + ys2[0]) / 2.0F;
+
+    const auto [x_s0, ys1_0] = rotate_point(rad, xs[0], ys1[0], cx, cy);
+    const auto [x_s1, ys1_1] = rotate_point(rad, xs[1], ys1[1], cx, cy);
+    const auto [_xx, ys2_0] = rotate_point(rad, xs[0], ys2[0], cx, cy);
+    const auto [_x, ys2_1] = rotate_point(rad, xs[1], ys2[1], cx, cy);
+
+    xs[0] = x_s0;
+    xs[1] = x_s1;
+    ys1[0] = ys1_0;
+    ys1[1] = ys1_1;
+    ys2[0] = ys2_0;
+    ys2[1] = ys2_1;
 
     ImPlot::SetNextFillStyle(color);
     ImPlot::PlotShaded(label.data(), xs.data(), ys1.data(), ys2.data(), num_points);
@@ -308,11 +339,19 @@ void plot_vehicle_in_table(const VehicleInformationType &vehicle)
     ImGui::Text("%f", vehicle.lat_distance_m);
     ImGui::TableNextColumn();
     ImGui::Text("%f", vehicle.velocity_mps);
+    ImGui::TableNextColumn();
+    ImGui::Text("%f", vehicle.long_velocity_mps);
+    ImGui::TableNextColumn();
+    ImGui::Text("%f", vehicle.lat_velocity_mps);
+    ImGui::TableNextColumn();
+    ImGui::Text("%f", vehicle.heading_deg);
+    ImGui::TableNextColumn();
+    ImGui::Text("%f", vehicle.acceleration_mps2);
 }
 
 void plot_table(const VehicleInformationType &ego_vehicle, const NeighborVehiclesType &vehicles)
 {
-    const auto num_cols = std::size_t{6};
+    const auto num_cols = std::size_t{10};
 
     ImGui::SetNextWindowPos(ImVec2(0.0F, BELOW_LANES));
     ImGui::SetNextWindowSize(ImVec2(VEHICLE_TABLE_WIDTH, VEHICLE_TABLE_HEIGHT));
@@ -333,7 +372,15 @@ void plot_table(const VehicleInformationType &ego_vehicle, const NeighborVehicle
             ImGui::TableNextColumn();
             ImGui::Text("Lat. Dist.:");
             ImGui::TableNextColumn();
-            ImGui::Text("Speed:");
+            ImGui::Text("Velocity:");
+            ImGui::TableNextColumn();
+            ImGui::Text("Long Velocity:");
+            ImGui::TableNextColumn();
+            ImGui::Text("Lat Velocity:");
+            ImGui::TableNextColumn();
+            ImGui::Text("Heading Deg:");
+            ImGui::TableNextColumn();
+            ImGui::Text("Acceleration:");
 
             plot_vehicle_in_table(ego_vehicle);
 

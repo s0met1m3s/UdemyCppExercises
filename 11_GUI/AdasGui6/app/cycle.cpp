@@ -15,7 +15,6 @@ namespace fs = std::filesystem;
 
 namespace
 {
-constexpr auto CYCLE_TIME_MS = std::int64_t{50};
 static auto is_playing = false;
 static auto pressed_play = false;
 static auto pressed_pause = false;
@@ -121,7 +120,7 @@ void cycle_function(const fs::path &ego_filepath,
         ImGui::Render();
 
         std::this_thread::sleep_for(std::chrono::milliseconds(CYCLE_TIME_MS));
-        ImGui::GetIO().DeltaTime = static_cast<float>(CYCLE_TIME_MS) / 1000.0F;
+        ImGui::GetIO().DeltaTime = CYCLE_TIME_S;
 
         end_cycle(window);
 
@@ -142,7 +141,7 @@ void execute_cycle(const std::size_t cycle,
     const auto long_request = get_longitudinal_request(front_vehicle, ego_vehicle);
     const auto lat_request = get_lat_request(ego_vehicle, vehicles);
 
-    load_cycle(cycle, vehicles, lanes);
+    load_cycle(cycle, vehicles, ego_vehicle, lanes);
     render_cycle(ego_vehicle, vehicles, lanes, long_request, lat_request);
 }
 

@@ -132,6 +132,11 @@ LaneAssociationType get_lat_request(const VehicleInformationType &ego_vehicle,
     const auto ego_lane_vehicles = get_vehicles_on_lane(ego_vehicle.lane, vehicles);
     const auto rear_vehicle = get_closing_vehicle(ego_lane_vehicles);
 
+    if (nullptr == rear_vehicle)
+    {
+        return ego_vehicle.lane;
+    }
+
     const auto minimal_distance_m = mps_to_kph(ego_vehicle.velocity_mps) / 5.0F;
     const auto rear_distance_m = std::abs(rear_vehicle->long_distance_m);
 
