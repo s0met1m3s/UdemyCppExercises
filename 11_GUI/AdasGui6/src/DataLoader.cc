@@ -6,6 +6,7 @@
 #include "DataLoader.hpp"
 #include "DataLoaderConstants.hpp"
 #include "DataLoaderTypes.hpp"
+#include "MathUtil.hpp"
 
 static auto ego_vehicle_log_data = EgoVehicleLogData{};
 static auto vehicles_log_data = VehiclesLogData{};
@@ -33,7 +34,7 @@ void compute_heading_degrees(const std::array<float, NUM_ITERATIONS> long_veloci
         long_velocities_mps.end(),
         lat_velocities_mps.begin(),
         heading_degrees.begin(),
-        [&](const auto v_long, const auto v_lat) { return (std::atan2(v_lat, v_long) / PI) * 180.0F; });
+        [&](const auto v_long, const auto v_lat) { return (std::atan2(v_lat, v_long) / PI<float>)*180.0F; });
 }
 
 void compute_accelerations(const std::array<float, NUM_ITERATIONS> &velocities_mps,

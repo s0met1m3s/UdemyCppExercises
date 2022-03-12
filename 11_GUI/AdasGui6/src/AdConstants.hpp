@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <cstring>
 
+#include "MathUtil.hpp"
+
 constexpr std::int32_t EGO_VEHICLE_ID = -1;
 constexpr std::size_t MAX_NUM_VEHICLES = 6;
 constexpr float LONGITUDINAL_DIFFERENCE_PERCENTAGE = 0.05F;
@@ -12,6 +14,4 @@ constexpr float EGO_VEHICLE_WIDTH_M = 2.5F;
 constexpr float EGO_VEHICLE_HEIGHT_M = 5.0F;
 
 constexpr auto CYCLE_TIME_MS = std::int64_t{50};
-constexpr auto CYCLE_TIME_S = static_cast<float>(CYCLE_TIME_MS) / 1000.0F;
-
-constexpr auto PI = 3.14159265358979323846F;
+constexpr auto CYCLE_TIME_S = ms_to_s<std::int64_t, float>(CYCLE_TIME_MS);

@@ -8,6 +8,7 @@
 
 #include "DataLoader.hpp"
 #include "DataLoaderConstants.hpp"
+#include "MathUtil.hpp"
 #include "Render.hpp"
 #include "RenderConstants.hpp"
 
@@ -29,26 +30,12 @@ void render_cycle(const VehicleInformationType &ego_vehicle,
     }
 }
 
-std::pair<float, float> rotate_point(const float alpha, float x, float y, const float cx, const float cy)
-{
-    x -= cx;
-    y -= cy;
-
-    float x_s = x * std::cos(alpha) - y * std::sin(alpha);
-    float y_s = x * std::sin(alpha) + y * std::cos(alpha);
-
-    x_s += cx;
-    y_s += cy;
-
-    return std::make_pair(x_s, y_s);
-}
-
 void plot_vehicle_marker(const VehicleInformationType &vehicle, const ImVec4 &color, std::string_view label)
 {
     const auto num_points = size_t{2};
 
     const auto height_offset = (vehicle.height_m / 2.0F);
-    const auto width_offset = (vehicle.width_m / 5.0F);
+    const auto width_offset = (vehicle.width_m / 4.0F);
 
     auto xs = std::array<float, num_points>{vehicle.long_distance_m - height_offset,
                                             vehicle.long_distance_m + height_offset};
@@ -57,15 +44,16 @@ void plot_vehicle_marker(const VehicleInformationType &vehicle, const ImVec4 &co
     auto ys2 = std::array<float, num_points>{vehicle.lat_distance_m - width_offset,
                                              vehicle.lat_distance_m - width_offset};
 
-    const auto rad = 45.0F * (PI / 180.0F);
+    const auto scaling = ((2.0F * VIEW_RANGE_M) / (2.0F * LATERAL_RANGE_M));
+    const auto rad = (10.0F / scaling) * deg_to_rad(vehicle.heading_deg);
 
     const auto cx = (xs[0] + xs[1]) / 2.0F;
     const auto cy = (ys1[0] + ys2[0]) / 2.0F;
 
-    const auto [x_s0, ys1_0] = rotate_point(rad, xs[0], ys1[0], cx, cy);
-    const auto [x_s1, ys1_1] = rotate_point(rad, xs[1], ys1[1], cx, cy);
-    const auto [_xx, ys2_0] = rotate_point(rad, xs[0], ys2[0], cx, cy);
-    const auto [_x, ys2_1] = rotate_point(rad, xs[1], ys2[1], cx, cy);
+    const auto [x_s0, ys1_0] = rotate_point(rad, cx, cy, xs[0], ys1[0]);
+    const auto [x_s1, ys1_1] = rotate_point(rad, cx, cy, xs[1], ys1[1]);
+    const auto [_xx, ys2_0] = rotate_point(rad, cx, cy, xs[0], ys2[0]);
+    const auto [_x, ys2_1] = rotate_point(rad, cx, cy, xs[1], ys2[1]);
 
     xs[0] = x_s0;
     xs[1] = x_s1;
