@@ -15,7 +15,6 @@ namespace fs = std::filesystem;
 
 namespace
 {
-constexpr auto CYCLE_TIME_MS = std::int64_t{50};
 static auto is_playing = false;
 static auto pressed_play = false;
 static auto pressed_pause = false;

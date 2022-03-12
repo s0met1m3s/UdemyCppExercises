@@ -6,16 +6,6 @@
 #include "AdFunctions.hpp"
 #include "AdTypes.hpp"
 
-float kph_to_mps(const float kph)
-{
-    return kph / 3.6F;
-}
-
-float mps_to_kph(const float mps)
-{
-    return mps * 3.6F;
-}
-
 void decrease_speed(VehicleInformationType &ego_vehicle)
 {
     const auto decrease = ego_vehicle.speed_mps * LONGITUDINAL_DIFFERENCE_PERCENTAGE;
