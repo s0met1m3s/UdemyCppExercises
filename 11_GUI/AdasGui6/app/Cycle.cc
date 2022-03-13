@@ -27,7 +27,7 @@ static auto input_cycle = int32_t{0};
 
 
 void cycle_function(const fs::path &ego_filepath,
-                    const fs::path &data_filepath,
+                    const fs::path &vehicle_filepath,
                     const fs::path &lane_filepath,
                     GLFWwindow *const window)
 {
@@ -37,7 +37,7 @@ void cycle_function(const fs::path &ego_filepath,
     auto lanes = LanesInformationType{};
 
     init_ego_vehicle(ego_filepath.string(), ego_vehicle);
-    init_vehicles(data_filepath.string(), vehicles);
+    init_vehicles(vehicle_filepath.string(), vehicles);
     init_lanes(lane_filepath.string(), lanes);
 
     while (!glfwWindowShouldClose(window))
@@ -55,7 +55,13 @@ void cycle_function(const fs::path &ego_filepath,
         {
             if (cycle == 0 && cycle >= NUM_ITERATIONS)
             {
-                reset_state(ego_filepath, data_filepath, lane_filepath, cycle, ego_vehicle, vehicles, lanes);
+                reset_state(ego_filepath,
+                            vehicle_filepath,
+                            lane_filepath,
+                            cycle,
+                            ego_vehicle,
+                            vehicles,
+                            lanes);
             }
 
             pressed_pause = false;
@@ -65,7 +71,7 @@ void cycle_function(const fs::path &ego_filepath,
 
         if (pressed_replay)
         {
-            reset_state(ego_filepath, data_filepath, lane_filepath, cycle, ego_vehicle, vehicles, lanes);
+            reset_state(ego_filepath, vehicle_filepath, lane_filepath, cycle, ego_vehicle, vehicles, lanes);
 
             pressed_replay = false;
             is_playing = true;
@@ -141,12 +147,12 @@ void execute_cycle(const std::size_t cycle,
     const auto long_request = get_longitudinal_request(front_vehicle, ego_vehicle);
     const auto lat_request = get_lat_request(ego_vehicle, vehicles);
 
-    load_cycle(cycle, vehicles, lanes);
+    load_cycle(cycle, vehicles, ego_vehicle, lanes);
     render_cycle(ego_vehicle, vehicles, lanes, long_request, lat_request);
 }
 
 void reset_state(const fs::path &ego_filepath,
-                 const fs::path &data_filepath,
+                 const fs::path &vehicle_filepath,
                  const fs::path &lanes_filepath,
                  std::size_t &cycle,
                  VehicleInformationType &ego_vehicle,
@@ -155,7 +161,7 @@ void reset_state(const fs::path &ego_filepath,
 {
     cycle = 0;
     init_ego_vehicle(ego_filepath.string(), ego_vehicle);
-    init_vehicles(data_filepath.string(), vehicles);
+    init_vehicles(vehicle_filepath.string(), vehicles);
     init_lanes(lanes_filepath.string(), lanes);
 }
 

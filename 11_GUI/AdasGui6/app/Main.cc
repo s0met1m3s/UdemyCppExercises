@@ -25,23 +25,33 @@
 
 namespace fs = std::filesystem;
 
-static void glfw_error_callback(int error, const char *description);
+void glfw_error_callback(int error, const char *description);
 
-int main()
+int main(int argc, char **argv)
 {
     fs::path data_filepath;
-#if defined(_MSC_VER)
-    data_filepath /= fs::current_path().parent_path().parent_path();
-#else
-    data_filepath /= fs::current_path().parent_path();
-#endif
-    data_filepath /= "data";
-    fs::path ego_filepath = data_filepath;
-    fs::path lane_filepath = data_filepath;
 
-    data_filepath /= "vehicle_data.json";
+    if (argc < 2)
+    {
+#if defined(_MSC_VER)
+        data_filepath /= fs::current_path().parent_path().parent_path().parent_path();
+#else
+        data_filepath /= fs::current_path().parent_path().parent_path();
+#endif
+        data_filepath /= "data";
+    }
+    else
+    {
+        const auto data_path_str = std::string(argv[1]);
+        data_filepath = fs::path(data_path_str);
+    }
+
+    fs::path ego_filepath = data_filepath;
     ego_filepath /= "ego_data.json";
+    fs::path lane_filepath = data_filepath;
     lane_filepath /= "lane_data.json";
+    fs::path vehicle_filepath = data_filepath;
+    vehicle_filepath /= "vehicle_data.json";
 
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
@@ -99,7 +109,7 @@ int main()
     style.Colors[ImGuiCol_TableBorderStrong] = ImVec4(1.0, 1.0, 1.0, 1.0);
     style.Colors[ImGuiCol_TableBorderLight] = ImVec4(1.0, 1.0, 1.0, 1.0);
 
-    cycle_function(ego_filepath, data_filepath, lane_filepath, window);
+    cycle_function(ego_filepath, vehicle_filepath, lane_filepath, window);
 
     // Cleanup
     ImGui_ImplOpenGL3_Shutdown();
