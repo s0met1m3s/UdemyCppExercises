@@ -10,6 +10,7 @@
 #include "DataLoaderConstants.hpp"
 #include "Render.hpp"
 #include "RenderConstants.hpp"
+#include "Units.hpp"
 
 void render_cycle(const VehicleInformationType &ego_vehicle,
                   const NeighborVehiclesType &vehicles,
