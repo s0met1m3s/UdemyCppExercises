@@ -32,6 +32,11 @@ void render_cycle(const VehicleInformationType &ego_vehicle,
 
 void plot_vehicle_marker(const VehicleInformationType &vehicle, const ImVec4 &color, std::string_view label)
 {
+    if (vehicle.id == NONE_VEHICLE_ID)
+    {
+        return;
+    }
+
     const auto num_points = size_t{2};
 
     const auto height_offset = (vehicle.height_m / 2.0F);
@@ -203,7 +208,7 @@ void plot_lanes_vehicles(const std::array<VehicleInformationType, MAX_NUM_VEHICL
         case ObjectClassType::NONE:
         default:
         {
-            return;
+            continue;
         }
         }
 
@@ -228,6 +233,11 @@ void plot_lanes_ego_vehicle(const VehicleInformationType &ego_vehicle,
 
         ImPlot::SetNextMarkerStyle(ImPlotMarker_Left, VEHICLE_SCATTER_SIZE / 1.5F, RED_MARKER);
         ImPlot::PlotScatter("longReq", &long_req_pos, &ego_vehicle.lat_distance_m, 1);
+    }
+
+    if (LaneAssociationType::NONE == lat_request)
+    {
+        return;
     }
 
     const auto lat_request_int = static_cast<std::int32_t>(lat_request);

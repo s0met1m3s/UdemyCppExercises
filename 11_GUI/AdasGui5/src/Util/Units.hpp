@@ -4,7 +4,7 @@
 #include <type_traits>
 
 template <typename T>
-constexpr T PI = T(3.14159265358979323846);
+constexpr T PI = T(3.14159265358979323846L);
 
 template <typename T, typename U>
 [[nodiscard]] constexpr U ms_to_s(const T ms)

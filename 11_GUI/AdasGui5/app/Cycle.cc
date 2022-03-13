@@ -7,9 +7,9 @@
 
 #include "AdConstants.hpp"
 #include "AdFunctions.hpp"
+#include "Cycle.hpp"
 #include "DataLoader.hpp"
 #include "RenderConstants.hpp"
-#include "cycle.hpp"
 
 namespace fs = std::filesystem;
 
