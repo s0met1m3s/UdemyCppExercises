@@ -32,7 +32,8 @@ void render_cycle(const VehicleInformationType &ego_vehicle,
 
 void plot_vehicle_marker(const VehicleInformationType &vehicle, const ImVec4 &color, std::string_view label)
 {
-    const auto num_points = size_t{2};
+    constexpr auto num_points = size_t{2};
+    constexpr auto scaling = ((2.0F * VIEW_RANGE_M) / (2.0F * LATERAL_RANGE_M));
 
     const auto height_offset = (vehicle.height_m / 2.0F);
     const auto width_offset = (vehicle.width_m / 4.0F);
@@ -44,23 +45,21 @@ void plot_vehicle_marker(const VehicleInformationType &vehicle, const ImVec4 &co
     auto ys2 = std::array<float, num_points>{vehicle.lat_distance_m - width_offset,
                                              vehicle.lat_distance_m - width_offset};
 
-    const auto scaling = ((2.0F * VIEW_RANGE_M) / (2.0F * LATERAL_RANGE_M));
-    const auto rad = (10.0F / scaling) * deg_to_rad(vehicle.heading_deg);
-
+    const auto rad = (vehicle.heading_deg / scaling) * deg_to_rad(vehicle.heading_deg);
     const auto cx = (xs[0] + xs[1]) / 2.0F;
     const auto cy = (ys1[0] + ys2[0]) / 2.0F;
 
-    const auto [x_s0, ys1_0] = rotate_point(rad, cx, cy, xs[0], ys1[0]);
-    const auto [x_s1, ys1_1] = rotate_point(rad, cx, cy, xs[1], ys1[1]);
-    const auto [_xx, ys2_0] = rotate_point(rad, cx, cy, xs[0], ys2[0]);
-    const auto [_x, ys2_1] = rotate_point(rad, cx, cy, xs[1], ys2[1]);
+    const auto p1 = rotate_point(rad, cx, cy, xs[0], ys1[0]);
+    const auto p2 = rotate_point(rad, cx, cy, xs[1], ys1[1]);
+    const auto p3 = rotate_point(rad, cx, cy, xs[0], ys2[0]);
+    const auto p4 = rotate_point(rad, cx, cy, xs[1], ys2[1]);
 
-    xs[0] = x_s0;
-    xs[1] = x_s1;
-    ys1[0] = ys1_0;
-    ys1[1] = ys1_1;
-    ys2[0] = ys2_0;
-    ys2[1] = ys2_1;
+    xs[0] = p1.first;
+    xs[1] = p2.first;
+    ys1[0] = p1.second;
+    ys1[1] = p2.second;
+    ys2[0] = p3.second;
+    ys2[1] = p4.second;
 
     ImPlot::SetNextFillStyle(color);
     ImPlot::PlotShaded(label.data(), xs.data(), ys1.data(), ys2.data(), num_points);
@@ -70,7 +69,7 @@ void plot_lanes_straight_solid_line(const Polynomial3rdDegreeType &polynomial,
                                     const float start_m,
                                     const float end_m)
 {
-    const auto num_rear_points = std::size_t{2};
+    constexpr auto num_rear_points = std::size_t{2};
 
     const auto x_rear = std::array<float, num_rear_points>{start_m, end_m};
     const auto y_rear = std::array<float, num_rear_points>{polynomial.d, polynomial.d};
@@ -82,7 +81,7 @@ void plot_lanes_polynomial_solid_line(const Polynomial3rdDegreeType &polynomial,
                                       const float start_m,
                                       const float end_m)
 {
-    const auto num_front_points = std::size_t{100};
+    constexpr auto num_front_points = std::size_t{100};
     const auto range_m = std::abs(end_m - start_m);
     const auto slice_length_m = range_m / static_cast<float>(num_front_points);
 
@@ -104,7 +103,7 @@ void plot_lanes_polynomial_dashed_line(const Polynomial3rdDegreeType &polynomial
                                        const float start_m,
                                        const float end_m)
 {
-    const auto num_points = std::size_t{2};
+    constexpr auto num_points = std::size_t{2};
     const auto range_m = std::abs(end_m - start_m);
     const auto num_slices = static_cast<std::uint32_t>(range_m / SLICE_LENGTH_M);
 
@@ -180,7 +179,7 @@ void plot_lane_class(const LaneInformationType &lane)
     }
     }
 
-    const auto num_points = size_t{2};
+    constexpr auto num_points = size_t{2};
 
     const auto offset_m = lane.right_polynomial.d;
     const auto min_view_range = std::min(lane.left_view_range_m, lane.right_view_range_m);
@@ -339,7 +338,7 @@ void plot_vehicle_in_table(const VehicleInformationType &vehicle)
 
 void plot_table(const VehicleInformationType &ego_vehicle, const NeighborVehiclesType &vehicles)
 {
-    const auto num_cols = std::size_t{10};
+    constexpr auto num_cols = std::size_t{10};
 
     ImGui::SetNextWindowPos(ImVec2(0.0F, BELOW_LANES));
     ImGui::SetNextWindowSize(ImVec2(VEHICLE_TABLE_WIDTH, VEHICLE_TABLE_HEIGHT));

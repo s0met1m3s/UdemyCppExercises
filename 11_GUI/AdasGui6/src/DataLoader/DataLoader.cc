@@ -68,7 +68,7 @@ void load_cycle_ego(const std::uint32_t cycle, VehicleInformationType &ego_vehic
 void init_ego_vehicle(std::string_view filepath, VehicleInformationType &ego_vehicle)
 {
     std::ifstream ifs(filepath.data());
-    json parsed_data = json::parse(ifs);
+    const auto parsed_data = json::parse(ifs);
 
     ego_vehicle_log_data.lanes = parsed_data["Lane"];
     ego_vehicle_log_data.long_velocities_mps = parsed_data["LongVelocity"];
@@ -83,6 +83,8 @@ void init_ego_vehicle(std::string_view filepath, VehicleInformationType &ego_veh
     compute_accelerations(ego_vehicle_log_data.velocities_mps, ego_vehicle_log_data.accelerations_mps2);
 
     load_cycle_ego(0, ego_vehicle);
+
+    ifs.close();
 }
 
 void load_cycle_vehicle(const std::uint32_t cycle,
@@ -107,7 +109,7 @@ void load_cycle_vehicle(const std::uint32_t cycle,
 void init_vehicles(std::string_view filepath, NeighborVehiclesType &vehicles)
 {
     std::ifstream ifs(filepath.data());
-    json parsed_data = json::parse(ifs);
+    const auto parsed_data = json::parse(ifs);
 
     for (std::size_t vehicle_idx = 0; vehicle_idx < NUM_VEHICLES; vehicle_idx++)
     {
@@ -135,6 +137,8 @@ void init_vehicles(std::string_view filepath, NeighborVehiclesType &vehicles)
 
         load_cycle_vehicle(0, vehicle_idx, vehicles);
     }
+
+    ifs.close();
 }
 
 void load_cycle_lane(const std::uint32_t cycle, const std::uint32_t lane_idx, LaneInformationType &lane)
@@ -178,7 +182,7 @@ void get_lane_border_data(const std::uint32_t i, const size_t lane_idx, const js
 void init_lanes(std::string_view filepath, LanesInformationType &lanes)
 {
     std::ifstream ifs(filepath.data());
-    json parsed_data = json::parse(ifs);
+    const auto parsed_data = json::parse(ifs);
 
     for (std::uint32_t i = 0; i < NUM_ITERATIONS; ++i)
     {

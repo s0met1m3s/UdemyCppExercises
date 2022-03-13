@@ -34,14 +34,14 @@ std::vector<const VehicleInformationType *> get_vehicles_on_lane(const LaneAssoc
 }
 
 const VehicleInformationType *get_impeding_vehicle(
-    const std::vector<const VehicleInformationType *> &vehicles)
+    const std::vector<const VehicleInformationType *> &vehicles_on_lane)
 {
-    float closest_distance_m = FLT_MAX;
-    std::uint32_t closest_idx = static_cast<std::uint32_t>(-1);
+    auto closest_distance_m = FLT_MAX;
+    auto closest_idx = static_cast<std::uint32_t>(-1);
 
-    for (std::uint32_t idx = 0; idx < vehicles.size(); ++idx)
+    for (std::uint32_t idx = 0; idx < vehicles_on_lane.size(); ++idx)
     {
-        const auto veh = vehicles[idx];
+        const auto veh = vehicles_on_lane[idx];
 
         if (veh->long_distance_m <= 0.0F)
         {
@@ -57,20 +57,21 @@ const VehicleInformationType *get_impeding_vehicle(
 
     if (closest_idx != static_cast<std::uint32_t>(-1))
     {
-        return vehicles[closest_idx];
+        return vehicles_on_lane[closest_idx];
     }
 
     return nullptr;
 }
 
-const VehicleInformationType *get_closing_vehicle(const std::vector<const VehicleInformationType *> &vehicles)
+const VehicleInformationType *get_closing_vehicle(
+    const std::vector<const VehicleInformationType *> &vehicles_on_lane)
 {
-    float closest_distance_m = -FLT_MAX;
-    std::uint32_t closest_idx = static_cast<std::uint32_t>(-1);
+    auto closest_distance_m = -FLT_MAX;
+    auto closest_idx = static_cast<std::uint32_t>(-1);
 
-    for (std::uint32_t idx = 0; idx < vehicles.size(); ++idx)
+    for (std::uint32_t idx = 0; idx < vehicles_on_lane.size(); ++idx)
     {
-        const auto veh = vehicles[idx];
+        const auto veh = vehicles_on_lane[idx];
 
         if (veh->long_distance_m >= 0.0F)
         {
@@ -86,7 +87,7 @@ const VehicleInformationType *get_closing_vehicle(const std::vector<const Vehicl
 
     if (closest_idx != static_cast<std::uint32_t>(-1))
     {
-        return vehicles[closest_idx];
+        return vehicles_on_lane[closest_idx];
     }
 
     return nullptr;
