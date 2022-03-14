@@ -1,6 +1,6 @@
 #include <algorithm>
+#include <array>
 #include <iostream>
-#include <vector>
 
 #include "AdTypes.hpp"
 #include "DataLoaderConstants.hpp"
@@ -42,6 +42,7 @@ void compute_accelerations(const std::array<float, NUM_ITERATIONS> &velocities_m
         accelerations_mps2[i] = (velocities_mps[i] - velocities_mps[i - 1]) / CYCLE_TIME_S;
     }
 }
+
 void compute_rel_velocities(const std::array<float, NUM_ITERATIONS> &velocities_mps,
                             const std::array<float, NUM_ITERATIONS> &ego_velocities_mps,
                             std::array<float, NUM_ITERATIONS> &rel_velocities_mps)
