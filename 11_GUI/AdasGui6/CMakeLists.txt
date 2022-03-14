@@ -20,18 +20,10 @@ if (ENABLE_WARNINGS)
 endif()
 
 # Project/Library Names
-set(IMGUI_LIB       imgui)
-set(GLFW_LIB        glfw)
-set(GLAD_LIB        glad)
-set(IMPL_LIB        impl)
-set(IMPLOT_LIB      implot)
-set(JSON_LIB        json)
+set(EXTERNAL_LIB    ExternalLib)
 add_subdirectory(external)
 
-set(UTIL_LIB        UtilLib)
-set(ADAS_LIB        AdLib)
-set(DATA_LOADER_LIB DataLoaderLib)
-set(RENDER_LIB      RenderLib)
+set(ALGO_LIB        AdasAlgo)
 add_subdirectory(src)
 
 set(EXE_NAME        AdasGui)
