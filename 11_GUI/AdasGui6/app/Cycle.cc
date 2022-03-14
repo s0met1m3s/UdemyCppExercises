@@ -26,153 +26,38 @@ static auto input_cycle = int32_t{0};
 } // namespace
 
 
-void cycle_function(const fs::path &ego_filepath,
-                    const fs::path &vehicle_filepath,
-                    const fs::path &lane_filepath,
-                    GLFWwindow *const window)
+void cycle(const std::size_t cycle_idx,
+           VehicleInformationType &ego_vehicle,
+           NeighborVehiclesType &vehicles,
+           LanesInformationType &lanes)
 {
-    auto cycle = std::size_t{0};
-    auto ego_vehicle = VehicleInformationType{};
-    auto vehicles = NeighborVehiclesType{};
-    auto lanes = LanesInformationType{};
-
-    init_ego_vehicle(ego_filepath.string(), ego_vehicle);
-    init_vehicles(vehicle_filepath.string(), vehicles);
-    init_lanes(lane_filepath.string(), lanes);
-
-    while (!glfwWindowShouldClose(window))
-    {
-        pressed_next = false;
-        pressed_prev = false;
-        pressed_load = false;
-
-        start_cycle();
-        ImGui::NewFrame();
-
-        plot_buttons();
-
-        if (pressed_play)
-        {
-            if (cycle == 0 && cycle >= NUM_ITERATIONS)
-            {
-                reset_state(ego_filepath,
-                            vehicle_filepath,
-                            lane_filepath,
-                            cycle,
-                            ego_vehicle,
-                            vehicles,
-                            lanes);
-            }
-
-            pressed_pause = false;
-            pressed_play = false;
-            is_playing = true;
-        }
-
-        if (pressed_replay)
-        {
-            reset_state(ego_filepath, vehicle_filepath, lane_filepath, cycle, ego_vehicle, vehicles, lanes);
-
-            pressed_replay = false;
-            is_playing = true;
-        }
-
-        if (!pressed_pause && is_playing && cycle < NUM_ITERATIONS)
-        {
-            execute_cycle(cycle, ego_vehicle, vehicles, lanes);
-        }
-        else if (pressed_next)
-        {
-            if (cycle < NUM_ITERATIONS - 1U)
-            {
-                cycle++;
-            }
-
-            execute_cycle(cycle, ego_vehicle, vehicles, lanes);
-        }
-        else if (pressed_prev)
-        {
-            if (cycle > 0)
-            {
-                cycle--;
-            }
-
-            execute_cycle(cycle, ego_vehicle, vehicles, lanes);
-        }
-        else if (pressed_load)
-        {
-            if ((input_cycle > 0) && (input_cycle < NUM_ITERATIONS))
-            {
-                cycle = input_cycle;
-                execute_cycle(cycle, ego_vehicle, vehicles, lanes);
-            }
-        }
-        else if (pressed_pause)
-        {
-            render_cycle(ego_vehicle, vehicles, lanes, false, LaneAssociationType::NONE);
-            is_playing = false;
-        }
-        else if (!is_playing)
-        {
-            render_cycle(ego_vehicle, vehicles, lanes, false, LaneAssociationType::NONE);
-        }
-        else if (cycle >= NUM_ITERATIONS)
-        {
-            is_playing = false;
-        }
-
-        plot_cycle_number(cycle);
-
-        ImGui::Render();
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(CYCLE_TIME_MS));
-        ImGui::GetIO().DeltaTime = static_cast<float>(CYCLE_TIME_MS) / 1000.0F;
-
-        end_cycle(window);
-
-        if (is_playing)
-        {
-            cycle++;
-        }
-    }
-}
-
-void execute_cycle(const std::size_t cycle,
-                   VehicleInformationType &ego_vehicle,
-                   NeighborVehiclesType &vehicles,
-                   LanesInformationType &lanes)
-{
-    const auto ego_lane_vehicles = get_vehicles_on_lane(ego_vehicle.lane, vehicles);
-    const auto front_vehicle = get_impeding_vehicle(ego_lane_vehicles);
-    const auto long_request = get_longitudinal_request(front_vehicle, ego_vehicle);
-    const auto lat_request = get_lat_request(ego_vehicle, vehicles);
-
-    load_cycle(cycle, vehicles, ego_vehicle, lanes);
+    load_cycle(cycle_idx, vehicles, ego_vehicle, lanes);
+    const auto [long_request, lat_request] = compute_cycle(ego_vehicle, vehicles, lanes);
     render_cycle(ego_vehicle, vehicles, lanes, long_request, lat_request);
 }
 
 void reset_state(const fs::path &ego_filepath,
                  const fs::path &vehicle_filepath,
                  const fs::path &lanes_filepath,
-                 std::size_t &cycle,
+                 std::size_t &cycle_idx,
                  VehicleInformationType &ego_vehicle,
                  NeighborVehiclesType &vehicles,
                  LanesInformationType &lanes)
 {
-    cycle = 0;
+    cycle_idx = 0;
     init_ego_vehicle(ego_filepath.string(), ego_vehicle);
     init_vehicles(vehicle_filepath.string(), vehicles);
     init_lanes(lanes_filepath.string(), lanes);
 }
 
-void start_cycle()
+void start()
 {
     glfwPollEvents();
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
 }
 
-void end_cycle(GLFWwindow *const window)
+void end(GLFWwindow *const window)
 {
     ImVec4 clear_color = ImVec4(30.0F / 255.0F, 30.0F / 255.0F, 30.0F / 255.0F, 1.00f);
     int display_w, display_h;
@@ -239,7 +124,7 @@ void plot_buttons()
     }
 }
 
-void plot_cycle_number(const std::size_t cycle)
+void plot_cycle_number(const std::size_t cycle_idx)
 {
     auto const offset_x = (WINDOWS_WIDTH - (6.0F * BUTTON_LINE_SHIFT)) * 0.5F;
 
@@ -248,7 +133,7 @@ void plot_cycle_number(const std::size_t cycle)
 
     if (ImGui::Begin("CycleWindow", nullptr, WINDOW_FLAGS_CLEAN))
     {
-        ImGui::Text("Cycle: %d", static_cast<std::int32_t>(cycle));
+        ImGui::Text("Cycle: %d", static_cast<std::int32_t>(cycle_idx));
 
         ImGui::SameLine(offset_x);
         ImGui::SliderInt("###sliderCycle",
@@ -259,5 +144,122 @@ void plot_cycle_number(const std::size_t cycle)
                          ImGuiSliderFlags_AlwaysClamp);
 
         ImGui::End();
+    }
+}
+
+void cycle_function(const fs::path &ego_filepath,
+                    const fs::path &vehicle_filepath,
+                    const fs::path &lane_filepath,
+                    GLFWwindow *const window)
+{
+    auto cycle_idx = std::size_t{0};
+    auto ego_vehicle = VehicleInformationType{};
+    auto vehicles = NeighborVehiclesType{};
+    auto lanes = LanesInformationType{};
+
+    init_ego_vehicle(ego_filepath.string(), ego_vehicle);
+    init_vehicles(vehicle_filepath.string(), vehicles);
+    init_lanes(lane_filepath.string(), lanes);
+
+    while (!glfwWindowShouldClose(window))
+    {
+        pressed_next = false;
+        pressed_prev = false;
+        pressed_load = false;
+
+        start();
+        ImGui::NewFrame();
+
+        plot_buttons();
+
+        if (pressed_play)
+        {
+            if (cycle_idx == 0 && cycle_idx >= NUM_ITERATIONS)
+            {
+                reset_state(ego_filepath,
+                            vehicle_filepath,
+                            lane_filepath,
+                            cycle_idx,
+                            ego_vehicle,
+                            vehicles,
+                            lanes);
+            }
+
+            pressed_pause = false;
+            pressed_play = false;
+            is_playing = true;
+        }
+
+        if (pressed_replay)
+        {
+            reset_state(ego_filepath,
+                        vehicle_filepath,
+                        lane_filepath,
+                        cycle_idx,
+                        ego_vehicle,
+                        vehicles,
+                        lanes);
+
+            pressed_replay = false;
+            is_playing = true;
+        }
+
+        if (!pressed_pause && is_playing && cycle_idx < NUM_ITERATIONS)
+        {
+            cycle(cycle_idx, ego_vehicle, vehicles, lanes);
+        }
+        else if (pressed_next)
+        {
+            if (cycle_idx < NUM_ITERATIONS - 1U)
+            {
+                cycle_idx++;
+            }
+
+            cycle(cycle_idx, ego_vehicle, vehicles, lanes);
+        }
+        else if (pressed_prev)
+        {
+            if (cycle_idx > 0)
+            {
+                cycle_idx--;
+            }
+
+            cycle(cycle_idx, ego_vehicle, vehicles, lanes);
+        }
+        else if (pressed_load)
+        {
+            if ((input_cycle > 0) && (input_cycle < NUM_ITERATIONS))
+            {
+                cycle_idx = input_cycle;
+                cycle(cycle_idx, ego_vehicle, vehicles, lanes);
+            }
+        }
+        else if (pressed_pause)
+        {
+            render_cycle(ego_vehicle, vehicles, lanes, false, LaneAssociationType::NONE);
+            is_playing = false;
+        }
+        else if (!is_playing)
+        {
+            render_cycle(ego_vehicle, vehicles, lanes, false, LaneAssociationType::NONE);
+        }
+        else if (cycle_idx >= NUM_ITERATIONS)
+        {
+            is_playing = false;
+        }
+
+        plot_cycle_number(cycle_idx);
+
+        ImGui::Render();
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(CYCLE_TIME_MS));
+        ImGui::GetIO().DeltaTime = static_cast<float>(CYCLE_TIME_MS) / 1000.0F;
+
+        end(window);
+
+        if (is_playing)
+        {
+            cycle_idx++;
+        }
     }
 }

@@ -306,6 +306,13 @@ void plot_lanes(const VehicleInformationType &ego_vehicle,
     }
 }
 
+template <typename T>
+void plot_table_cell_value(std::string_view formatter, const T &value)
+{
+    ImGui::TableNextColumn();
+    ImGui::Text(formatter.data(), value);
+}
+
 void plot_vehicle_in_table(const VehicleInformationType &vehicle)
 {
     if (ObjectClassType::NONE == vehicle.object_class)
@@ -314,31 +321,23 @@ void plot_vehicle_in_table(const VehicleInformationType &vehicle)
     }
 
     ImGui::TableNextRow();
-    ImGui::TableNextColumn();
-    ImGui::Text("%d", vehicle.id);
-    ImGui::TableNextColumn();
-    ImGui::Text("%s", OBJECT_NAMES[static_cast<std::uint32_t>(vehicle.object_class)]);
-    ImGui::TableNextColumn();
-    ImGui::Text("%s", LANE_NAMES[static_cast<std::int32_t>(vehicle.lane)]);
-    ImGui::TableNextColumn();
-    ImGui::Text("%f", vehicle.long_distance_m);
-    ImGui::TableNextColumn();
-    ImGui::Text("%f", vehicle.lat_distance_m);
-    ImGui::TableNextColumn();
-    ImGui::Text("%f", vehicle.velocity_mps);
-    ImGui::TableNextColumn();
-    ImGui::Text("%f", vehicle.long_velocity_mps);
-    ImGui::TableNextColumn();
-    ImGui::Text("%f", vehicle.lat_velocity_mps);
-    ImGui::TableNextColumn();
-    ImGui::Text("%f", vehicle.heading_deg);
-    ImGui::TableNextColumn();
-    ImGui::Text("%f", vehicle.acceleration_mps2);
+    plot_table_cell_value("%d", vehicle.id);
+    plot_table_cell_value("%s", OBJECT_NAMES[static_cast<std::uint32_t>(vehicle.object_class)]);
+    plot_table_cell_value("%s", LANE_NAMES[static_cast<std::int32_t>(vehicle.lane)]);
+    plot_table_cell_value("%f", vehicle.long_distance_m);
+    plot_table_cell_value("%f", vehicle.lat_distance_m);
+    plot_table_cell_value("%f", vehicle.velocity_mps);
+    plot_table_cell_value("%f", vehicle.long_velocity_mps);
+    plot_table_cell_value("%f", vehicle.lat_velocity_mps);
+    plot_table_cell_value("%f", vehicle.heading_deg);
+    plot_table_cell_value("%f", vehicle.acceleration_mps2);
+    plot_table_cell_value("%f", vehicle.rel_velocity_mps);
+    plot_table_cell_value("%f", vehicle.rel_acceleration_mps2);
 }
 
 void plot_table(const VehicleInformationType &ego_vehicle, const NeighborVehiclesType &vehicles)
 {
-    constexpr auto num_cols = std::size_t{10};
+    constexpr auto num_cols = std::size_t{12};
 
     ImGui::SetNextWindowPos(ImVec2(0.0F, BELOW_LANES));
     ImGui::SetNextWindowSize(ImVec2(VEHICLE_TABLE_WIDTH, VEHICLE_TABLE_HEIGHT));
@@ -348,26 +347,18 @@ void plot_table(const VehicleInformationType &ego_vehicle, const NeighborVehicle
         if (ImGui::BeginTable("Table", num_cols, TABLE_FLAGS))
         {
             ImGui::TableNextRow(ImGuiTableRowFlags_Headers);
-            ImGui::TableNextColumn();
-            ImGui::Text("ID:");
-            ImGui::TableNextColumn();
-            ImGui::Text("Type:");
-            ImGui::TableNextColumn();
-            ImGui::Text("Lane:");
-            ImGui::TableNextColumn();
-            ImGui::Text("Long. Dist.:");
-            ImGui::TableNextColumn();
-            ImGui::Text("Lat. Dist.:");
-            ImGui::TableNextColumn();
-            ImGui::Text("Velocity:");
-            ImGui::TableNextColumn();
-            ImGui::Text("Long Velocity:");
-            ImGui::TableNextColumn();
-            ImGui::Text("Lat Velocity:");
-            ImGui::TableNextColumn();
-            ImGui::Text("Heading Deg:");
-            ImGui::TableNextColumn();
-            ImGui::Text("Acceleration:");
+            plot_table_cell_value("%s", "ID:");
+            plot_table_cell_value("%s", "Type:");
+            plot_table_cell_value("%s", "Lane:");
+            plot_table_cell_value("%s", "Long. Dist.:");
+            plot_table_cell_value("%s", "Lat. Dist.:");
+            plot_table_cell_value("%s", "Velocity:");
+            plot_table_cell_value("%s", "Long. Vel.:");
+            plot_table_cell_value("%s", "Lat. Vel.:");
+            plot_table_cell_value("%s", "Heading Deg:");
+            plot_table_cell_value("%s", "Accel.:");
+            plot_table_cell_value("%s", "Rel. Vel.:");
+            plot_table_cell_value("%s", "Rel. Accel.:");
 
             plot_vehicle_in_table(ego_vehicle);
 

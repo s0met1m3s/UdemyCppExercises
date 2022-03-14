@@ -1,4 +1,5 @@
 #include <iostream>
+#include <utility>
 #include <vector>
 
 #include "AdConstants.hpp"
@@ -28,7 +29,6 @@ std::vector<const VehicleInformationType *> get_vehicles_on_lane(const LaneAssoc
             lane_vehicles.push_back(&veh);
         }
     }
-
 
     return lane_vehicles;
 }
@@ -112,11 +112,6 @@ bool get_longitudinal_request(const VehicleInformationType *const front_vehicle,
     return false;
 }
 
-void longitudinal_control(VehicleInformationType &ego_vehicle)
-{
-    decrease_speed(ego_vehicle);
-}
-
 LaneAssociationType get_lat_request(const VehicleInformationType &ego_vehicle,
                                     const NeighborVehiclesType &vehicles)
 {
@@ -191,15 +186,15 @@ LaneAssociationType get_lat_request(const VehicleInformationType &ego_vehicle,
     return ego_vehicle.lane;
 }
 
-
-bool lateral_control(const LaneAssociationType lat_request, VehicleInformationType &ego_vehicle)
+AdOutputsType compute_cycle(VehicleInformationType &ego_vehicle,
+                            NeighborVehiclesType &vehicles,
+                            LanesInformationType &lanes)
 {
-    if (lat_request == ego_vehicle.lane)
-    {
-        return false;
-    }
+    const auto ego_lane_vehicles = get_vehicles_on_lane(ego_vehicle.lane, vehicles);
+    const auto front_vehicle = get_impeding_vehicle(ego_lane_vehicles);
+    const auto long_request = get_longitudinal_request(front_vehicle, ego_vehicle);
+    const auto lat_request = get_lat_request(ego_vehicle, vehicles);
+    (void)lanes;
 
-    ego_vehicle.lane = lat_request;
-
-    return true;
+    return {long_request, lat_request};
 }
