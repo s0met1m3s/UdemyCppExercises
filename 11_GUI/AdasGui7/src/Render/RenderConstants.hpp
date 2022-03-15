@@ -6,18 +6,21 @@
 /* FLAGS */
 constexpr auto WINDOW_FLAGS_CLEAN = (ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove |
                                      ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize);
-constexpr auto SIDE_PLOT_FLAGS = ImGuiWindowFlags_NoTitleBar;
 constexpr auto PLOT_FLAGS = (ImPlotFlags_NoTitle | ImPlotFlags_NoLegend);
 constexpr auto AXES_FLAGS = (ImPlotAxisFlags_Lock | ImPlotAxisFlags_Invert);
 constexpr auto TABLE_FLAGS = (ImGuiTableFlags_BordersV | ImGuiTableFlags_BordersOuter);
 
 /* GENERAL WINDOW SETTINGS */
-constexpr auto WINDOWS_HEIGHT{950.0F};
+constexpr auto WINDOWS_HEIGHT{900.0F};
 constexpr auto WINDOWS_WIDTH{2200.0F};
 constexpr auto LEFT_WIDTH{1700.0F};
 
 /* SIDE PLOT SETTINGS */
 constexpr auto SIDE_PLOT_WIDTH{500.0F};
+const auto ORANGE_LINE = ImVec4{1.0F, 0.7F, 0.1F, 1.0F};
+constexpr auto SELECTABLE_HEIGHT{35.0F};
+constexpr auto SLIDER_HEIGHT{35.0F};
+constexpr auto SIDE_PLOT_HEIGHT{WINDOWS_HEIGHT - SELECTABLE_HEIGHT - SLIDER_HEIGHT};
 
 /* LANE PLOT SETTINGS */
 constexpr auto LANE_PLOT_HEIGHT{3.0F * 200.0F};

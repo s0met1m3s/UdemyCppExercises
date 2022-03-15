@@ -16,7 +16,8 @@ static constexpr const char *const OBJECT_NAMES[] = {
     "None",
 };
 
-static constexpr const char *const VALUE_NAMES[] = {
+constexpr std::size_t NUM_VALUES = 7;
+static constexpr const char *const VALUE_NAMES[NUM_VALUES] = {
     "long_velocity_mps",
     "lat_velocity_mps",
     "velocity_mps",

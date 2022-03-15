@@ -381,21 +381,23 @@ void plot_table(const VehicleInformationType &ego_vehicle, const NeighborVehicle
 
 void plot_ego_values(const VehicleInformationType &ego_vehicle, const std::uint32_t cycle_idx)
 {
-    static ScrollingBuffer data(200);
+    static auto num_points = std::int32_t{200};
+    static ScrollingBuffer data(NUM_ITERATIONS);
+    static auto item_current_idx = std::size_t{0};
+    const auto combo_preview_value = VALUE_NAMES[item_current_idx];
+    float curr_value = 0.0F;
 
     ImGui::SetNextWindowPos(ImVec2(LEFT_WIDTH, 0.0F));
-    ImGui::SetNextWindowSize(ImVec2(SIDE_PLOT_WIDTH, WINDOWS_HEIGHT));
+    ImGui::SetNextWindowSize(ImVec2(SIDE_PLOT_WIDTH, SELECTABLE_HEIGHT));
 
-    static int item_current_idx = 0;
-    const char *combo_preview_value = VALUE_NAMES[item_current_idx];
-
-    if (ImGui::Begin("PlottingWindow", nullptr, SIDE_PLOT_FLAGS))
+    if (ImGui::Begin("ComboWindow", nullptr, ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoDecoration))
     {
+        ImGui::SetNextItemWidth(SIDE_PLOT_WIDTH);
         if (ImGui::BeginCombo("###combo", combo_preview_value))
         {
-            for (int n = 0; n < IM_ARRAYSIZE(VALUE_NAMES); n++)
+            for (std::size_t n = 0; n < NUM_VALUES; n++)
             {
-                const bool is_selected = (item_current_idx == n);
+                const auto is_selected = (item_current_idx == n);
                 if (ImGui::Selectable(VALUE_NAMES[n], is_selected))
                 {
                     data.Erase();
@@ -410,66 +412,88 @@ void plot_ego_values(const VehicleInformationType &ego_vehicle, const std::uint3
             ImGui::EndCombo();
         }
 
-        float curr_value;
-        if (item_current_idx == 0)
+        const auto values = std::array<float, NUM_VALUES>{ego_vehicle.long_velocity_mps,
+                                                          ego_vehicle.lat_velocity_mps,
+                                                          ego_vehicle.velocity_mps,
+                                                          ego_vehicle.acceleration_mps2,
+                                                          ego_vehicle.heading_deg,
+                                                          ego_vehicle.rel_velocity_mps,
+                                                          ego_vehicle.rel_acceleration_mps2};
+        curr_value = values[item_current_idx];
+
+        ImGui::End();
+    }
+
+    ImGui::SetNextWindowPos(ImVec2(LEFT_WIDTH, SELECTABLE_HEIGHT));
+    ImGui::SetNextWindowSize(ImVec2(SIDE_PLOT_WIDTH, SIDE_PLOT_HEIGHT));
+
+    if (ImGui::Begin("PlottingWindow", nullptr, ImGuiWindowFlags_NoDecoration))
+    {
+        if (data.data_x.size() > 0)
         {
-            curr_value = ego_vehicle.long_velocity_mps;
-        }
-        else if (item_current_idx == 1)
-        {
-            curr_value = ego_vehicle.lat_velocity_mps;
-        }
-        else if (item_current_idx == 2)
-        {
-            curr_value = ego_vehicle.velocity_mps;
-        }
-        else if (item_current_idx == 3)
-        {
-            curr_value = ego_vehicle.acceleration_mps2;
-        }
-        else if (item_current_idx == 4)
-        {
-            curr_value = ego_vehicle.heading_deg;
-        }
-        else if (item_current_idx == 5)
-        {
-            curr_value = ego_vehicle.rel_velocity_mps;
-        }
-        else if (item_current_idx == 6)
-        {
-            curr_value = ego_vehicle.rel_acceleration_mps2;
+            if ((data.data_x.size() < static_cast<std::uint32_t>(num_points)) ||
+                (data.data_x[data.last_offset] != static_cast<float>(cycle_idx)))
+            {
+                data.AddPoint(static_cast<float>(cycle_idx), curr_value);
+            }
         }
         else
         {
-            curr_value = 0.0F;
+            data.AddPoint(static_cast<float>(cycle_idx), curr_value);
         }
 
-        data.AddPoint(static_cast<float>(cycle_idx), curr_value);
-
-        if (ImPlot::BeginPlot("Plotting", ImVec2{SIDE_PLOT_WIDTH, WINDOWS_HEIGHT - 50.0F}, PLOT_FLAGS))
+        if (ImPlot::BeginPlot(
+                "Plotting",
+                ImVec2{SIDE_PLOT_WIDTH, SIDE_PLOT_HEIGHT},
+                (ImPlotFlags_NoTitle | ImPlotFlags_NoLegend | ImPlotFlags_NoMenus | ImPlotFlags_NoBoxSelect)))
         {
-            const auto start_cycle = cycle_idx > 200 ? static_cast<double>(cycle_idx) - 200.0 : 0.0;
+            const auto start_cycle = cycle_idx > static_cast<std::uint32_t>(num_points)
+                                         ? static_cast<double>(cycle_idx) - static_cast<double>(num_points)
+                                         : 0.0;
             const auto end_cycle = cycle_idx < NUM_ITERATIONS ? static_cast<double>(cycle_idx)
                                                               : static_cast<double>(NUM_ITERATIONS);
 
-            ImPlot::SetupAxes("Cycle", "Value", ImPlotAxisFlags_None, ImPlotAxisFlags_AutoFit);
+            ImPlot::SetupAxes(nullptr, nullptr, ImPlotAxisFlags_None, ImPlotAxisFlags_AutoFit);
             ImPlot::SetupAxisLimits(ImAxis_X1, start_cycle, end_cycle, ImGuiCond_Always);
             ImPlot::SetupAxisLimits(ImAxis_Y1, 0.0, 100.0, ImGuiCond_Once);
 
-            if (data.Data_x.size() > 0)
+            if (data.data_x.size() > 0)
             {
                 ImPlot::SetNextMarkerStyle(ImPlotMarker_Circle, 1.0F, WHITE_MARKER, 0.0F);
-                ImPlot::PlotLine("scatterData",
-                                 data.Data_x.data(),
-                                 data.Data_y.data(),
-                                 static_cast<std::int32_t>(data.Data_x.size()));
+                ImPlot::SetNextLineStyle(ORANGE_LINE, 1.0F);
+                ImPlot::PlotLine("scatterData1",
+                                 data.data_x.data(),
+                                 data.data_y.data(),
+                                 static_cast<std::int32_t>(data.offset));
+                ImPlot::SetNextMarkerStyle(ImPlotMarker_Circle, 1.0F, WHITE_MARKER, 0.0F);
+                ImPlot::SetNextLineStyle(ORANGE_LINE, 1.0F);
+                ImPlot::PlotLine("scatterData2",
+                                 data.data_x.data() + data.offset,
+                                 data.data_y.data() + data.offset,
+                                 static_cast<std::int32_t>(data.data_x.size() - data.offset));
             }
+
+            ImPlot::EndPlot();
         }
 
-        ImPlot::EndPlot();
+        ImGui::End();
     }
 
-    ImGui::End();
+    ImGui::SetNextWindowPos(ImVec2(LEFT_WIDTH, WINDOWS_HEIGHT - SLIDER_HEIGHT));
+    ImGui::SetNextWindowSize(ImVec2(SIDE_PLOT_WIDTH, SLIDER_HEIGHT));
+
+    if (ImGui::Begin("SliderWindow", nullptr, ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoDecoration))
+    {
+        ImGui::SetNextItemWidth(SIDE_PLOT_WIDTH);
+        ImGui::SliderInt("###sliderWidth",
+                         &num_points,
+                         2,
+                         static_cast<std::int32_t>(cycle_idx),
+                         nullptr,
+                         ImGuiSliderFlags_AlwaysClamp);
+
+        ImGui::End();
+    }
 }
 
 
