@@ -151,8 +151,7 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
             right_idx++;
         }
 
-        std::cout << i << "\t| " << left_string << " |" << center_string << " |" << right_string
-                  << " |\n";
+        std::cout << i << "\t| " << left_string << " |" << center_string << " |" << right_string << " |\n";
     }
 
     std::cout << "\n";
@@ -166,18 +165,14 @@ void print_vehicle_speed(const VehicleType &vehicle, const char *name)
     std::cout << name << ": (" << vehicle.speed_mps << " mps)";
 }
 
-void compute_future_distance(VehicleType &vehicle,
-                             const float ego_driven_distance_m,
-                             const float seconds)
+void compute_future_distance(VehicleType &vehicle, const float ego_driven_distance_m, const float seconds)
 {
     const float driven_distance_m = vehicle.speed_mps * seconds;
 
     vehicle.distance_m += driven_distance_m - ego_driven_distance_m;
 }
 
-void compute_future_state(const VehicleType &ego_vehicle,
-                          NeighborVehiclesType &vehicles,
-                          const float seconds)
+void compute_future_state(const VehicleType &ego_vehicle, NeighborVehiclesType &vehicles, const float seconds)
 {
     const float ego_driven_distance_m = ego_vehicle.speed_mps * seconds;
 
@@ -210,8 +205,7 @@ void longitudinal_control(const VehicleType &front_vehicle, VehicleType &ego_veh
     }
 }
 
-const VehicleType *get_vehicle_array(const LaneAssociationType lane,
-                                     const NeighborVehiclesType &vehicles)
+const VehicleType *get_vehicle_array(const LaneAssociationType lane, const NeighborVehiclesType &vehicles)
 {
     const VehicleType *vehicles_array = nullptr;
 
@@ -254,7 +248,7 @@ LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
     {
         switch (ego_vehicle.lane)
         {
-        case LaneAssociationType::RIGHT: /* fall-thorugh */
+        case LaneAssociationType::RIGHT:
         case LaneAssociationType::LEFT:
         {
             const LaneAssociationType target_lane = LaneAssociationType::CENTER;
