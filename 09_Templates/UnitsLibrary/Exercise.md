@@ -12,7 +12,7 @@ Implement the following unit conversions and math operations with templated func
     - The Input (ms) must be an integral type
     - The output (s) must he a floating type
 - deg_to_rad
-  - Degrees to radians
+  - Degrees ($\alpha$) to radians ($\theta$)
   - $\theta = \alpha * \frac{\pi}{180}$
   - Add a static assert to check:
     - The Input and Output must be a floating type
@@ -44,7 +44,7 @@ For more info see [here](https://en.wikipedia.org/wiki/Rotations_and_reflections
 ### Note
 
 All functions should be constexpr.  
-You could also at the *[[nodiscard]]* attributes tag (see [here](https://en.cppreference.com/w/cpp/language/attributes/nodiscard)).
+You can add the *[[nodiscard]]* attributes tag (see [here](https://en.cppreference.com/w/cpp/language/attributes/nodiscard)).
 
 ## Main Function
 
