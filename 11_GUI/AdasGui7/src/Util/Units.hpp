@@ -20,7 +20,7 @@ template <typename T>
 {
     static_assert(std::is_floating_point_v<T>, "Must be floating point type.");
 
-    return deg * (PI<float> / static_cast<T>(180.0));
+    return deg * (PI<T> / static_cast<T>(180.0));
 }
 
 template <typename T>
@@ -47,8 +47,11 @@ template <typename T>
     x -= cx;
     y -= cy;
 
-    auto x_s = x * std::cos(theta) - y * std::sin(theta);
-    auto y_s = x * std::sin(theta) + y * std::cos(theta);
+    const auto c = std::cos(theta);
+    const auto s = std::sin(theta);
+
+    auto x_s = x * c - y * s;
+    auto y_s = x * s + y * c;
 
     x_s += cx;
     y_s += cy;
