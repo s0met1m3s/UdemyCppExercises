@@ -47,8 +47,8 @@ template <typename T>
     const auto c = std::cos(theta);
     const auto s = std::sin(theta);
 
-    auto x_s = x * c - y * s;
-    auto y_s = x * s + y * c;
+    const auto x_s = x * c - y * s;
+    const auto y_s = x * s + y * c;
 
     return std::make_pair(x_s, y_s);
 }
