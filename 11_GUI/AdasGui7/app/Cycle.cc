@@ -26,7 +26,7 @@ static auto input_cycle = int32_t{0};
 } // namespace
 
 
-void cycle(const std::size_t cycle_idx,
+void cycle(const std::uint32_t cycle_idx,
            VehicleInformationType &ego_vehicle,
            NeighborVehiclesType &vehicles,
            LanesInformationType &lanes)
@@ -39,7 +39,7 @@ void cycle(const std::size_t cycle_idx,
 void reset_state(const fs::path &ego_filepath,
                  const fs::path &vehicle_filepath,
                  const fs::path &lanes_filepath,
-                 std::size_t &cycle_idx,
+                 std::uint32_t &cycle_idx,
                  VehicleInformationType &ego_vehicle,
                  NeighborVehiclesType &vehicles,
                  LanesInformationType &lanes)
@@ -124,7 +124,7 @@ void plot_buttons()
     }
 }
 
-void plot_cycle_number(const std::size_t cycle_idx)
+void plot_cycle_number(const std::uint32_t cycle_idx)
 {
     auto const offset_x = (LEFT_WIDTH - (6.0F * BUTTON_LINE_SHIFT)) * 0.5F;
 
@@ -152,7 +152,7 @@ void cycle_function(const fs::path &ego_filepath,
                     const fs::path &lane_filepath,
                     GLFWwindow *const window)
 {
-    auto cycle_idx = std::size_t{0};
+    auto cycle_idx = std::uint32_t{0};
     auto ego_vehicle = VehicleInformationType{};
     auto vehicles = NeighborVehiclesType{};
     auto lanes = LanesInformationType{};

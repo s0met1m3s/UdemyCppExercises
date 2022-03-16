@@ -12,23 +12,22 @@
 #include "RenderConstants.hpp"
 #include "Units.hpp"
 
-void render_cycle(const VehicleInformationType &ego_vehicle,
-                  const NeighborVehiclesType &vehicles,
-                  const LanesInformationType &lanes,
-                  const bool long_request,
-                  const LaneAssociationType lat_request)
+namespace
 {
-    ImGui::SetNextWindowPos(ImVec2(0.0F, 0.0F));
-    ImGui::SetNextWindowSize(ImVec2(WINDOWS_WIDTH, LANE_PLOT_TOTAL_HEIGHT));
+static constexpr const char *const LANE_NAMES[] = {
+    "Left",
+    "Center",
+    "Right",
+    "None",
+};
 
-    if (ImGui::Begin("MainWindow", nullptr, WINDOW_FLAGS_CLEAN))
-    {
-        ImPlot::CreateContext();
-        plot_lanes(ego_vehicle, vehicles, lanes, long_request, lat_request);
-        plot_table(ego_vehicle, vehicles);
-        ImGui::End();
-    }
-}
+static constexpr const char *const OBJECT_NAMES[] = {
+    "Car",
+    "Truck",
+    "Motorbike",
+    "None",
+};
+} // namespace
 
 void plot_vehicle_marker(const VehicleInformationType &vehicle, const ImVec4 &color, std::string_view label)
 {
@@ -370,6 +369,24 @@ void plot_table(const VehicleInformationType &ego_vehicle, const NeighborVehicle
             ImGui::EndTable();
         }
 
+        ImGui::End();
+    }
+}
+
+void render_cycle(const VehicleInformationType &ego_vehicle,
+                  const NeighborVehiclesType &vehicles,
+                  const LanesInformationType &lanes,
+                  const bool long_request,
+                  const LaneAssociationType lat_request)
+{
+    ImGui::SetNextWindowPos(ImVec2(0.0F, 0.0F));
+    ImGui::SetNextWindowSize(ImVec2(WINDOWS_WIDTH, LANE_PLOT_TOTAL_HEIGHT));
+
+    if (ImGui::Begin("MainWindow", nullptr, WINDOW_FLAGS_CLEAN))
+    {
+        ImPlot::CreateContext();
+        plot_lanes(ego_vehicle, vehicles, lanes, long_request, lat_request);
+        plot_table(ego_vehicle, vehicles);
         ImGui::End();
     }
 }

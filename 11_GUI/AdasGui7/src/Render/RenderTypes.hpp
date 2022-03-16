@@ -3,23 +3,24 @@
 #include <cstdint>
 #include <vector>
 
+template <typename T>
 struct ScrollingBuffer
 {
-    size_t max_size;
-    size_t offset;
-    size_t last_offset;
+    std::size_t max_size;
+    std::size_t offset;
+    std::size_t last_offset;
 
-    std::vector<float> data_x;
-    std::vector<float> data_y;
+    std::vector<T> data_x;
+    std::vector<T> data_y;
 
-    ScrollingBuffer(const size_t size)
+    ScrollingBuffer(const std::size_t size)
     {
         max_size = size;
         offset = 0;
         last_offset = 0;
     }
 
-    void AddPoint(const float x, const float y)
+    void AddPoint(const T &x, const T &y)
     {
         if (data_x.size() < max_size)
         {

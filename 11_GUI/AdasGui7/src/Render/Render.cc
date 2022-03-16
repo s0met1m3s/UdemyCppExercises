@@ -15,6 +15,31 @@
 
 namespace
 {
+static constexpr const char *const LANE_NAMES[] = {
+    "Left",
+    "Center",
+    "Right",
+    "None",
+};
+
+static constexpr const char *const OBJECT_NAMES[] = {
+    "Car",
+    "Truck",
+    "Motorbike",
+    "None",
+};
+
+constexpr std::size_t NUM_VALUES = 7;
+static constexpr const char *const VALUE_NAMES[NUM_VALUES] = {
+    "long_velocity_mps",
+    "lat_velocity_mps",
+    "velocity_mps",
+    "acceleration_mps2",
+    "heading_deg",
+    "rel_velocity_mps",
+    "rel_acceleration_mps2",
+};
+
 static constexpr auto table_rows = MAX_NUM_VEHICLES + 1U;
 static auto plot_vehicles = std::array<bool, table_rows>{true, true, true, true, true, true, true};
 } // namespace
@@ -382,7 +407,7 @@ void plot_table(const VehicleInformationType &ego_vehicle, const NeighborVehicle
 void plot_ego_values(const VehicleInformationType &ego_vehicle, const std::uint32_t cycle_idx)
 {
     static auto num_points = std::int32_t{200};
-    static ScrollingBuffer data(NUM_ITERATIONS);
+    static ScrollingBuffer<float> data(NUM_ITERATIONS);
     static auto item_current_idx = std::size_t{0};
     const auto combo_preview_value = VALUE_NAMES[item_current_idx];
     float curr_value = 0.0F;
