@@ -5,7 +5,8 @@
 
 /* GENERAL WINDOW SETTINGS */
 constexpr auto WINDOWS_HEIGHT{900.0F};
-constexpr auto WINDOWS_WIDTH{1700.0F};
+constexpr auto WINDOWS_WIDTH{2200.0F};
+constexpr auto LEFT_WIDTH{1700.0F};
 
 namespace
 {
@@ -47,8 +48,8 @@ constexpr auto LATERAL_RANGE_M{7.5F};
 const auto PLOT_DIM = ImVec2(LANE_PLOT_WIDTH, LANE_PLOT_HEIGHT);
 
 /* TABULAR SETTINGS */
-constexpr auto VEHICLE_TABLE_HEIGHT{175.0F};
-constexpr auto VEHICLE_TABLE_WIDTH{WINDOWS_WIDTH};
+constexpr auto VEHICLE_TABLE_HEIGHT{190.0F};
+constexpr auto VEHICLE_TABLE_WIDTH{LEFT_WIDTH};
 constexpr auto BELOW_TABLE{BELOW_LANES + VEHICLE_TABLE_HEIGHT};
 
 /* BUTTON SETTINGS */
@@ -60,5 +61,12 @@ constexpr auto BELOW_BUTTON{BELOW_TABLE + BUTTON_HEIGHT};
 /* CYCLE NUMBER SETTINGS */
 constexpr auto CYCLE_HEIGHT{100.0F};
 constexpr auto BELOW_CYCLE{BELOW_BUTTON + BUTTON_HEIGHT};
+
+/* SIDE PLOT SETTINGS */
+constexpr auto SIDE_PLOT_WIDTH{500.0F};
+const auto ORANGE_LINE = ImVec4{1.0F, 0.7F, 0.1F, 1.0F};
+constexpr auto SELECTABLE_HEIGHT{35.0F};
+constexpr auto SLIDER_HEIGHT{35.0F};
+constexpr auto SIDE_PLOT_HEIGHT{WINDOWS_HEIGHT - SELECTABLE_HEIGHT - SLIDER_HEIGHT};
 
 } // namespace
