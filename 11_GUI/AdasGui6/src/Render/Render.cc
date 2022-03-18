@@ -44,39 +44,59 @@ static constexpr auto table_rows = MAX_NUM_VEHICLES + 1U;
 static auto plot_vehicles = std::array<bool, table_rows>{true, true, true, true, true, true, true};
 } // namespace
 
+void plot_shaded_rect(const float x1,
+                      const float x2,
+                      const float y1,
+                      const float y2,
+                      const float y3,
+                      const float y4,
+                      std::string_view label)
+{
+    const auto num_points = size_t{2};
+
+    const auto xs = std::array<float, num_points>{x1, x2};
+    const auto ys1 = std::array<float, num_points>{y1, y2};
+    const auto ys2 = std::array<float, num_points>{y3, y4};
+
+    ImPlot::PlotShaded(label.data(), xs.data(), ys1.data(), ys2.data(), num_points);
+}
+
 void plot_vehicle_marker(const VehicleInformationType &vehicle, const ImVec4 &color, std::string_view label)
 {
-    constexpr auto num_points = size_t{2};
+    if (vehicle.id == NONE_VEHICLE_ID)
+    {
+        return;
+    }
+
     constexpr auto scaling = ((2.0F * VIEW_RANGE_M) / (2.0F * LATERAL_RANGE_M));
-
     const auto height_offset = (vehicle.height_m / 2.0F);
-    const auto width_offset = (vehicle.width_m / 4.0F);
+    const auto width_offset = (vehicle.width_m / 5.0F);
 
-    auto xs = std::array<float, num_points>{vehicle.long_distance_m - height_offset,
-                                            vehicle.long_distance_m + height_offset};
-    auto ys1 = std::array<float, num_points>{vehicle.lat_distance_m + width_offset,
-                                             vehicle.lat_distance_m + width_offset};
-    auto ys2 = std::array<float, num_points>{vehicle.lat_distance_m - width_offset,
-                                             vehicle.lat_distance_m - width_offset};
+    auto x1 = vehicle.long_distance_m - height_offset;
+    auto x2 = vehicle.long_distance_m + height_offset;
+    auto y1 = vehicle.lat_distance_m + width_offset;
+    auto y2 = vehicle.lat_distance_m + width_offset;
+    auto y3 = vehicle.lat_distance_m - width_offset;
+    auto y4 = vehicle.lat_distance_m - width_offset;
 
     const auto rad = (vehicle.heading_deg / scaling) * deg_to_rad(vehicle.heading_deg);
-    const auto cx = (xs[0] + xs[1]) / 2.0F;
-    const auto cy = (ys1[0] + ys2[0]) / 2.0F;
+    const auto cx = (x1 + x2) / 2.0F;
+    const auto cy = (y1 + y3) / 2.0F;
 
-    const auto p1 = rotate_point(rad, cx, cy, xs[0], ys1[0]);
-    const auto p2 = rotate_point(rad, cx, cy, xs[1], ys1[1]);
-    const auto p3 = rotate_point(rad, cx, cy, xs[0], ys2[0]);
-    const auto p4 = rotate_point(rad, cx, cy, xs[1], ys2[1]);
+    const auto p1 = rotate_point(rad, cx, cy, x1, y1);
+    const auto p2 = rotate_point(rad, cx, cy, x2, y2);
+    const auto p3 = rotate_point(rad, cx, cy, x1, y3);
+    const auto p4 = rotate_point(rad, cx, cy, x2, y4);
 
-    xs[0] = p1.first;
-    xs[1] = p2.first;
-    ys1[0] = p1.second;
-    ys1[1] = p2.second;
-    ys2[0] = p3.second;
-    ys2[1] = p4.second;
+    x1 = p1.first;
+    x2 = p2.first;
+    y1 = p1.second;
+    y2 = p2.second;
+    y3 = p3.second;
+    y4 = p4.second;
 
     ImPlot::SetNextFillStyle(color);
-    ImPlot::PlotShaded(label.data(), xs.data(), ys1.data(), ys2.data(), num_points);
+    plot_shaded_rect(x1, x2, y1, y2, y3, y4, label);
 }
 
 void plot_lanes_straight_solid_line(const Polynomial3rdDegreeType &polynomial,
@@ -193,16 +213,17 @@ void plot_lane_class(const LaneInformationType &lane)
     }
     }
 
-    constexpr auto num_points = size_t{2};
-
-    const auto offset_m = lane.right_polynomial.d;
     const auto min_view_range = std::min(lane.left_view_range_m, lane.right_view_range_m);
 
-    const auto xs = std::array<float, num_points>{0.0F, min_view_range};
-    const auto ys = std::array<float, num_points>{lane.left_polynomial.d, lane.left_polynomial.d};
+    const auto x1 = 0.0F;
+    const auto x2 = min_view_range;
+    const auto y1 = lane.right_polynomial.d;
+    const auto y2 = lane.right_polynomial.d;
+    const auto y3 = lane.left_polynomial.d;
+    const auto y4 = lane.left_polynomial.d;
 
     ImPlot::SetNextFillStyle(color);
-    ImPlot::PlotShaded("label", xs.data(), ys.data(), num_points, offset_m);
+    plot_shaded_rect(x1, x2, y1, y2, y3, y4, "###lane");
 }
 
 void plot_lanes_vehicles(const std::array<VehicleInformationType, MAX_NUM_VEHICLES> &vehicles)
