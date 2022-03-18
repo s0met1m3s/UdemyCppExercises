@@ -182,15 +182,14 @@ void plot_lane_class(const LaneInformationType &lane)
     }
     }
 
-    const auto offset_m = lane.right_polynomial.d;
     const auto min_view_range = std::min(lane.left_view_range_m, lane.right_view_range_m);
 
     const auto x1 = 0.0F;
     const auto x2 = min_view_range;
-    const auto y1 = lane.left_polynomial.d;
-    const auto y2 = lane.left_polynomial.d;
-    const auto y3 = lane.left_polynomial.d + offset_m;
-    const auto y4 = lane.left_polynomial.d + offset_m;
+    const auto y1 = lane.right_polynomial.d;
+    const auto y2 = lane.right_polynomial.d;
+    const auto y3 = lane.left_polynomial.d;
+    const auto y4 = lane.left_polynomial.d;
 
     ImPlot::SetNextFillStyle(color);
     plot_shaded_rect(x1, x2, y1, y2, y3, y4, "###lane");
