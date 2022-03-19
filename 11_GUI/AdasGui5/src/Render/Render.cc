@@ -251,7 +251,7 @@ void plot_lanes_ego_vehicle(const VehicleInformationType &ego_vehicle,
         ImPlot::PlotScatter("longReq", &long_req_pos, &ego_vehicle.lat_distance_m, 1);
     }
 
-    if (LaneAssociationType::NONE == lat_request)
+    if ((LaneAssociationType::NONE == lat_request) || (lat_request == ego_vehicle.lane))
     {
         return;
     }
