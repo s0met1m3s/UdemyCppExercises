@@ -21,7 +21,7 @@ std::vector<std::string> split_text(const std::string &text, char delimiter);
 
 int main()
 {
-    auto text = readFile("/mnt/c/Users/Jan/Dropbox/_Coding/UdemyCppExt/5_String/SplitWords/text.txt");
+    auto text = readFile("/mnt/c/Users/Jan/OneDrive/_Coding/UdemyCppExt/5_String/SplitWords/text.txt");
     std::cout << text << '\n' << '\n';
 
     clean_text(text);
