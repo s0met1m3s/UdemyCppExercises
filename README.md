@@ -1,19 +1,10 @@
-# C++ Übungen: Praxisnahe und Moderne C++ Programmierung
+# C++ Übungen: Moderne und Effektive C++ Programmierung
 
-## Folgende Beispiele werden in dem Aufgaben-Kurs gezeigt
+Dies ist der Code zu meinem Udemy Kurs:
+*C++ Übungen:  Moderne und Effektive C++ Programmierung* von Jan Schaffranek.
 
-- Konvertierung zischen den Einheiten: Sekunde, Millisekunde, Minute, Stunde
-- Konvertierung von Characters zu Upper, Lower Case, die Überprüfung von Character, ob sie Zahlen oder Buchstaben beinhalten
-- Das Annähern von PI, anhand von mathematischen Berechnungen
-- Die Berechnung vom Modulo Operator, die Berechnung der Quersumme
-- Die Nachimplementierung von Std Library Funktionen
-  - Algorithm Library Funktionen
-  - String Library Funktionen
-  - Numeric Library Funktionen
-- Das Beispiel eines Selbstfahrenden Autos auf der Autobahn (natürlich vereinfacht :))
-- Ein eigenes Tool das C/C++ Code compilen und ausführen kann
-- Ein Tool, das die meist verwendeten Wörter in einem Textdokument bestimmt
-- Ein Tool das Bilder mit Geometrischen Objekten erstellt (Kreis, Rechteck)
-- und vieles mehr
+## Rabatt-Code
 
-Werde noch heute ein Profi, in der Technologie von Morgen!Wir sehen uns im Kurs!
+Im Folgenden habe ich einen Link zum aktuellen Rabatt Code hinterlegt. Den Code könnt ihr auch an eure Freunde schicken, damit sie sich einen meiner Kurse kaufen können. Bei einem Kauf über meine Rabattcodes erhalte ich 95% der Einnahmen und somit könnt Ihr mich besser unterstützen.
+
+Link zu der Liste der Rabatt Codes: [Link](https://github.com/franneck94/YoutubeVideos/blob/master/README.md)
