@@ -1,4 +1,3 @@
-#include <assert.h>
 #include <iostream>
 
 #include "AcStateMachine.h"
@@ -9,7 +8,7 @@ int main()
     auto ac = AirConditioner{20};
     auto ac_state_machine = AcStateMachine{&ac};
 
-    for (int i = 0; i < 10; i++)
+    while (true)
     {
         const auto measured_temp = ac.measure();
         ac_state_machine.evaluation(measured_temp);

@@ -1,12 +1,16 @@
+#include <chrono>
 #include <iostream>
+#include <thread>
 
 #include "AirConditioner.h"
+
+using namespace std::chrono_literals;
 
 float AirConditioner::measure() const
 {
     const auto measured_temp = get_rand_float(-20.0F, 25.0F);
-    std::cout << "The measured temp is " << measured_temp << " the target temp is"
-              << target_temp_cel << '\n';
+    std::cout << "The measured temp is: " << measured_temp
+              << " the target temp is: " << target_temp_cel << '\n';
 
     return measured_temp;
 }
@@ -40,6 +44,7 @@ bool AirConditioner::heat(const int duration_min)
     {
         if (i % 2 != 0 && i > 0)
             curr_temp_cel += 1.0F;
+        std::this_thread::sleep_for(1000ms);
         std::cout << "After: " << (i + 1) << " minutes the temp is: " << curr_temp_cel << '\n';
 
         if (curr_temp_cel >= target_temp_cel)

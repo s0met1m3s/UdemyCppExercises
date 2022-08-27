@@ -5,8 +5,8 @@
 float AirConditioner::measure() const
 {
     const auto measured_temp = get_rand_float(-20.0F, 25.0F);
-    std::cout << "The measured temp is " << measured_temp << " the target temp is"
-              << target_temp_cel << '\n';
+    std::cout << "The measured temp is: " << measured_temp
+              << " the target temp is: " << target_temp_cel << '\n';
 
     return measured_temp;
 }
