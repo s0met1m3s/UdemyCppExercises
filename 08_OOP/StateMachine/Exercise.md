@@ -1,6 +1,6 @@
 # State Machine Exercise
 
-Note: Use the modifed AC class that i have given you.
+Note: Use the modified AC class that I have given you.
 
 ## Exercise
 
@@ -15,7 +15,7 @@ The class should implement the following state transitions:
 The method calling order is:
 
 1. evaluation
-   1. evaluate_state (calls activatze method of the ac)
+   1. evaluate_state (calls activate method of the ac)
    2. evaluate_transition (executes transition change)
 
-Note: Define a appropiate enum for the states
+Note: Define an appropiate enum for the states
