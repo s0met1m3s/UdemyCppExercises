@@ -33,5 +33,6 @@ Methods:
 - activate(int curr_temp): int
   - calls *heat* or *cool* based on the current temp
   - Compute the time amount needed for cooling/heating and returns this value
+  - The value range where the AC can work is [-20, 45], otherwise return -1 as an error state
 
 Make sure that all tests in the main function succeed.

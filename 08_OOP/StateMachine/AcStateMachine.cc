@@ -15,7 +15,6 @@ void AcStateMachine::eval_state(const float curr_temp_cel)
 {
     switch (state)
     {
-
     case AcStates::COOLING:
     case AcStates::HEATING:
     {
