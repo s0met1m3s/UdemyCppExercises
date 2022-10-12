@@ -16,10 +16,10 @@ Any GCC, Clang or MSVC compiler
 ## Steps from the video
 
 0. Install all tools from the main course (including C/C++ Runner)
-1. Select folder in the blue status bar down below
-2. F1 (Command Palette) > C++ Config Files (Minimal)
-3. Copy settings below
-4. Paste the copied settings into the **settings.json** file
+1. F1 (Command Palette) > Generate C++ Config Files (Minimal)
+2. Copy settings below
+3. Paste the copied settings into the **settings.json** file
+4. Select folder in the blue status bar down below
 
 ### Extra settings (for local .vscode/settings.json file)
 
