@@ -13,12 +13,13 @@ Any GCC, Clang or MSVC compiler
 - Coding Tools Extension Pack (franneck94)
 - C/C++ Extension Pack (franneck94)
 
-## Clang Tools
+## Steps from the video
 
-We will use clang-format and clang-tidy.
-
-- Clang-format: Formatter tool for source code, will be installed by the Microsoft C/C++ extension  
-- Clang-tidy: Checks for issues in the code (similar to the compiler warnings)  
+0. Install all tools from the main course (including C/C++ Runner)
+1. Select folder in the blue status bar down below
+2. F1 (Command Palette) > C++ Config Files (Minimal)
+3. Copy settings below
+4. Paste the copied settings into the **settings.json** file
 
 ### Extra settings (for local .vscode/settings.json file)
 
@@ -35,10 +36,20 @@ We will use clang-format and clang-tidy.
   ],
   "C_Cpp_Runner.compilerArgs": [],
   "C_Cpp_Runner.includePaths": [],
-  "C_Cpp_Runner.linkerArgs": [],
+  "C_Cpp_Runner.linkerArgs": [
+      "-lm"
+  ],
   "C_Cpp_Runner.cStandard": "c99",
   "C_Cpp_Runner.cppStandard": "c++17",
-  "C_Cpp_Runner.excludeSearch": [],
+  "C_Cpp_Runner.excludeSearch": [
+      "**/scripts/"
+  ],
   "C_Cpp_Runner.enableWarnings": true,
-  "C_Cpp_Runner.warningsAsError": false
+  "C_Cpp_Runner.warningsAsError": false,
+  "Workspace_Formatter.includePattern": [
+    "*.h",
+    "*.c",
+    "**/*.h",
+    "**/*.c"
+  ]
 ```

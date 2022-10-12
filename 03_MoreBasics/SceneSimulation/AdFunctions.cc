@@ -75,8 +75,9 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
 
         const VehicleType *left_vehicle =
             (left_idx < NUM_VEHICLES_ON_LANE) ? &vehicles.vehicles_left_lane[left_idx] : nullptr;
-        const VehicleType *center_vehicle =
-            (center_idx < NUM_VEHICLES_ON_LANE) ? &vehicles.vehicles_center_lane[center_idx] : nullptr;
+        const VehicleType *center_vehicle = (center_idx < NUM_VEHICLES_ON_LANE)
+                                                ? &vehicles.vehicles_center_lane[center_idx]
+                                                : nullptr;
         const VehicleType *right_vehicle =
             (right_idx < NUM_VEHICLES_ON_LANE) ? &vehicles.vehicles_right_lane[right_idx] : nullptr;
 
@@ -106,7 +107,8 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
             center_string[1] = 'V';
             center_idx++;
         }
-        else if ((center_vehicle != nullptr) && (std::abs(center_vehicle->distance_m) > VIEW_RANGE_M))
+        else if ((center_vehicle != nullptr) &&
+                 (std::abs(center_vehicle->distance_m) > VIEW_RANGE_M))
         {
             center_idx++;
         }
@@ -127,7 +129,9 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
     }
 }
 
-void compute_future_distance(VehicleType &vehicle, const float ego_driven_distance, const float seconds)
+void compute_future_distance(VehicleType &vehicle,
+                             const float ego_driven_distance,
+                             const float seconds)
 {
     const float driven_distance = vehicle.speed_mps * seconds;
 
