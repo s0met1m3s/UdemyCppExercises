@@ -33,7 +33,8 @@ void random_vector(std::vector<T> &vec)
     constexpr std::int32_t upper_bound = 10;
 
     std::mt19937 random_generator(seed);
-    std::uniform_int_distribution<T> random_distribution(lower_bound, upper_bound);
+    std::uniform_int_distribution<T> random_distribution(lower_bound,
+                                                         upper_bound);
 
     for (auto &val : vec)
     {
@@ -103,7 +104,11 @@ T parallel_sum(std::vector<T> &vec)
             last = vec.end();
         }
 
-        threads[i] = std::thread(sum_slice<typename std::vector<T>::iterator, T>, first, last, std::ref(local_sums[i]));
+        threads[i] =
+            std::thread(sum_slice<typename std::vector<T>::iterator, T>,
+                        first,
+                        last,
+                        std::ref(local_sums[i]));
 
         prev_last = prev_last + slice_size;
     }
@@ -144,7 +149,8 @@ int main()
         sum2 = parallel_sum_omp(my_vector);
         time2 += t2.elapsed_time<cpptiming::millisecs, double>();
     }
-    std::cout << "Mean OpenMP: " << time2 / NUM_RUNS << "ms sum: " << sum2 << '\n';
+    std::cout << "Mean OpenMP: " << time2 / NUM_RUNS << "ms sum: " << sum2
+              << '\n';
 
     // auto time3 = 0.0;
     // volatile auto sum3 = 0;

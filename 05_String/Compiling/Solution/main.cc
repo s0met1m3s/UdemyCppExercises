@@ -7,7 +7,6 @@
 #include "utils.hpp"
 
 namespace fs = std::filesystem;
-
 using FileVec = std::vector<fs::path>;
 
 FileVec get_source_files_in_dir(const fs::path &dir);

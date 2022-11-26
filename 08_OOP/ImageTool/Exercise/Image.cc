@@ -8,7 +8,8 @@
 
 
 Image::Image(const std::uint32_t width, const std::uint32_t height)
-    : m_width(width), m_height(height), m_matrix(GrayscaleImage(m_width, std::vector<std::uint8_t>(m_height, 0)))
+    : m_width(width), m_height(height),
+      m_matrix(GrayscaleImage(m_width, std::vector<std::uint8_t>(m_height, 0)))
 {
 }
 
@@ -29,12 +30,15 @@ void Image::clear_image()
     m_width = 0;
 }
 
-void Image::set_pixel(const std::uint32_t x, const std::uint32_t y, const std::uint8_t value)
+void Image::set_pixel(const std::uint32_t x,
+                      const std::uint32_t y,
+                      const std::uint8_t value)
 {
     m_matrix[x][y] = value;
 }
 
-void Image::resize_image(const std::uint32_t new_width, const std::uint32_t new_height)
+void Image::resize_image(const std::uint32_t new_width,
+                         const std::uint32_t new_height)
 {
     if (new_width != m_width)
     {
@@ -69,7 +73,8 @@ void Image::draw_line(const std::uint32_t x1,
 {
     std::uint32_t length = 0;
 
-    if ((x1 < m_width) && (x2 < m_width) && (y1 < m_height) && (y2 < m_height) && ((x1 == x2) || (y1 == y2)))
+    if ((x1 < m_width) && (x2 < m_width) && (y1 < m_height) &&
+        (y2 < m_height) && ((x1 == x2) || (y1 == y2)))
     {
         if (x1 == x2)
         {
@@ -146,7 +151,8 @@ void Image::draw_circle(const Circle &circle, const std::uint8_t value)
     {
         for (auto j = y_lower_bound; j < y_upper_bound; j++)
         {
-            const auto distance = get_distance(i, j, circle.x_midpoint, circle.y_midpoint);
+            const auto distance =
+                get_distance(i, j, circle.x_midpoint, circle.y_midpoint);
 
             if (std::ceil(distance) == circle.radius)
             {
@@ -167,7 +173,8 @@ void Image::fill_circle(const Circle &circle, const std::uint8_t value)
     {
         for (auto j = y_lower_bound; j < y_upper_bound; j++)
         {
-            const auto distance = get_distance(i, j, circle.x_midpoint, circle.y_midpoint);
+            const auto distance =
+                get_distance(i, j, circle.x_midpoint, circle.y_midpoint);
 
             if (std::ceil(distance) <= circle.radius)
             {
@@ -196,8 +203,10 @@ void Image::save_image(std::string_view file_name) const
         }
     }
 
-    std::uint8_t bmpfileheader[14]{'B', 'M', 0, 0, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0};
-    std::uint8_t bmpinfoheader[40]{40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 24, 0};
+    std::uint8_t
+        bmpfileheader[14]{'B', 'M', 0, 0, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0};
+    std::uint8_t
+        bmpinfoheader[40]{40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 24, 0};
     std::uint8_t bmppad[3]{0, 0, 0};
 
     bmpfileheader[2] = static_cast<std::uint8_t>(filesize);

@@ -36,12 +36,36 @@ void init_vehicle(VehicleType &vehicle,
 
 void init_vehicles(NeighborVehiclesType &vehicles)
 {
-    init_vehicle(vehicles.vehicles_left_lane[0], 0, 130.0F, 80.0F, LaneAssociationType::LEFT);
-    init_vehicle(vehicles.vehicles_left_lane[1], 1, 80.0F, -20.0F, LaneAssociationType::LEFT);
-    init_vehicle(vehicles.vehicles_center_lane[0], 2, 80.0F, 50.0F, LaneAssociationType::CENTER);
-    init_vehicle(vehicles.vehicles_center_lane[1], 3, 120.0F, -50.0F, LaneAssociationType::CENTER);
-    init_vehicle(vehicles.vehicles_right_lane[0], 4, 110.0F, 30.0F, LaneAssociationType::RIGHT);
-    init_vehicle(vehicles.vehicles_right_lane[1], 5, 90.0F, -30.0F, LaneAssociationType::RIGHT);
+    init_vehicle(vehicles.vehicles_left_lane[0],
+                 0,
+                 130.0F,
+                 80.0F,
+                 LaneAssociationType::LEFT);
+    init_vehicle(vehicles.vehicles_left_lane[1],
+                 1,
+                 80.0F,
+                 -20.0F,
+                 LaneAssociationType::LEFT);
+    init_vehicle(vehicles.vehicles_center_lane[0],
+                 2,
+                 80.0F,
+                 50.0F,
+                 LaneAssociationType::CENTER);
+    init_vehicle(vehicles.vehicles_center_lane[1],
+                 3,
+                 120.0F,
+                 -50.0F,
+                 LaneAssociationType::CENTER);
+    init_vehicle(vehicles.vehicles_right_lane[0],
+                 4,
+                 110.0F,
+                 30.0F,
+                 LaneAssociationType::RIGHT);
+    init_vehicle(vehicles.vehicles_right_lane[1],
+                 5,
+                 90.0F,
+                 -30.0F,
+                 LaneAssociationType::RIGHT);
 }
 
 void print_vehicle(const VehicleType &vehicle)
@@ -62,7 +86,9 @@ void print_neighbor_vehicles(const NeighborVehiclesType &vehicles)
     print_vehicle(vehicles.vehicles_right_lane[1]);
 }
 
-bool check_vehicle_in_tile(const VehicleType *vehicle, const float range_m, const float offset_m)
+bool check_vehicle_in_tile(const VehicleType *vehicle,
+                           const float range_m,
+                           const float offset_m)
 {
     return ((vehicle != nullptr) && (range_m >= vehicle->distance_m) &&
             (vehicle->distance_m > (range_m - offset_m)));
@@ -70,10 +96,12 @@ bool check_vehicle_in_tile(const VehicleType *vehicle, const float range_m, cons
 
 bool check_vehicle_is_out_of_view(const VehicleType *vehicle)
 {
-    return ((vehicle != nullptr) && (std::abs(vehicle->distance_m) > VIEW_RANGE_M));
+    return ((vehicle != nullptr) &&
+            (std::abs(vehicle->distance_m) > VIEW_RANGE_M));
 }
 
-void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles)
+void print_scene(const VehicleType &ego_vehicle,
+                 const NeighborVehiclesType &vehicles)
 {
     std::cout << "    \t  L    C    R  \n";
 
@@ -87,11 +115,17 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
     for (std::int32_t i = view_range_m; i >= -view_range_m; i -= offset_m)
     {
         const VehicleType *left_vehicle =
-            left_idx < NUM_VEHICLES_ON_LANE ? &vehicles.vehicles_left_lane[left_idx] : nullptr;
+            left_idx < NUM_VEHICLES_ON_LANE
+                ? &vehicles.vehicles_left_lane[left_idx]
+                : nullptr;
         const VehicleType *center_vehicle =
-            center_idx < NUM_VEHICLES_ON_LANE ? &vehicles.vehicles_center_lane[center_idx] : nullptr;
+            center_idx < NUM_VEHICLES_ON_LANE
+                ? &vehicles.vehicles_center_lane[center_idx]
+                : nullptr;
         const VehicleType *right_vehicle =
-            right_idx < NUM_VEHICLES_ON_LANE ? &vehicles.vehicles_right_lane[right_idx] : nullptr;
+            right_idx < NUM_VEHICLES_ON_LANE
+                ? &vehicles.vehicles_right_lane[right_idx]
+                : nullptr;
 
         char left_string[]{"   "};
         char center_string[]{"   "};
@@ -123,7 +157,8 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
 
         const auto range_m = static_cast<float>(i);
 
-        if ((ego_string != nullptr) && check_vehicle_in_tile(&ego_vehicle, range_m, offset_m))
+        if ((ego_string != nullptr) &&
+            check_vehicle_in_tile(&ego_vehicle, range_m, offset_m))
         {
             ego_string[1] = 'E';
         }
@@ -158,8 +193,8 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
             right_idx++;
         }
 
-        std::cout << i << "\t| " << left_string << " |" << center_string << " |" << right_string
-                  << " |\n";
+        std::cout << i << "\t| " << left_string << " |" << center_string << " |"
+                  << right_string << " |\n";
     }
 
     std::cout << "\n";
@@ -188,17 +223,30 @@ void compute_future_state(const VehicleType &ego_vehicle,
 {
     const auto ego_driven_distance_m = ego_vehicle.speed_mps * seconds;
 
-    compute_future_distance(vehicles.vehicles_left_lane[0], ego_driven_distance_m, seconds);
-    compute_future_distance(vehicles.vehicles_left_lane[1], ego_driven_distance_m, seconds);
-    compute_future_distance(vehicles.vehicles_center_lane[0], ego_driven_distance_m, seconds);
-    compute_future_distance(vehicles.vehicles_center_lane[1], ego_driven_distance_m, seconds);
-    compute_future_distance(vehicles.vehicles_right_lane[0], ego_driven_distance_m, seconds);
-    compute_future_distance(vehicles.vehicles_right_lane[1], ego_driven_distance_m, seconds);
+    compute_future_distance(vehicles.vehicles_left_lane[0],
+                            ego_driven_distance_m,
+                            seconds);
+    compute_future_distance(vehicles.vehicles_left_lane[1],
+                            ego_driven_distance_m,
+                            seconds);
+    compute_future_distance(vehicles.vehicles_center_lane[0],
+                            ego_driven_distance_m,
+                            seconds);
+    compute_future_distance(vehicles.vehicles_center_lane[1],
+                            ego_driven_distance_m,
+                            seconds);
+    compute_future_distance(vehicles.vehicles_right_lane[0],
+                            ego_driven_distance_m,
+                            seconds);
+    compute_future_distance(vehicles.vehicles_right_lane[1],
+                            ego_driven_distance_m,
+                            seconds);
 }
 
 void decrease_speed(VehicleType &ego_vehicle)
 {
-    const auto decrease = ego_vehicle.speed_mps * LONGITUDINAL_DIFFERENCE_PERCENTAGE;
+    const auto decrease =
+        ego_vehicle.speed_mps * LONGITUDINAL_DIFFERENCE_PERCENTAGE;
 
     if ((ego_vehicle.speed_mps - decrease) >= 0.0F)
     {
@@ -206,7 +254,8 @@ void decrease_speed(VehicleType &ego_vehicle)
     }
 }
 
-void longitudinal_control(const VehicleType &front_vehicle, VehicleType &ego_vehicle)
+void longitudinal_control(const VehicleType &front_vehicle,
+                          VehicleType &ego_vehicle)
 {
     const auto minimal_distance_m = mps_to_kph(ego_vehicle.speed_mps) / 2.0F;
     const auto front_distance_m = front_vehicle.distance_m;
@@ -248,10 +297,12 @@ const VehicleType *get_vehicle_array(const LaneAssociationType lane,
     return vehicles_array;
 }
 
-LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
-                                            const NeighborVehiclesType &vehicles)
+LaneAssociationType get_lane_change_request(
+    const VehicleType &ego_vehicle,
+    const NeighborVehiclesType &vehicles)
 {
-    const VehicleType *ego_lane_vehicles = get_vehicle_array(ego_vehicle.lane, vehicles);
+    const VehicleType *ego_lane_vehicles =
+        get_vehicle_array(ego_vehicle.lane, vehicles);
     const VehicleType *rear_vehicle = &ego_lane_vehicles[1];
 
     const auto minimal_distance_m = mps_to_kph(ego_vehicle.speed_mps) / 5.0F;
@@ -265,10 +316,13 @@ LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
         case LaneAssociationType::LEFT:
         {
             const LaneAssociationType target_lane = LaneAssociationType::CENTER;
-            const VehicleType *center_vehicles = get_vehicle_array(target_lane, vehicles);
+            const VehicleType *center_vehicles =
+                get_vehicle_array(target_lane, vehicles);
 
-            const auto abs_front_center_distance_m = std::abs(center_vehicles[0].distance_m);
-            const auto abs_rear_center_distance_m = std::abs(center_vehicles[1].distance_m);
+            const auto abs_front_center_distance_m =
+                std::abs(center_vehicles[0].distance_m);
+            const auto abs_rear_center_distance_m =
+                std::abs(center_vehicles[1].distance_m);
 
             if ((abs_front_center_distance_m > minimal_distance_m) &&
                 (abs_rear_center_distance_m > minimal_distance_m))
@@ -282,10 +336,13 @@ LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
         {
             LaneAssociationType target_lane = LaneAssociationType::RIGHT;
 
-            const VehicleType *right_vehicles = get_vehicle_array(target_lane, vehicles);
+            const VehicleType *right_vehicles =
+                get_vehicle_array(target_lane, vehicles);
 
-            const auto abs_front_right_distance_m = std::abs(right_vehicles[0].distance_m);
-            const auto abs_rear_right_distance_m = std::abs(right_vehicles[1].distance_m);
+            const auto abs_front_right_distance_m =
+                std::abs(right_vehicles[0].distance_m);
+            const auto abs_rear_right_distance_m =
+                std::abs(right_vehicles[1].distance_m);
 
             if ((abs_front_right_distance_m > minimal_distance_m) &&
                 (abs_rear_right_distance_m > minimal_distance_m))
@@ -294,10 +351,13 @@ LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
             }
 
             target_lane = LaneAssociationType::LEFT;
-            const VehicleType *left_vehicles = get_vehicle_array(target_lane, vehicles);
+            const VehicleType *left_vehicles =
+                get_vehicle_array(target_lane, vehicles);
 
-            const auto abs_front_left_distance_m = std::abs(left_vehicles[0].distance_m);
-            const auto abs_rear_left_distance_m = std::abs(left_vehicles[1].distance_m);
+            const auto abs_front_left_distance_m =
+                std::abs(left_vehicles[0].distance_m);
+            const auto abs_rear_left_distance_m =
+                std::abs(left_vehicles[1].distance_m);
 
             if ((abs_front_left_distance_m > minimal_distance_m) &&
                 (abs_rear_left_distance_m > minimal_distance_m))
@@ -318,7 +378,8 @@ LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
 }
 
 
-bool lateral_control(const LaneAssociationType lane_change_request, VehicleType &ego_vehicle)
+bool lateral_control(const LaneAssociationType lane_change_request,
+                     VehicleType &ego_vehicle)
 {
     if (lane_change_request == ego_vehicle.lane)
     {

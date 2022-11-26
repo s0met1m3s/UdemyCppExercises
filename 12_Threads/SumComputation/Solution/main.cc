@@ -23,7 +23,10 @@ T range_sum_asyn(RandomIter start, RandomIter stop)
 
     RandomIter mid = start + length / 2;
 
-    auto handle = std::async(std::launch::async, range_sum_asyn<T, RandomIter>, mid, stop);
+    auto handle = std::async(std::launch::async,
+                             range_sum_asyn<T, RandomIter>,
+                             mid,
+                             stop);
 
     const auto sum = range_sum_asyn<T, RandomIter>(start, mid);
 
@@ -43,7 +46,8 @@ int main()
         sum1 = range_sum_asyn<std::int32_t>(vector.begin(), vector.end());
         time1 += t1.elapsed_time<cpptiming::millisecs, double>();
     }
-    std::cout << "Mean Async: " << time1 / NUM_RUNS << "ms sum: " << sum1 << '\n';
+    std::cout << "Mean Async: " << time1 / NUM_RUNS << "ms sum: " << sum1
+              << '\n';
 
     return 0;
 }

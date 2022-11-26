@@ -32,12 +32,36 @@ void init_vehicle(VehicleType &vehicle,
 
 void init_vehicles(NeighborVehiclesType &vehicles)
 {
-    init_vehicle(vehicles.vehicles_left_lane[0], 0, 130.0F, 80.0F, LaneAssociationType::LEFT);
-    init_vehicle(vehicles.vehicles_left_lane[1], 1, 80.0F, -20.0F, LaneAssociationType::LEFT);
-    init_vehicle(vehicles.vehicles_center_lane[0], 2, 80.0F, 50.0F, LaneAssociationType::CENTER);
-    init_vehicle(vehicles.vehicles_center_lane[1], 3, 120.0F, -50.0F, LaneAssociationType::CENTER);
-    init_vehicle(vehicles.vehicles_right_lane[0], 4, 110.0F, 30.0F, LaneAssociationType::RIGHT);
-    init_vehicle(vehicles.vehicles_right_lane[1], 5, 90.0F, -30.0F, LaneAssociationType::RIGHT);
+    init_vehicle(vehicles.vehicles_left_lane[0],
+                 0,
+                 130.0F,
+                 80.0F,
+                 LaneAssociationType::LEFT);
+    init_vehicle(vehicles.vehicles_left_lane[1],
+                 1,
+                 80.0F,
+                 -20.0F,
+                 LaneAssociationType::LEFT);
+    init_vehicle(vehicles.vehicles_center_lane[0],
+                 2,
+                 80.0F,
+                 50.0F,
+                 LaneAssociationType::CENTER);
+    init_vehicle(vehicles.vehicles_center_lane[1],
+                 3,
+                 120.0F,
+                 -50.0F,
+                 LaneAssociationType::CENTER);
+    init_vehicle(vehicles.vehicles_right_lane[0],
+                 4,
+                 110.0F,
+                 30.0F,
+                 LaneAssociationType::RIGHT);
+    init_vehicle(vehicles.vehicles_right_lane[1],
+                 5,
+                 90.0F,
+                 -30.0F,
+                 LaneAssociationType::RIGHT);
 }
 
 void print_vehicle(const VehicleType &vehicle)
@@ -58,21 +82,37 @@ void print_neighbor_vehicles(const NeighborVehiclesType &vehicles)
     print_vehicle(vehicles.vehicles_right_lane[1]);
 }
 
-void compute_future_distance(VehicleType &vehicle, const float ego_driven_distance, const float seconds)
+void compute_future_distance(VehicleType &vehicle,
+                             const float ego_driven_distance,
+                             const float seconds)
 {
     const float driven_distance = vehicle.speed_mps * seconds;
 
     vehicle.distance_m += (driven_distance - ego_driven_distance);
 }
 
-void compute_future_state(const VehicleType &ego_vehicle, NeighborVehiclesType &vehicles, const float seconds)
+void compute_future_state(const VehicleType &ego_vehicle,
+                          NeighborVehiclesType &vehicles,
+                          const float seconds)
 {
     const float ego_driven_distance = ego_vehicle.speed_mps * seconds;
 
-    compute_future_distance(vehicles.vehicles_left_lane[0], ego_driven_distance, seconds);
-    compute_future_distance(vehicles.vehicles_left_lane[1], ego_driven_distance, seconds);
-    compute_future_distance(vehicles.vehicles_center_lane[0], ego_driven_distance, seconds);
-    compute_future_distance(vehicles.vehicles_center_lane[1], ego_driven_distance, seconds);
-    compute_future_distance(vehicles.vehicles_right_lane[0], ego_driven_distance, seconds);
-    compute_future_distance(vehicles.vehicles_right_lane[1], ego_driven_distance, seconds);
+    compute_future_distance(vehicles.vehicles_left_lane[0],
+                            ego_driven_distance,
+                            seconds);
+    compute_future_distance(vehicles.vehicles_left_lane[1],
+                            ego_driven_distance,
+                            seconds);
+    compute_future_distance(vehicles.vehicles_center_lane[0],
+                            ego_driven_distance,
+                            seconds);
+    compute_future_distance(vehicles.vehicles_center_lane[1],
+                            ego_driven_distance,
+                            seconds);
+    compute_future_distance(vehicles.vehicles_right_lane[0],
+                            ego_driven_distance,
+                            seconds);
+    compute_future_distance(vehicles.vehicles_right_lane[1],
+                            ego_driven_distance,
+                            seconds);
 }

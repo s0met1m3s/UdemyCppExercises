@@ -32,12 +32,36 @@ void init_vehicle(VehicleType &vehicle,
 
 void init_vehicles(NeighborVehiclesType &vehicles)
 {
-    init_vehicle(vehicles.vehicles_left_lane[0], 0, 130.0F, 80.0F, LaneAssociationType::LEFT);
-    init_vehicle(vehicles.vehicles_left_lane[1], 1, 80.0F, -20.0F, LaneAssociationType::LEFT);
-    init_vehicle(vehicles.vehicles_center_lane[0], 2, 80.0F, 50.0F, LaneAssociationType::CENTER);
-    init_vehicle(vehicles.vehicles_center_lane[1], 3, 120.0F, -50.0F, LaneAssociationType::CENTER);
-    init_vehicle(vehicles.vehicles_right_lane[0], 4, 110.0F, 30.0F, LaneAssociationType::RIGHT);
-    init_vehicle(vehicles.vehicles_right_lane[1], 5, 90.0F, -30.0F, LaneAssociationType::RIGHT);
+    init_vehicle(vehicles.vehicles_left_lane[0],
+                 0,
+                 130.0F,
+                 80.0F,
+                 LaneAssociationType::LEFT);
+    init_vehicle(vehicles.vehicles_left_lane[1],
+                 1,
+                 80.0F,
+                 -20.0F,
+                 LaneAssociationType::LEFT);
+    init_vehicle(vehicles.vehicles_center_lane[0],
+                 2,
+                 80.0F,
+                 50.0F,
+                 LaneAssociationType::CENTER);
+    init_vehicle(vehicles.vehicles_center_lane[1],
+                 3,
+                 120.0F,
+                 -50.0F,
+                 LaneAssociationType::CENTER);
+    init_vehicle(vehicles.vehicles_right_lane[0],
+                 4,
+                 110.0F,
+                 30.0F,
+                 LaneAssociationType::RIGHT);
+    init_vehicle(vehicles.vehicles_right_lane[1],
+                 5,
+                 90.0F,
+                 -30.0F,
+                 LaneAssociationType::RIGHT);
 }
 
 void print_vehicle(const VehicleType &vehicle)
@@ -58,7 +82,8 @@ void print_neighbor_vehicles(const NeighborVehiclesType &vehicles)
     print_vehicle(vehicles.vehicles_right_lane[1]);
 }
 
-void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles)
+void print_scene(const VehicleType &ego_vehicle,
+                 const NeighborVehiclesType &vehicles)
 {
     std::cout << "    \t   L     C     R  \n";
 
@@ -74,34 +99,43 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
         const float range_m = static_cast<float>(i);
 
         const VehicleType *left_vehicle =
-            (left_idx < NUM_VEHICLES_ON_LANE) ? &vehicles.vehicles_left_lane[left_idx] : nullptr;
-        const VehicleType *center_vehicle = (center_idx < NUM_VEHICLES_ON_LANE)
-                                                ? &vehicles.vehicles_center_lane[center_idx]
-                                                : nullptr;
+            (left_idx < NUM_VEHICLES_ON_LANE)
+                ? &vehicles.vehicles_left_lane[left_idx]
+                : nullptr;
+        const VehicleType *center_vehicle =
+            (center_idx < NUM_VEHICLES_ON_LANE)
+                ? &vehicles.vehicles_center_lane[center_idx]
+                : nullptr;
         const VehicleType *right_vehicle =
-            (right_idx < NUM_VEHICLES_ON_LANE) ? &vehicles.vehicles_right_lane[right_idx] : nullptr;
+            (right_idx < NUM_VEHICLES_ON_LANE)
+                ? &vehicles.vehicles_right_lane[right_idx]
+                : nullptr;
 
         char left_string[]{"   "};
         char center_string[]{"   "};
         char right_string[]{"   "};
 
-        if ((range_m >= ego_vehicle.distance_m) && (ego_vehicle.distance_m > (range_m - offset_m)))
+        if ((range_m >= ego_vehicle.distance_m) &&
+            (ego_vehicle.distance_m > (range_m - offset_m)))
         {
             center_string[1] = 'E';
         }
 
-        if ((left_vehicle != nullptr) && (range_m >= left_vehicle->distance_m) &&
+        if ((left_vehicle != nullptr) &&
+            (range_m >= left_vehicle->distance_m) &&
             (left_vehicle->distance_m > (range_m - offset_m)))
         {
             left_string[1] = 'V';
             left_idx++;
         }
-        else if ((left_vehicle != nullptr) && (std::abs(left_vehicle->distance_m) > VIEW_RANGE_M))
+        else if ((left_vehicle != nullptr) &&
+                 (std::abs(left_vehicle->distance_m) > VIEW_RANGE_M))
         {
             left_idx++;
         }
 
-        if ((center_vehicle != nullptr) && (range_m >= center_vehicle->distance_m) &&
+        if ((center_vehicle != nullptr) &&
+            (range_m >= center_vehicle->distance_m) &&
             (center_vehicle->distance_m > (range_m - offset_m)))
         {
             center_string[1] = 'V';
@@ -113,19 +147,21 @@ void print_scene(const VehicleType &ego_vehicle, const NeighborVehiclesType &veh
             center_idx++;
         }
 
-        if ((right_vehicle != nullptr) && (range_m >= right_vehicle->distance_m) &&
+        if ((right_vehicle != nullptr) &&
+            (range_m >= right_vehicle->distance_m) &&
             (right_vehicle->distance_m > (range_m - offset_m)))
         {
             right_string[1] = 'V';
             right_idx++;
         }
-        else if ((right_vehicle != nullptr) && (std::abs(right_vehicle->distance_m) > VIEW_RANGE_M))
+        else if ((right_vehicle != nullptr) &&
+                 (std::abs(right_vehicle->distance_m) > VIEW_RANGE_M))
         {
             right_idx++;
         }
 
-        std::cout << i << "\t| " << left_string << " | " << center_string << " | " << right_string
-                  << " | \n";
+        std::cout << i << "\t| " << left_string << " | " << center_string
+                  << " | " << right_string << " | \n";
     }
 }
 
@@ -144,10 +180,22 @@ void compute_future_state(const VehicleType &ego_vehicle,
 {
     const float ego_driven_distance = ego_vehicle.speed_mps * seconds;
 
-    compute_future_distance(vehicles.vehicles_left_lane[0], ego_driven_distance, seconds);
-    compute_future_distance(vehicles.vehicles_left_lane[1], ego_driven_distance, seconds);
-    compute_future_distance(vehicles.vehicles_center_lane[0], ego_driven_distance, seconds);
-    compute_future_distance(vehicles.vehicles_center_lane[1], ego_driven_distance, seconds);
-    compute_future_distance(vehicles.vehicles_right_lane[0], ego_driven_distance, seconds);
-    compute_future_distance(vehicles.vehicles_right_lane[1], ego_driven_distance, seconds);
+    compute_future_distance(vehicles.vehicles_left_lane[0],
+                            ego_driven_distance,
+                            seconds);
+    compute_future_distance(vehicles.vehicles_left_lane[1],
+                            ego_driven_distance,
+                            seconds);
+    compute_future_distance(vehicles.vehicles_center_lane[0],
+                            ego_driven_distance,
+                            seconds);
+    compute_future_distance(vehicles.vehicles_center_lane[1],
+                            ego_driven_distance,
+                            seconds);
+    compute_future_distance(vehicles.vehicles_right_lane[0],
+                            ego_driven_distance,
+                            seconds);
+    compute_future_distance(vehicles.vehicles_right_lane[1],
+                            ego_driven_distance,
+                            seconds);
 }

@@ -32,12 +32,36 @@ void init_vehicle(VehicleType &vehicle,
 
 void init_vehicles(NeighborVehiclesType &vehicles)
 {
-    init_vehicle(vehicles.vehicles_left_lane[0], 0, 130.0F, 80.0F, LaneAssociationType::LEFT);
-    init_vehicle(vehicles.vehicles_left_lane[1], 1, 80.0F, -20.0F, LaneAssociationType::LEFT);
-    init_vehicle(vehicles.vehicles_center_lane[0], 2, 80.0F, 50.0F, LaneAssociationType::CENTER);
-    init_vehicle(vehicles.vehicles_center_lane[1], 3, 120.0F, -50.0F, LaneAssociationType::CENTER);
-    init_vehicle(vehicles.vehicles_right_lane[0], 4, 110.0F, 30.0F, LaneAssociationType::RIGHT);
-    init_vehicle(vehicles.vehicles_right_lane[1], 5, 90.0F, -30.0F, LaneAssociationType::RIGHT);
+    init_vehicle(vehicles.vehicles_left_lane[0],
+                 0,
+                 130.0F,
+                 80.0F,
+                 LaneAssociationType::LEFT);
+    init_vehicle(vehicles.vehicles_left_lane[1],
+                 1,
+                 80.0F,
+                 -20.0F,
+                 LaneAssociationType::LEFT);
+    init_vehicle(vehicles.vehicles_center_lane[0],
+                 2,
+                 80.0F,
+                 50.0F,
+                 LaneAssociationType::CENTER);
+    init_vehicle(vehicles.vehicles_center_lane[1],
+                 3,
+                 120.0F,
+                 -50.0F,
+                 LaneAssociationType::CENTER);
+    init_vehicle(vehicles.vehicles_right_lane[0],
+                 4,
+                 110.0F,
+                 30.0F,
+                 LaneAssociationType::RIGHT);
+    init_vehicle(vehicles.vehicles_right_lane[1],
+                 5,
+                 90.0F,
+                 -30.0F,
+                 LaneAssociationType::RIGHT);
 }
 
 void print_vehicle(const VehicleType &vehicle)

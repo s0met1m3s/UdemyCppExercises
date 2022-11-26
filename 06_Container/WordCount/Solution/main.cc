@@ -18,7 +18,9 @@ using CountedWordsMap = std::map<std::string, std::size_t>;
 
 void clean_text(std::string &text);
 
-void replace_all(std::string &text, std::string_view what, std::string_view with);
+void replace_all(std::string &text,
+                 std::string_view what,
+                 std::string_view with);
 
 WordVector split_text(const std::string &text, char delimiter);
 
@@ -63,7 +65,9 @@ void clean_text(std::string &text)
     replace_all(text, "\t", "");
 }
 
-void replace_all(std::string &text, std::string_view what, std::string_view with)
+void replace_all(std::string &text,
+                 std::string_view what,
+                 std::string_view with)
 {
     for (std::size_t pos = 0; pos != std::string::npos; pos += with.length())
     {

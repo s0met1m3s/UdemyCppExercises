@@ -24,7 +24,8 @@ int main()
     std::cout << std::boolalpha;
     std::cout << "is_numeric: " << is_numeric(input_character) << '\n';
     std::cout << "is_alpha: " << is_alpha(input_character) << '\n';
-    std::cout << "is_alpha_numeric: " << is_alpha_numeric(input_character) << '\n';
+    std::cout << "is_alpha_numeric: " << is_alpha_numeric(input_character)
+              << '\n';
     std::cout << "is_upper_case: " << is_upper_case(input_character) << '\n';
     std::cout << "is_lower_case: " << is_lower_case(input_character) << '\n';
     std::cout << std::dec;

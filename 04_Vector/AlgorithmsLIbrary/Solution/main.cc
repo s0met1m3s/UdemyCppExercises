@@ -10,9 +10,11 @@ bool any_of(const std::vector<std::int32_t> &vector, const std::int32_t value);
 
 bool none_of(const std::vector<std::int32_t> &vector, const std::int32_t value);
 
-std::size_t count(const std::vector<std::int32_t> &vector, const std::int32_t value);
+std::size_t count(const std::vector<std::int32_t> &vector,
+                  const std::int32_t value);
 
-std::vector<std::int32_t> inclusive_scan(const std::vector<std::int32_t> &vector);
+std::vector<std::int32_t> inclusive_scan(
+    const std::vector<std::int32_t> &vector);
 
 int main()
 {
@@ -68,7 +70,8 @@ bool none_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
     return true;
 }
 
-std::size_t count(const std::vector<std::int32_t> &vector, const std::int32_t value)
+std::size_t count(const std::vector<std::int32_t> &vector,
+                  const std::int32_t value)
 {
     std::size_t counter = 0;
 
@@ -83,7 +86,8 @@ std::size_t count(const std::vector<std::int32_t> &vector, const std::int32_t va
     return counter;
 }
 
-std::vector<std::int32_t> inclusive_scan(const std::vector<std::int32_t> &vector)
+std::vector<std::int32_t> inclusive_scan(
+    const std::vector<std::int32_t> &vector)
 {
     auto result = std::vector<std::int32_t>(vector);
 

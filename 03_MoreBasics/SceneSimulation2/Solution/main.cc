@@ -31,7 +31,8 @@ int main()
         compute_future_state(ego_vehicle, vehicles, 0.100F);
         print_scene(ego_vehicle, vehicles);
 
-        const VehicleType *ego_lane_vehicles = get_vehicle_array(ego_vehicle.lane, vehicles);
+        const VehicleType *ego_lane_vehicles =
+            get_vehicle_array(ego_vehicle.lane, vehicles);
         longitudinal_control(ego_lane_vehicles[0], ego_vehicle);
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));

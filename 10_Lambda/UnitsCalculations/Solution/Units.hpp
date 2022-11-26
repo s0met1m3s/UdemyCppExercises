@@ -10,7 +10,9 @@ constexpr T PI = T(3.14159265358979323846L);
 template <typename T, typename U>
 [[nodiscard]] constexpr U ms_to_s(const T ms)
 {
-    static_assert(std::conjunction_v<std::is_integral<T>, std::is_floating_point<U>>, "Invalid types.");
+    static_assert(
+        std::conjunction_v<std::is_integral<T>, std::is_floating_point<U>>,
+        "Invalid types.");
 
     return ms / static_cast<U>(1000.0);
 }
@@ -40,7 +42,9 @@ template <typename T>
 }
 
 template <typename T>
-[[nodiscard]] constexpr std::pair<T, T> rotate_point(const T theta, const T x, const T y)
+[[nodiscard]] constexpr std::pair<T, T> rotate_point(const T theta,
+                                                     const T x,
+                                                     const T y)
 {
     static_assert(std::is_floating_point_v<T>, "Must be floating point type.");
 

@@ -93,8 +93,10 @@ int main()
     std::cout << "string_length: " << string_length(input_text) << '\n';
     std::cout << "char_search: " << char_search(input_text, 'a') << '\n';
     std::cout << std::boolalpha;
-    std::cout << "equal(jan, jan): " << string_equal(input_text, compare_text1) << '\n';
-    std::cout << "equal(jan, ja): " << string_equal(input_text, compare_text2) << '\n';
+    std::cout << "equal(jan, jan): " << string_equal(input_text, compare_text1)
+              << '\n';
+    std::cout << "equal(jan, ja): " << string_equal(input_text, compare_text2)
+              << '\n';
 
     return 0;
 }

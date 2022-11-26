@@ -22,7 +22,9 @@ public:
 
 struct Circle : Shape
 {
-    Circle(std::uint32_t x_midpoint_, std::uint32_t y_midpoint_, std::uint32_t radius_);
+    Circle(std::uint32_t x_midpoint_,
+           std::uint32_t y_midpoint_,
+           std::uint32_t radius_);
     ~Circle() noexcept = default;
 
     virtual double get_area() const final;
@@ -35,7 +37,10 @@ struct Circle : Shape
 
 struct Rectangle : Shape
 {
-    Rectangle(std::uint32_t x1_, std::uint32_t y1_, std::uint32_t x2_, std::uint32_t y2_);
+    Rectangle(std::uint32_t x1_,
+              std::uint32_t y1_,
+              std::uint32_t x2_,
+              std::uint32_t y2_);
     ~Rectangle() noexcept = default;
 
     virtual double get_area() const final;
