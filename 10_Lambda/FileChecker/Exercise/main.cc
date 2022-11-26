@@ -24,7 +24,7 @@ bool number_of_header_files(const FileVec &files);
 
 int main(int argc, char **argv)
 {
-    fs::path dir;
+    auto dir = fs::path{};
 
     if (argc != 2)
     {

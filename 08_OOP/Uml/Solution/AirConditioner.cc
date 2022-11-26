@@ -40,7 +40,8 @@ bool AirConditioner::heat(const int duration_min)
     {
         if (i % 2 != 0 && i > 0)
             curr_temp_cel += 1.0F;
-        std::cout << "After: " << (i + 1) << " minutes the temp is: " << curr_temp_cel << '\n';
+        std::cout << "After: " << (i + 1)
+                  << " minutes the temp is: " << curr_temp_cel << '\n';
 
         if (curr_temp_cel >= target_temp_cel)
             break;
@@ -54,7 +55,8 @@ bool AirConditioner::cool(const int duration_min)
     for (int i = 0; i < duration_min; i++)
     {
         curr_temp_cel -= 1.0F;
-        std::cout << "After: " << (i + 1) << " minutes the temp is: " << curr_temp_cel << '\n';
+        std::cout << "After: " << (i + 1)
+                  << " minutes the temp is: " << curr_temp_cel << '\n';
 
         if (curr_temp_cel <= target_temp_cel)
             break;

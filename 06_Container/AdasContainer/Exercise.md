@@ -84,8 +84,8 @@ int main(int argc, char **argv)
     }
 
     std::uint32_t cycle = 0;
-    VehicleType ego_vehicle{};
-    NeighborVehiclesType vehicles{};
+    auto ego_vehicle = VehicleType{};
+    auto vehicles = NeighborVehiclesType{};
 
     init_vehicles(data_filepath.string(), vehicles);
     init_ego_vehicle(ego_filepath.string(), ego_vehicle);
@@ -94,7 +94,7 @@ int main(int argc, char **argv)
     print_neighbor_vehicles(vehicles);
 
     std::cout << "Start simulation?: ";
-    char Input;
+    auto Input = char{};
     std::cin >> Input;
 
     while (true)

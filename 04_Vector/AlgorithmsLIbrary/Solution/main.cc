@@ -24,7 +24,7 @@ int main()
     std::cout << "all_of: " << all_of(vector, 5) << '\n';
     std::cout << "any_of: " << any_of(vector, 5) << '\n';
     std::cout << "none_of: " << none_of(vector, 5) << '\n';
-    auto scan_values = inclusive_scan(vector);
+    const auto scan_values = inclusive_scan(vector);
     std::cout << "inclusive_scan: " << '\n';
     print_vector(scan_values);
 
@@ -73,7 +73,7 @@ bool none_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
 std::size_t count(const std::vector<std::int32_t> &vector,
                   const std::int32_t value)
 {
-    std::size_t counter = 0;
+    auto counter = std::size_t{0};
 
     for (const auto &current_value : vector)
     {
@@ -92,7 +92,6 @@ std::vector<std::int32_t> inclusive_scan(
     auto result = std::vector<std::int32_t>(vector);
 
     result[0] = vector[0];
-
     for (std::size_t i = 1; i < vector.size(); i++)
     {
         result[i] = result[i - 1] + vector[i];

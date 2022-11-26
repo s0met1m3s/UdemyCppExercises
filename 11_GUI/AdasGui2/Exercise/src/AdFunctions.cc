@@ -15,18 +15,14 @@ float mps_to_kph(const float mps)
     return mps * 3.6F;
 }
 
-void compute_future_distance(VehicleType &vehicle,
-                             const float ego_driven_distance_m,
-                             const float seconds)
+void compute_future_distance(VehicleType &vehicle, const float ego_driven_distance_m, const float seconds)
 {
     const auto driven_distance_m = vehicle.speed_mps * seconds;
 
     vehicle.distance_m += driven_distance_m - ego_driven_distance_m;
 }
 
-void compute_future_state(const VehicleType &ego_vehicle,
-                          NeighborVehiclesType &vehicles,
-                          const float seconds)
+void compute_future_state(const VehicleType &ego_vehicle, NeighborVehiclesType &vehicles, const float seconds)
 {
     const auto ego_driven_distance_m = ego_vehicle.speed_mps * seconds;
 
@@ -59,9 +55,8 @@ void longitudinal_control(const VehicleType &front_vehicle, VehicleType &ego_veh
     }
 }
 
-const std::array<VehicleType, NUM_VEHICLES_ON_LANE> &get_vehicle_array(
-    const LaneAssociationType lane,
-    const NeighborVehiclesType &vehicles)
+const std::array<VehicleType, NUM_VEHICLES_ON_LANE> &get_vehicle_array(const LaneAssociationType lane,
+                                                                       const NeighborVehiclesType &vehicles)
 {
     switch (lane)
     {
@@ -104,7 +99,7 @@ LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
         case LaneAssociationType::RIGHT: /* fall-thorugh */
         case LaneAssociationType::LEFT:
         {
-            const LaneAssociationType target_lane = LaneAssociationType::CENTER;
+            const auto target_lane = LaneAssociationType::CENTER;
             const auto &center_vehicles = get_vehicle_array(target_lane, vehicles);
 
             const auto abs_front_center_distance_m = std::abs(center_vehicles[0].distance_m);
@@ -120,7 +115,7 @@ LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
         }
         case LaneAssociationType::CENTER:
         {
-            LaneAssociationType target_lane = LaneAssociationType::RIGHT;
+            auto target_lane = LaneAssociationType::RIGHT;
 
             const auto &right_vehicles = get_vehicle_array(target_lane, vehicles);
 

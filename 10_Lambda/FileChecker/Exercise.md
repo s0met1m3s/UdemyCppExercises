@@ -36,7 +36,7 @@ Use lambda expressions for these functions!
 ```cpp
 int main(int argc, char **argv)
 {
-    fs::path dir;
+    auto dir = fs::path{};
 
     if (argc != 2)
     {

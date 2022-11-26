@@ -82,8 +82,8 @@ void print_neighbor_vehicles(const NeighborVehiclesType &vehicles);
 
 int main()
 {
-    VehicleType ego_vehicle{};
-    NeighborVehiclesType vehicles{};
+    auto ego_vehicle = VehicleType{};
+    auto vehicles = NeighborVehiclesType{};
 
     init_ego_vehicle(ego_vehicle);
     init_vehicles(vehicles);

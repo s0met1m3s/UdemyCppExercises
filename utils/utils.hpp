@@ -3,6 +3,8 @@
 
 #include <array>
 #include <cmath>
+#include <exception>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -48,14 +50,16 @@ void print_vector(const std::vector<T> &vector)
 }
 
 template <>
-void print_vector(const std::vector<std::pair<std::string, std::size_t>> &vector)
+void print_vector(
+    const std::vector<std::pair<std::string, std::size_t>> &vector)
 {
     for (std::size_t i = 0; i < vector.size() - 1; i++)
     {
         std::cout << vector[i].first << ": " << vector[i].second << ", ";
     }
 
-    std::cout << vector[vector.size() - 1].first << ": " << vector[vector.size() - 1].second << '\n';
+    std::cout << vector[vector.size() - 1].first << ": "
+              << vector[vector.size() - 1].second << '\n';
 }
 
 template <typename T, typename U>
@@ -71,6 +75,12 @@ std::string readFile(std::string_view file_path)
 {
     auto str = std::string{};
     auto text = std::string{};
+
+    if (!std::filesystem::exists(file_path))
+    {
+        std::cerr << "File does not exist!\n";
+        throw std::invalid_argument("File does not exist!");
+    }
 
     auto iffile = std::ifstream{};
     iffile.open(file_path.data());

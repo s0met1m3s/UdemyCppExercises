@@ -51,8 +51,8 @@ Predict the distance in 2 seconds
 
 int main()
 {
-    VehicleType ego_vehicle{};
-    NeighborVehiclesType vehicles{};
+    auto ego_vehicle = VehicleType{};
+    auto vehicles = NeighborVehiclesType{};
 
     init_ego_vehicle(ego_vehicle);
     init_vehicles(vehicles);
@@ -63,7 +63,7 @@ int main()
     print_scene(ego_vehicle, vehicles);
 
     std::cout << "Compute forward (1sec)?: ";
-    char Input;
+    auto Input = char{};
     std::cin >> Input;
 
     while (Input == 'y')

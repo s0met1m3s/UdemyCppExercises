@@ -100,7 +100,7 @@ LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
             [[fallthrough]];
         case LaneAssociationType::LEFT:
         {
-            const LaneAssociationType target_lane = LaneAssociationType::CENTER;
+            const auto target_lane = LaneAssociationType::CENTER;
             const auto &center_vehicles = get_vehicle_array(target_lane, vehicles);
 
             const auto abs_front_center_distance_m = std::abs(center_vehicles[0].distance_m);
@@ -116,7 +116,7 @@ LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle,
         }
         case LaneAssociationType::CENTER:
         {
-            LaneAssociationType target_lane = LaneAssociationType::RIGHT;
+            auto target_lane = LaneAssociationType::RIGHT;
 
             const auto &right_vehicles = get_vehicle_array(target_lane, vehicles);
 

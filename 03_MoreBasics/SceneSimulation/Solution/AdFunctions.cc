@@ -87,9 +87,9 @@ void print_scene(const VehicleType &ego_vehicle,
 {
     std::cout << "    \t   L     C     R  \n";
 
-    std::size_t left_idx = 0;
-    std::size_t center_idx = 0;
-    std::size_t right_idx = 0;
+    auto left_idx = std::size_t{0};
+    auto center_idx = std::size_t{0};
+    auto right_idx = std::size_t{0};
 
     const std::int32_t offset_m = 20;
     const std::int32_t view_range_m = static_cast<std::int32_t>(VIEW_RANGE_M);
@@ -98,15 +98,14 @@ void print_scene(const VehicleType &ego_vehicle,
     {
         const float range_m = static_cast<float>(i);
 
-        const VehicleType *left_vehicle =
-            (left_idx < NUM_VEHICLES_ON_LANE)
-                ? &vehicles.vehicles_left_lane[left_idx]
-                : nullptr;
-        const VehicleType *center_vehicle =
+        const auto left_vehicle = (left_idx < NUM_VEHICLES_ON_LANE)
+                                      ? &vehicles.vehicles_left_lane[left_idx]
+                                      : nullptr;
+        const auto center_vehicle =
             (center_idx < NUM_VEHICLES_ON_LANE)
                 ? &vehicles.vehicles_center_lane[center_idx]
                 : nullptr;
-        const VehicleType *right_vehicle =
+        const auto right_vehicle =
             (right_idx < NUM_VEHICLES_ON_LANE)
                 ? &vehicles.vehicles_right_lane[right_idx]
                 : nullptr;

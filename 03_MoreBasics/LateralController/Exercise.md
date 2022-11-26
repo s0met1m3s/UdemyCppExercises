@@ -32,8 +32,8 @@ bool lateral_control(const LaneAssociationType lane_change_request, VehicleType 
 
 int main()
 {
-    VehicleType ego_vehicle{};
-    NeighborVehiclesType vehicles{};
+    auto ego_vehicle = VehicleType{};
+    auto vehicles = NeighborVehiclesType{};
 
     init_ego_vehicle(ego_vehicle);
     init_vehicles(vehicles);
@@ -52,7 +52,7 @@ int main()
         print_scene(ego_vehicle, vehicles);
         compute_future_state(ego_vehicle, vehicles, 0.100F);
 
-        const VehicleType *ego_lane_vehicles = get_vehicle_array(ego_vehicle.lane, vehicles);
+        const auto ego_lane_vehicles = get_vehicle_array(ego_vehicle.lane, vehicles);
         longitudinal_control(ego_lane_vehicles[0], ego_vehicle);
 
         const LaneAssociationType lane_change_request = get_lane_change_request(ego_vehicle, vehicles);

@@ -3,20 +3,29 @@
 
 #include "utils.hpp"
 
-bool all_of(std::int32_t *array, std::size_t length, std::int32_t value);
+bool all_of(const std::int32_t *array,
+            const std::size_t length,
+            const std::int32_t value);
 
-bool any_of(std::int32_t *array, std::size_t length, std::int32_t value);
+bool any_of(const std::int32_t *array,
+            const std::size_t length,
+            const std::int32_t value);
 
-bool none_of(std::int32_t *array, std::size_t length, std::int32_t value);
+bool none_of(const std::int32_t *array,
+             const std::size_t length,
+             const std::int32_t value);
 
-std::size_t count(std::int32_t *array, std::size_t length, std::int32_t value);
+std::size_t count(const std::int32_t *array,
+                  const std::size_t length,
+                  const std::int32_t value);
 
-std::int32_t *inclusive_scan(std::int32_t *array, std::size_t length);
+std::int32_t *inclusive_scan(const std::int32_t *array,
+                             const std::size_t length);
 
 int main()
 {
-    std::int32_t array[]{3, 1, 4, 1, 5, 9, 2, 6};
-    std::size_t length = 8;
+    const std::int32_t array[]{3, 1, 4, 1, 5, 9, 2, 6};
+    const std::size_t length = 8;
 
     std::cout << std::boolalpha;
     std::cout << "all_of: " << all_of(array, length, 5) << '\n';

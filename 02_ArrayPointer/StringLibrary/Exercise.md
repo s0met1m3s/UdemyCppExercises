@@ -1,5 +1,9 @@
 # Exercise
 
+For the following functions we will reuse the character functions from chapter 1.  
+They were copied from the *CharConverter* video and are placed inside *utils/string_utils.hpp* file.  
+So just call these functions, the header is already included.
+
 Implement the following functions:
 
 ```cpp

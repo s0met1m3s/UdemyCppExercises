@@ -73,8 +73,8 @@ void cycle_function(const fs::path &ego_filepath,
 
     constexpr std::int64_t sleep_time = 50;
     std::size_t cycle = 0;
-    VehicleType ego_vehicle{};
-    NeighborVehiclesType vehicles{};
+    auto ego_vehicle = VehicleType{};
+    auto vehicles = NeighborVehiclesType{};
     LanesInformationType lanes{};
 
     init_ego_vehicle(ego_filepath.string(), ego_vehicle);

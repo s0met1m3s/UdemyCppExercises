@@ -21,7 +21,7 @@ void run(const fs::path &executable_path);
 
 int main(int argc, char **argv)
 {
-    fs::path dir;
+    auto dir = fs::path{};
 
     if (argc != 2)
     {

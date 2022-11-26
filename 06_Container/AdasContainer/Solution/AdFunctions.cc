@@ -52,24 +52,23 @@ void print_scene(const VehicleType &ego_vehicle,
 {
     std::cout << "    \t  L    C    R  \n";
 
-    std::size_t left_idx = 0;
-    std::size_t center_idx = 0;
-    std::size_t right_idx = 0;
+    auto left_idx = std::size_t{0};
+    auto center_idx = std::size_t{0};
+    auto right_idx = std::size_t{0};
 
-    const std::int32_t offset_m = 10;
+    const auto offset_m = std::int32_t{10};
     const auto view_range_m = static_cast<std::int32_t>(VIEW_RANGE_M);
 
     for (std::int32_t i = view_range_m; i >= -view_range_m; i -= offset_m)
     {
-        const VehicleType *left_vehicle =
-            left_idx < NUM_VEHICLES_ON_LANE
-                ? &vehicles.vehicles_left_lane[left_idx]
-                : nullptr;
-        const VehicleType *center_vehicle =
+        const auto left_vehicle = left_idx < NUM_VEHICLES_ON_LANE
+                                      ? &vehicles.vehicles_left_lane[left_idx]
+                                      : nullptr;
+        const auto center_vehicle =
             center_idx < NUM_VEHICLES_ON_LANE
                 ? &vehicles.vehicles_center_lane[center_idx]
                 : nullptr;
-        const VehicleType *right_vehicle =
+        const auto right_vehicle =
             right_idx < NUM_VEHICLES_ON_LANE
                 ? &vehicles.vehicles_right_lane[right_idx]
                 : nullptr;
@@ -260,7 +259,7 @@ LaneAssociationType get_lane_change_request(
         case LaneAssociationType::RIGHT: /* fall-thorugh */
         case LaneAssociationType::LEFT:
         {
-            const LaneAssociationType target_lane = LaneAssociationType::CENTER;
+            const auto target_lane = LaneAssociationType::CENTER;
             const auto &center_vehicles =
                 get_vehicle_array(target_lane, vehicles);
 
@@ -279,7 +278,7 @@ LaneAssociationType get_lane_change_request(
         }
         case LaneAssociationType::CENTER:
         {
-            LaneAssociationType target_lane = LaneAssociationType::RIGHT;
+            auto target_lane = LaneAssociationType::RIGHT;
 
             const auto &right_vehicles =
                 get_vehicle_array(target_lane, vehicles);

@@ -3,7 +3,7 @@
 Implement the following functions:
 
 ```cpp
-void unique_elements(std::int32_t *array, std::size_t length);
+void unique_elements(const std::int32_t *array, const std::size_t length);
 
 void remove_duplicates(std::int32_t *array, std::size_t &length);
 

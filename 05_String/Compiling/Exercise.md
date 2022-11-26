@@ -45,7 +45,7 @@ To run terminal commands from C++ program: **std::system()**
 ```cpp
 int main(int argc, char **argv)
 {
-    fs::path dir;
+    auto dir = fs::path{};
 
     if (argc != 2)
     {

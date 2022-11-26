@@ -38,7 +38,8 @@ void print_dec_to_bin(std::uint8_t value)
 
     for (std::int8_t i = 7; i >= 0; i--)
     {
-        std::uint8_t current_exponent = std::pow(2, i);
+        std::uint8_t current_exponent =
+            static_cast<std::uint8_t>(std::pow(2, i));
 
         if (current_exponent <= value)
         {

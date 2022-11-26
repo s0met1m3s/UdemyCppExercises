@@ -3,21 +3,21 @@
 
 #include "utils.hpp"
 
-void unique_elements(std::int32_t *array, std::size_t length);
+void print_unique_elements(const std::int32_t *array, const std::size_t length);
 
 void remove_duplicates(std::int32_t *array, std::size_t &length);
 
-void rotate_left(std::int32_t *array, std::size_t length);
+void rotate_left(std::int32_t *array, const std::size_t length);
 
-void rotate_right(std::int32_t *array, std::size_t length);
+void rotate_right(std::int32_t *array, const std::size_t length);
 
 int main()
 {
-    std::int32_t array[]{1, 1, 2, 3, 3, 4};
     std::size_t length = 6;
+    std::int32_t array[]{1, 1, 2, 3, 3, 4};
 
-    std::cout << "unique_elements: " << '\n';
-    unique_elements(array, length);
+    std::cout << "print_unique_elements: " << '\n';
+    print_unique_elements(array, length);
 
     remove_duplicates(array, length);
     print_array(array, length);
@@ -31,7 +31,7 @@ int main()
     return 0;
 }
 
-void unique_elements(std::int32_t *array, std::size_t length)
+void print_unique_elements(const std::int32_t *array, const std::size_t length)
 {
     if (array == nullptr)
     {
@@ -85,7 +85,7 @@ void remove_duplicates(std::int32_t *array, std::size_t &length)
             }
         }
 
-        if (duplicate_index == -1)
+        if (duplicate_index == static_cast<std::size_t>(-1))
         {
             continue;
         }

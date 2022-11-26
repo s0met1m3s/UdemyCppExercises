@@ -32,8 +32,8 @@ int main(int argc, char **argv)
     fs::path vehicle_filepath = data_filepath;
     vehicle_filepath /= "vehicle_data.json";
 
-    VehicleType ego_vehicle{};
-    NeighborVehiclesType vehicles{};
+    auto ego_vehicle = VehicleType{};
+    auto vehicles = NeighborVehiclesType{};
 
     init_ego_vehicle(ego_vehicle);
     init_vehicles(vehicles);
@@ -42,7 +42,7 @@ int main(int argc, char **argv)
     print_neighbor_vehicles(vehicles);
 
     std::cout << "Start simulation?: ";
-    char Input;
+    auto Input = char{};
     std::cin >> Input;
 
     while (true)
@@ -52,11 +52,14 @@ int main(int argc, char **argv)
         print_scene(ego_vehicle, vehicles);
         compute_future_state(ego_vehicle, vehicles, 0.100F);
 
-        const VehicleType *ego_lane_vehicles = get_vehicle_array(ego_vehicle.lane, vehicles);
+        const auto ego_lane_vehicles =
+            get_vehicle_array(ego_vehicle.lane, vehicles);
         longitudinal_control(ego_lane_vehicles[0], ego_vehicle);
 
-        const auto lane_change_request = get_lane_change_request(ego_vehicle, vehicles);
-        const auto lane_change_executed = lateral_control(lane_change_request, ego_vehicle);
+        const auto lane_change_request =
+            get_lane_change_request(ego_vehicle, vehicles);
+        const auto lane_change_executed =
+            lateral_control(lane_change_request, ego_vehicle);
 
         if (lane_change_executed)
         {

@@ -12,7 +12,9 @@ using WordCountPair = std::pair<std::string, std::size_t>;
 
 void clean_text(std::string &text);
 
-void replace_all(std::string &text, std::string_view what, std::string_view with);
+void replace_all(std::string &text,
+                 std::string_view what,
+                 std::string_view with);
 
 template <typename T>
 void split_text(const std::string &text, char delimiter, T result);
@@ -21,7 +23,8 @@ std::vector<std::string> split_text(const std::string &text, char delimiter);
 
 int main()
 {
-    auto text = readFile("/mnt/c/Users/Jan/OneDrive/_Coding/UdemyCppExt/5_String/SplitWords/text.txt");
+    auto text = readFile("C:/Users/jan/OneDrive/_Coding/UdemyCppExercises/05_"
+                         "String/SplitWords/Solution/text.txt");
     std::cout << text << '\n' << '\n';
 
     clean_text(text);
@@ -43,7 +46,9 @@ void clean_text(std::string &text)
     replace_all(text, "\t", "");
 }
 
-void replace_all(std::string &text, std::string_view what, std::string_view with)
+void replace_all(std::string &text,
+                 std::string_view what,
+                 std::string_view with)
 {
     for (std::size_t pos = 0; pos != std::string::npos; pos += with.length())
     {
