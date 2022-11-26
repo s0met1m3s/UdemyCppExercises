@@ -12,26 +12,7 @@ constexpr static std::uint32_t ELEMENTS_THRESHOLD = 5'000'000;
 constexpr static std::uint32_t NUM_RUNS = 1'000;
 
 template <typename T, typename RandomIter>
-T range_sum_asyn(RandomIter start, RandomIter stop)
-{
-    const auto length = std::distance(start, stop);
-
-    if (length < ELEMENTS_THRESHOLD)
-    {
-        return std::accumulate(start, stop, T{});
-    }
-
-    RandomIter mid = start + length / 2;
-
-    auto handle = std::async(std::launch::async,
-                             range_sum_asyn<T, RandomIter>,
-                             mid,
-                             stop);
-
-    const auto sum = range_sum_asyn<T, RandomIter>(start, mid);
-
-    return sum + handle.get();
-}
+T range_sum_asyn(RandomIter start, RandomIter stop);
 
 int main()
 {

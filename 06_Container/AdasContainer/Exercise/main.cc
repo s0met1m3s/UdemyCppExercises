@@ -1,50 +1,3 @@
-# Exercise
-
-## Update Ad
-
-We will extend the AD Data Loader Video.
-
-Update the *AdFunctions* code such that we use *std::string*, *std::string_view* and *std::array* where it is appropiate.
-
-Update the following functions:
-
-```cpp
-const VehicleType *get_vehicle_array(const LaneAssociationType lane,
-                                     const NeighborVehiclesType &vehicles);
-```
-
-- get_vehicle_array
-  - Instead of **VehicleType \*** return a reference to a *VehicleType* array
-
-## Update DataLoader
-
-We will now use a new struct that is more memory efficient to store the log data.
-
-```cpp
-struct VehicleLogData
-{
-    std::int32_t id;
-    LaneAssociationType lane;
-    float start_distance_m;
-    std::array<float, NUM_ITERATIONS> speeds_mps;
-};
-
-using VehiclesLogData = std::array<VehicleLogData, NUM_VEHICLES>;
-```
-
-Hence, we will only store the speed for every cycle (iteration) and not as before the other vehicle attributes, because these doesn't change in the cycles anyway.
-
-Update the following functions regarding the new *VehiclesLogData* struct.
-
-```cpp
-void init_vehicles(std::string_view filepath, NeighborVehiclesType &vehicles);
-
-void load_cycle(const std::uint32_t cycle, NeighborVehiclesType &vehicles);
-```
-
-## Main Function
-
-```cpp
 #include <chrono>
 #include <cstring>
 #include <filesystem>
@@ -104,11 +57,14 @@ int main(int argc, char **argv)
         print_scene(ego_vehicle, vehicles);
         compute_future_state(ego_vehicle, vehicles, 0.100F);
 
-        const auto &ego_lane_vehicles = get_vehicle_array(ego_vehicle.lane, vehicles);
+        const auto &ego_lane_vehicles =
+            get_vehicle_array(ego_vehicle.lane, vehicles);
         longitudinal_control(ego_lane_vehicles[0], ego_vehicle);
 
-        const auto lane_change_request = get_lane_change_request(ego_vehicle, vehicles);
-        const auto lane_change_executed = lateral_control(lane_change_request, ego_vehicle);
+        const auto lane_change_request =
+            get_lane_change_request(ego_vehicle, vehicles);
+        const auto lane_change_executed =
+            lateral_control(lane_change_request, ego_vehicle);
 
         if (lane_change_executed)
         {
@@ -123,4 +79,3 @@ int main(int argc, char **argv)
 
     return 0;
 }
-```

@@ -22,15 +22,15 @@ Serial time:      4.569ms
 6: OpenMP time:   2.473ms
 8: OpenMP time:   2.506ms
 */
-constexpr std::uint32_t NUM_THREADS = 8;
-constexpr std::uint32_t NUM_RUNS = 1'000;
+constexpr static std::uint32_t NUM_THREADS = 8;
+constexpr static std::uint32_t NUM_RUNS = 1'000;
 
 template <typename T>
 void random_vector(std::vector<T> &vec)
 {
-    constexpr std::int32_t seed = 42;
-    constexpr std::int32_t lower_bound = -10;
-    constexpr std::int32_t upper_bound = 10;
+    constexpr static std::int32_t seed = 42;
+    constexpr static std::int32_t lower_bound = -10;
+    constexpr static std::int32_t upper_bound = 10;
 
     std::mt19937 random_generator(seed);
     std::uniform_int_distribution<T> random_distribution(lower_bound,

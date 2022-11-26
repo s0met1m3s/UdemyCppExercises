@@ -5,8 +5,8 @@
 #include "Units.hpp"
 #include "utils.hpp"
 
-constexpr std::size_t NUM_ENTRIES = 3;
-constexpr std::uint32_t TIME_SPAN_MS = 50;
+constexpr static std::size_t NUM_ENTRIES = 3;
+constexpr static std::uint32_t TIME_SPAN_MS = 50;
 
 void compute_velocities(
     const std::array<float, NUM_ENTRIES> long_velocities_mps,
