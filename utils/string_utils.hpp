@@ -56,7 +56,27 @@ char to_upper_case(char character)
     return character;
 }
 
+char to_upper_case_(char character)
+{
+    if (is_lower_case(character))
+    {
+        return character - 32;
+    }
+
+    return character;
+}
+
 char to_lower_case(char character)
+{
+    if (is_upper_case(character))
+    {
+        return character + 32;
+    }
+
+    return character;
+}
+
+char to_lower_case_(char character)
 {
     if (is_upper_case(character))
     {
