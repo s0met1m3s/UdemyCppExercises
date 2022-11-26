@@ -62,8 +62,8 @@ namespace fs = std::filesystem;
 
 int main(int argc, char **argv)
 {
-    fs::path data_filepath;
-    fs::path ego_filepath;
+    auto data_filepath = fs::path{};
+    auto ego_filepath = fs::path{};
 
     if (argc != 3)
     {
@@ -83,7 +83,7 @@ int main(int argc, char **argv)
         ego_filepath = fs::path(ego_input_path);
     }
 
-    std::uint32_t cycle = 0;
+    auto cycle = std::uint32_t{0};
     auto ego_vehicle = VehicleType{};
     auto vehicles = NeighborVehiclesType{};
 

@@ -42,9 +42,9 @@ It next(It it, DifferenceType n = 1)
     return it;
 }
 
-It prev(It it, DifferenceType n = 1)
+It prev(It it, DifferenceType n = -1)
 {
-    mystd::advance(it, -n);
+    mystd::advance(it, n);
     return it;
 }
 

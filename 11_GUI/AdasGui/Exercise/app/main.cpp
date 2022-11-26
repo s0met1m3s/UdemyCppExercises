@@ -29,8 +29,8 @@ static void glfw_error_callback(int error, const char *description);
 
 int main(int argc, char **argv)
 {
-    fs::path data_filepath;
-    fs::path ego_filepath;
+    auto data_filepath = fs::path{};
+    auto ego_filepath = fs::path{};
 
     if (argc != 3)
     {

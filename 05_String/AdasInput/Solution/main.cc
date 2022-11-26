@@ -14,7 +14,7 @@ namespace fs = std::filesystem;
 
 int main(int argc, char **argv)
 {
-    fs::path data_filepath;
+    auto data_filepath = fs::path{};
 
     if (argc < 2)
     {

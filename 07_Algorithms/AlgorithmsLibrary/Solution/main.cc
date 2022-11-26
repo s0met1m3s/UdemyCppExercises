@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "algo.hpp"
+
 #include "utils.hpp"
 
 int main()
