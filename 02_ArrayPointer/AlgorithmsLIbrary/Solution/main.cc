@@ -32,7 +32,6 @@ int main()
     return 0;
 }
 
-
 bool all_of(std::int32_t *array, std::size_t length, std::int32_t value)
 {
     if (array == nullptr)
