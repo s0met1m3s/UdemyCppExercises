@@ -8,6 +8,7 @@
 #include "Timer.hpp"
 #include "utils.hpp"
 
+constexpr static std::uint32_t NUM_ELEMENTS = 30'000'000;
 constexpr static std::uint32_t ELEMENTS_THRESHOLD = 5'000'000;
 constexpr static std::uint32_t NUM_RUNS = 1'000;
 
@@ -16,7 +17,7 @@ T range_sum_asyn(RandomIter start, RandomIter stop);
 
 int main()
 {
-    std::vector<std::int32_t> vector(30'000'000, 0);
+    std::vector<std::int32_t> vector(NUM_ELEMENTS, 0);
     random_vector(vector);
 
     auto time1 = 0.0;
