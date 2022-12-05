@@ -47,5 +47,7 @@ int main()
     std::cout << input_number << " % 3: " << modulo(input_number, 3) << '\n';
     std::cout << "sum_of_digits: " << sum_of_digits(input_number) << '\n';
     std::cout << "cross_sum: " << cross_sum(input_number) << '\n';
+
+    test_cases();
 }
 ```

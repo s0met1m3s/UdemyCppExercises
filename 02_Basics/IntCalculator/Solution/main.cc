@@ -1,12 +1,11 @@
+#include <cassert>
 #include <cmath>
 #include <cstdint>
 #include <iostream>
 
-std::uint32_t modulo(std::uint32_t number_a, std::uint32_t number_b);
+#include "lib.h"
 
-std::uint32_t sum_of_digits(std::uint32_t number);
-
-std::uint32_t cross_sum(std::uint32_t number);
+void test_cases();
 
 int main()
 {
@@ -18,43 +17,29 @@ int main()
     std::cout << input_number << " % 3: " << modulo(input_number, 3) << '\n';
     std::cout << "sum_of_digits: " << sum_of_digits(input_number) << '\n';
     std::cout << "cross_sum: " << cross_sum(input_number) << '\n';
+
+    test_cases();
 }
 
-std::uint32_t modulo(std::uint32_t number_a, std::uint32_t number_b)
+void test_cases()
 {
-    std::uint32_t result = 0;
-    std::uint32_t divisor = number_a / number_b;
+    assert(modulo(0, 3) == 0);
+    assert(modulo(1, 3) == 1);
+    assert(modulo(2, 3) == 2);
+    assert(modulo(3, 3) == 0);
 
-    result = number_a - number_b * divisor;
+    assert(modulo(0, 0) == 0);
+    assert(modulo(1, 0) == 0);
 
-    return result;
-}
+    assert(sum_of_digits(0) == 1);
+    assert(sum_of_digits(10) == 2);
+    assert(sum_of_digits(100) == 3);
+    assert(sum_of_digits(1000) == 4);
 
-std::uint32_t sum_of_digits(std::uint32_t number)
-{
-    std::uint32_t num_digits = 0;
-
-    while (number > 0)
-    {
-        number /= 10;
-        num_digits++;
-    }
-
-    return num_digits;
-}
-
-std::uint32_t cross_sum(std::uint32_t number)
-{
-    std::uint32_t sum = 0;
-
-    while (number > 0)
-    {
-        std::uint32_t current_digit = number % 10;
-
-        sum += current_digit;
-
-        number /= 10;
-    }
-
-    return sum;
+    assert(cross_sum(0) == 0);
+    assert(cross_sum(10) == 1);
+    assert(cross_sum(100) == 1);
+    assert(cross_sum(1000) == 1);
+    assert(cross_sum(1234) == 10);
+    assert(cross_sum(1235) == 11);
 }
