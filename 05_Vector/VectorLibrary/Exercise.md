@@ -3,8 +3,6 @@
 Implement the following functions:
 
 ```cpp
-void unique_elements(const std::vector<std::int32_t> &vector);
-
 void remove_duplicates(std::vector<std::int32_t> &vector);
 
 void rotate_left(std::vector<std::int32_t> &vector);
@@ -26,9 +24,6 @@ E.g. [1, 2, 3, 4] => [4, 2, 3, 1]
 int main()
 {
     auto vector = std::vector<std::int32_t>{1, 1, 2, 3, 3, 4};
-
-    std::cout << "unique_elements: " << '\n';
-    unique_elements(vector);
 
     std::cout << "remove_duplicates: " << '\n';
     remove_duplicates(vector);

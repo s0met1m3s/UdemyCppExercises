@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include <cstdlib>
+#include <cstddef>
 
 void remove_duplicates(std::int32_t *array, std::size_t &length);
 

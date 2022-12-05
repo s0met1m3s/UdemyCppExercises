@@ -1,17 +1,12 @@
+#include <cassert>
 #include <cstdint>
 #include <iostream>
 #include <vector>
 
+#include "lib.h"
 #include "utils.hpp"
 
-bool all_of(const std::vector<std::int32_t> &vector, const std::int32_t value);
-
-bool any_of(const std::vector<std::int32_t> &vector, const std::int32_t value);
-
-bool none_of(const std::vector<std::int32_t> &vector, const std::int32_t value);
-
-std::size_t count(const std::vector<std::int32_t> &vector,
-                  const std::int32_t value);
+void test_cases();
 
 int main()
 {
@@ -22,60 +17,32 @@ int main()
     std::cout << "any_of: " << any_of(vector, 5) << '\n';
     std::cout << "none_of: " << none_of(vector, 5) << '\n';
 
+    test_cases();
+
     return 0;
 }
 
-bool all_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
+void test_cases()
 {
-    for (const auto &current_value : vector)
-    {
-        if (current_value != value)
-        {
-            return false;
-        }
-    }
+    const auto vec = std::vector<std::int32_t>{2, 1, -2, 0, -1};
+    const auto vec_all = std::vector<std::int32_t>{2, 2, 2, 2, 2};
 
-    return true;
-}
+    assert(all_of(vec_all, 2) == true);
 
-bool any_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
-{
-    for (const auto &current_value : vector)
-    {
-        if (current_value == value)
-        {
-            return true;
-        }
-    }
+    assert(count(vec, 1) == 1);
+    assert(count(vec, -3) == 0);
 
-    return false;
-}
+    assert(any_of(vec, 2) == true);
+    assert(any_of(vec, 1) == true);
+    assert(any_of(vec, 0) == true);
+    assert(any_of(vec, -1) == true);
+    assert(any_of(vec, -2) == true);
 
-bool none_of(const std::vector<std::int32_t> &vector, const std::int32_t value)
-{
-    for (const auto &current_value : vector)
-    {
-        if (current_value == value)
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-std::size_t count(const std::vector<std::int32_t> &vector,
-                  const std::int32_t value)
-{
-    auto counter = std::size_t{0};
-
-    for (const auto &current_value : vector)
-    {
-        if (current_value == value)
-        {
-            counter++;
-        }
-    }
-
-    return counter;
+    assert(none_of(vec, 3) == true);
+    assert(none_of(vec, 2) == false);
+    assert(none_of(vec, 1) == false);
+    assert(none_of(vec, 0) == false);
+    assert(none_of(vec, -1) == false);
+    assert(none_of(vec, -2) == false);
+    assert(none_of(vec, -3) == true);
 }
