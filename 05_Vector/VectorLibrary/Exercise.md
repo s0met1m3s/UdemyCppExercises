@@ -37,6 +37,8 @@ int main()
     rotate_right(vector);
     print_vector(vector);
 
+    test_cases();
+
     return 0;
 }
 ```

@@ -54,7 +54,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        auto input_path = std::string(argv[1]);
+        const auto input_path = std::string(argv[1]);
         dir = fs::path(input_path);
     }
 

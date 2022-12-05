@@ -2,9 +2,12 @@
 #include <cstring>
 #include <iostream>
 #include <vector>
+#include <cassert>
 
-#include "utils.hpp"
 #include "lib.h"
+#include "utils.hpp"
+
+void test_cases();
 
 int main()
 {
@@ -22,5 +25,23 @@ int main()
     rotate_right(vector);
     print_vector(vector);
 
+    test_cases();
+
     return 0;
+}
+
+void test_cases()
+{
+    auto vec = std::vector<std::int32_t>{1, 1, 2, 3, 3, 4};
+    auto vec_cpy = std::vector<std::int32_t>{1, 1, 2, 3, 3, 4};
+    auto vec_del = std::vector<std::int32_t>{1, 2, 3, 4};
+
+    rotate_left(vec_cpy);
+    assert(vectors_are_same(vec, vec_cpy) == false);
+    rotate_right(vec_cpy);
+    assert(vectors_are_same(vec, vec_cpy) == true);
+
+    remove_duplicates(vec_cpy);
+    assert(vectors_are_same(vec_cpy, vec_del) == true);
+    assert(vectors_are_same(vec, vec_del) == false);
 }

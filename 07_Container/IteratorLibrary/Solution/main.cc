@@ -1,23 +1,23 @@
 #include <iostream>
-#include <list>
+#include <vector>
 
-#include "IteratorLib.hpp"
+#include "Lib.h"
 
 int main()
 {
-    std::list<int> list{1, 2, 3};
-    auto list_it = list.begin();
+    std::vector<int> vec{1, 2, 3};
+    auto vec_it = vec.begin();
 
-    auto next_it = mystd::next(list_it);
+    auto next_it = mystd::next(vec_it);
     std::cout << "*next_it: " << *next_it << '\n';
 
     auto prev_it = mystd::prev(next_it);
     std::cout << "*prev_it: " << *prev_it << '\n';
 
-    mystd::advance(list_it, 2);
-    std::cout << "advance: " << *list_it << '\n';
+    mystd::advance(vec_it, 2);
+    std::cout << "advance: " << *vec_it << '\n';
 
-    auto dist = mystd::distance(list_it, list.begin());
+    auto dist = mystd::distance(vec_it, vec.end());
     std::cout << "distance: " << dist << '\n';
 
     return 0;

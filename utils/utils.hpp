@@ -7,9 +7,9 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <map>
 #include <random>
-#include <limits>
 #include <sstream>
 #include <string_view>
 #include <unordered_map>
@@ -132,9 +132,24 @@ inline auto is_close(T a, T b)
 }
 
 template <typename T>
-auto ranges_are_same(const T* a, const T* b, const std::size_t len)
+auto ranges_are_same(const T *a, const T *b, const std::size_t len)
 {
     for (std::size_t i = 0; i < len; i++)
+    {
+        if (a[i] != b[i])
+            return false;
+    }
+
+    return true;
+}
+
+template <typename T>
+auto vectors_are_same(const std::vector<T> &a, const std::vector<T> &b)
+{
+    if (a.size() != b.size())
+        return false;
+
+    for (std::size_t i = 0; i < a.size(); i++)
     {
         if (a[i] != b[i])
             return false;

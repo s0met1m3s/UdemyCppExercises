@@ -1,13 +1,7 @@
-#include <cstdint>
-#include <iterator>
-#include <list>
+#include "Lib.h"
 
 namespace mystd
 {
-
-using It = std::list<std::int32_t>::iterator;
-using DifferenceType = It::difference_type;
-
 void advance(It &it, DifferenceType n)
 {
     while (n > 0)
@@ -36,16 +30,15 @@ DifferenceType distance(It first, It last)
     return result;
 }
 
-It next(It it, DifferenceType n = 1)
+It next(It it, DifferenceType n)
 {
     mystd::advance(it, n);
     return it;
 }
 
-It prev(It it, DifferenceType n = -1)
+It prev(It it, DifferenceType n)
 {
     mystd::advance(it, n);
     return it;
 }
-
-} // namespace mystd
+} // namespace my_str
