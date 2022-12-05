@@ -52,7 +52,9 @@ int main()
     std::cout << "pi (calculated): " << pi_calculated << '\n';
     std::cout << "pi (correct): " << pi << '\n';
 
-    std::uint8_t dec = 142;
+    std::uint8_t dec = 0b10001110;
     print_dec_to_bin(dec);
+
+    test_cases(); // This should not fail!
 }
 ```

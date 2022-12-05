@@ -1,16 +1,10 @@
+#include <cassert>
 #include <iostream>
 
-float convert_milliseconds_to_seconds(float millisconds);
+#include "lib.h"
+#include "utils.hpp"
 
-float convert_seconds_to_minutes(float seconds);
-
-float convert_minutes_to_hours(float minutes);
-
-float convert_milliseconds_to_minutes(float millisconds);
-
-float convert_milliseconds_to_hours(float millisconds);
-
-float convert_seconds_to_hours(float seconds);
+void test_cases();
 
 int main()
 {
@@ -35,45 +29,25 @@ int main()
     std::cout << "hours2: " << hours2 << '\n';
     std::cout << "hours3: " << hours3 << '\n';
 
+    test_cases(); // This should not fail!
+
     return 0;
 }
 
-float convert_milliseconds_to_seconds(float millisconds)
+void test_cases()
 {
-    return millisconds / 1000.0F;
-}
+    assert(is_close<float>(convert_milliseconds_to_seconds(0.0F), 0.000F));
+    assert(is_close<float>(convert_milliseconds_to_seconds(1.0F), 0.001F));
+    assert(is_close<float>(convert_milliseconds_to_seconds(10.0F), 0.010F));
+    assert(is_close<float>(convert_milliseconds_to_seconds(100.0F), 0.100F));
+    assert(is_close<float>(convert_milliseconds_to_seconds(1000.0F), 1.000F));
+    assert(is_close<float>(convert_milliseconds_to_seconds(10000.0F), 10.00F));
 
-float convert_seconds_to_minutes(float seconds)
-{
-    return seconds / 60.0F;
-}
+    assert(is_close<float>(convert_seconds_to_minutes(0.0F), 0.000F));
+    assert(is_close<float>(convert_seconds_to_minutes(30.0F), 0.500F));
+    assert(is_close<float>(convert_seconds_to_minutes(120.0F), 2.000F));
 
-float convert_minutes_to_hours(float minutes)
-{
-    return minutes / 60.0F;
-}
-
-float convert_milliseconds_to_minutes(float millisconds)
-{
-    float seconds = convert_milliseconds_to_seconds(millisconds);
-    float minutes = convert_seconds_to_minutes(seconds);
-
-    return minutes;
-}
-
-float convert_milliseconds_to_hours(float millisconds)
-{
-    float seconds = convert_milliseconds_to_seconds(millisconds);
-    float minutes = convert_seconds_to_minutes(seconds);
-    float hours = convert_minutes_to_hours(minutes);
-
-    return hours;
-}
-
-float convert_seconds_to_hours(float seconds)
-{
-    float minutes = convert_seconds_to_minutes(seconds);
-    float hours = convert_minutes_to_hours(minutes);
-
-    return hours;
+    assert(is_close<float>(convert_minutes_to_hours(0.0F), 0.000F));
+    assert(is_close<float>(convert_minutes_to_hours(30.0F), 0.500F));
+    assert(is_close<float>(convert_minutes_to_hours(120.0F), 2.000F));
 }

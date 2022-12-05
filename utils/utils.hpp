@@ -9,6 +9,7 @@
 #include <iostream>
 #include <map>
 #include <random>
+#include <limits>
 #include <sstream>
 #include <string_view>
 #include <unordered_map>
@@ -122,6 +123,12 @@ void clear_console()
 #else
     system("clear");
 #endif
+}
+
+template <typename T>
+inline auto is_close(T a, T b)
+{
+    return std::fabs(a - b) < std::numeric_limits<T>::epsilon();
 }
 
 #endif /* UTILS_H */

@@ -1,10 +1,12 @@
+#include <cassert>
+#include <cfloat>
 #include <cmath>
 #include <iomanip>
 #include <iostream>
 
-double calculate_pi(std::uint32_t num_iterations);
+#include "lib.h"
 
-void print_dec_to_bin(std::uint8_t value);
+void test_cases();
 
 int main()
 {
@@ -18,4 +20,12 @@ int main()
 
     std::uint8_t dec = 0b10001110;
     print_dec_to_bin(dec);
+
+    test_cases(); // This should not fail!
+}
+
+void test_cases()
+{
+    const auto diff = std::fabs(calculate_pi(1'000'000) - 3.14159265358979323846);
+    assert(diff < 1e-04);
 }
