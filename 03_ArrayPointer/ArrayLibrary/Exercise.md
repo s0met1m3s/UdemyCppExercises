@@ -3,8 +3,6 @@
 Implement the following functions:
 
 ```cpp
-void unique_elements(const std::int32_t *array, const std::size_t length);
-
 void remove_duplicates(std::int32_t *array, std::size_t &length);
 
 void rotate_left(std::int32_t *array, std::size_t length);
@@ -12,8 +10,6 @@ void rotate_left(std::int32_t *array, std::size_t length);
 void rotate_right(std::int32_t *array, std::size_t length);
 ```
 
-- Unique Elements
-  - Print out all unique elements (no duplicates) in the array
 - Remove Duplicates
   - Remove all duplicates in the array
   - By Remove I mean
@@ -32,11 +28,8 @@ Note: Make sure that the input pointers are valid.
 ```cpp
 int main()
 {
-    std::int32_t array[]{1, 1, 2, 3, 3, 4};
     std::size_t length = 6;
-
-    std::cout << "unique_elements: " << '\n';
-    unique_elements(array, length);
+    std::int32_t array[]{1, 1, 2, 3, 3, 4};
 
     remove_duplicates(array, length);
     print_array(array, length);
@@ -46,6 +39,8 @@ int main()
 
     rotate_right(array, length);
     print_array(array, length);
+
+    test_cases(); // This should not fail
 
     return 0;
 }

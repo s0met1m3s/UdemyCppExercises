@@ -1,38 +1,42 @@
 #include <iostream>
+#include <cassert>
+#include <string>
 
-/* CHARS */
-#include "string_utils.hpp"
+#include "lib.h"
 
-/* CHAR ARRAYS */
-
-char *to_upper_case(char *text);
-
-char *to_lower_case(char *text);
-
-std::size_t string_length(char *text);
-
-char *char_search(char *text, char character);
-
-bool string_equal(char *string1, char *string2);
+void test_cases();
 
 int main()
 {
-    char input_text[50]{};
+    char in_text[50]{};
     char compare_text1[50]{"jan"};
     char compare_text2[50]{"ja"};
 
     std::cout << "Please enter any text: ";
-    std::cin >> input_text;
+    std::cin >> in_text;
 
-    std::cout << "to_upper_case: " << to_upper_case(input_text) << '\n';
-    std::cout << "to_lower_case: " << to_lower_case(input_text) << '\n';
-    std::cout << "string_length: " << string_length(input_text) << '\n';
-    std::cout << "char_search: " << char_search(input_text, 'a') << '\n';
+    std::cout << "to_upper_case: " << to_upper_case(in_text) << '\n';
+    std::cout << "to_lower_case: " << to_lower_case(in_text) << '\n';
+    std::cout << "string_length: " << string_length(in_text) << '\n';
+    std::cout << "char_search: " << char_search(in_text, 'a') << '\n';
     std::cout << std::boolalpha;
-    std::cout << "equal(jan, jan): " << string_equal(input_text, compare_text1)
-              << '\n';
-    std::cout << "equal(jan, ja): " << string_equal(input_text, compare_text2)
-              << '\n';
+    std::cout << "jan == jan: " << string_equal(in_text, compare_text1) << '\n';
+    std::cout << "jan == ja: " << string_equal(in_text, compare_text2) << '\n';
+
+    test_cases(); // This should not fail
 
     return 0;
+}
+
+void test_cases()
+{
+    char in_text[] = "JaNa";
+    assert(std::string{to_upper_case(in_text)} == std::string{"JANA"});
+    assert(std::string{to_lower_case(in_text)} == std::string{"jana"});
+    assert(string_length(in_text) == 4U);
+    assert(string_length(in_text) == std::string{in_text}.size());
+    assert(string_equal(to_upper_case(in_text), "JANA"));
+    assert(string_equal(to_lower_case(in_text), "jana"));
+    assert(*char_search(in_text, 'j') == in_text[0]);
+    assert(*char_search(in_text, 'J') == in_text[string_length(in_text)]);
 }

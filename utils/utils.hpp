@@ -131,4 +131,16 @@ inline auto is_close(T a, T b)
     return std::fabs(a - b) < std::numeric_limits<T>::epsilon();
 }
 
+template <typename T>
+auto ranges_are_same(const T* a, const T* b, const std::size_t len)
+{
+    for (std::size_t i = 0; i < len; i++)
+    {
+        if (a[i] != b[i])
+            return false;
+    }
+
+    return true;
+}
+
 #endif /* UTILS_H */

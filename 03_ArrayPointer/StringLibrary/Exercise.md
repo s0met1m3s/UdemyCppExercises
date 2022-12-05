@@ -1,7 +1,7 @@
 # Exercise
 
 For the following functions we will reuse the character functions from chapter 1.  
-They were copied from the *CharConverter* video and are placed inside *utils/string_utils.hpp* file.  
+They were copied from the *CharConverter* video.  
 So just call these functions, the header is already included.
 
 Implement the following functions:
@@ -39,20 +39,22 @@ Note: Make sure that the input pointer is valid.
 ```cpp
 int main()
 {
-    char input_text[50]{};
+    char in_text[50]{};
     char compare_text1[50]{"jan"};
     char compare_text2[50]{"ja"};
 
     std::cout << "Please enter any text: ";
-    std::cin >> input_text;
+    std::cin >> in_text;
 
-    std::cout << "to_upper_case: " << to_upper_case(input_text) << '\n';
-    std::cout << "to_lower_case: " << to_lower_case(input_text) << '\n';
-    std::cout << "string_length: " << string_length(input_text) << '\n';
-    std::cout << "char_search: " << char_search(input_text, 'a') << '\n';
+    std::cout << "to_upper_case: " << to_upper_case(in_text) << '\n';
+    std::cout << "to_lower_case: " << to_lower_case(in_text) << '\n';
+    std::cout << "string_length: " << string_length(in_text) << '\n';
+    std::cout << "char_search: " << char_search(in_text, 'a') << '\n';
     std::cout << std::boolalpha;
-    std::cout << "equal(jan, jan): " << string_equal(input_text, compare_text1) << '\n';
-    std::cout << "equal(jan, ja): " << string_equal(input_text, compare_text2) << '\n';
+    std::cout << "jan == jan: " << string_equal(in_text, compare_text1) << '\n';
+    std::cout << "jan == ja: " << string_equal(in_text, compare_text2) << '\n';
+
+    test_cases(); // This should not fail
 
     return 0;
 }
