@@ -34,26 +34,28 @@ Note:
 ```cpp
 int main()
 {
-    float Input_milliseconds = 0.0F;
+    float input_milliseconds = 0.0F;
 
     std::cout << "Please enter a millisecond value: ";
-    std::cin >> Input_milliseconds;
+    std::cin >> input_milliseconds;
 
-    float seconds = convert_milliseconds_to_seconds(Input_milliseconds);
-    float Minutes = convert_seconds_to_minutes(seconds);
-    float Hours = convert_minutes_to_hours(Minutes);
+    float seconds = convert_milliseconds_to_seconds(input_milliseconds);
+    float minutes = convert_seconds_to_minutes(seconds);
+    float Hours = convert_minutes_to_hours(minutes);
 
-    float Minutes2 = convert_milliseconds_to_minutes(Input_milliseconds);
-    float Hours2 = convert_milliseconds_to_hours(Input_milliseconds);
-    float Hours3 = convert_seconds_to_hours(seconds);
+    float minutes2 = convert_milliseconds_to_minutes(input_milliseconds);
+    float hours2 = convert_milliseconds_to_hours(input_milliseconds);
+    float hours3 = convert_seconds_to_hours(seconds);
 
     std::cout << "seconds: " << seconds << '\n';
-    std::cout << "Minutes: " << Minutes << '\n';
+    std::cout << "minutes: " << minutes << '\n';
     std::cout << "Hours: " << Hours << '\n';
 
-    std::cout << "Minutes2: " << Minutes2 << '\n';
-    std::cout << "Hours2: " << Hours2 << '\n';
-    std::cout << "Hours3: " << Hours3 << '\n';
+    std::cout << "minutes2: " << minutes2 << '\n';
+    std::cout << "hours2: " << hours2 << '\n';
+    std::cout << "hours3: " << hours3 << '\n';
+
+    test_cases(); // This should not fail!
 
     return 0;
 }
