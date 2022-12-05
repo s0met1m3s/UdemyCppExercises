@@ -17,10 +17,7 @@ bool none_of(const std::int32_t *array,
 
 std::size_t count(const std::int32_t *array,
                   const std::size_t length,
-                  const std::int32_t value);
-
-std::int32_t *inclusive_scan(const std::int32_t *array,
-                             const std::size_t length);
+                  const std::int32_t value););
 ```
 
 - All Of
@@ -39,12 +36,6 @@ std::int32_t *inclusive_scan(const std::int32_t *array,
   - Counts the elements in the array that are equal to the **value**
   - E.g. count([1, 1, 1], 3, 1) => 3
   - E.g. count([1, 1, 2], 3, 1) => 2
-- Inclusive Scan
-  - Sum up all elements in the **array** for index $n$ from index 0 to $n$
-  - Store the result in a result array at index $n$
-  - Example:  
-    [1, 2, 3] => [1, 3, 6]  
-    [3, 4, 5] => [2, 7, 12]
 
 Note: Make sure that the input pointers are valid.
 
@@ -60,12 +51,9 @@ int main()
     std::cout << "all_of: " << all_of(array, length, 5) << '\n';
     std::cout << "any_of: " << any_of(array, length, 5) << '\n';
     std::cout << "none_of: " << none_of(array, length, 5) << '\n';
-    auto scan_values = inclusive_scan(array, length);
-    std::cout << "inclusive_scan: " << '\n';
-    print_array(scan_values, length);
+    std::cout << "count: " << count(array, length, 1) << '\n';
 
-    delete[] scan_values;
-    scan_values = nullptr;
+    test_cases();
 
     return 0;
 }

@@ -25,9 +25,6 @@ int main()
     std::cout << "all_of: " << all_of(vector, 5) << '\n';
     std::cout << "any_of: " << any_of(vector, 5) << '\n';
     std::cout << "none_of: " << none_of(vector, 5) << '\n';
-    auto scan_values = inclusive_scan(vector);
-    std::cout << "inclusive_scan: " << '\n';
-    print_vector(scan_values);
 
     return 0;
 }
