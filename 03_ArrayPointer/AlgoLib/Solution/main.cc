@@ -26,7 +26,10 @@ int main()
 void test_cases()
 {
     const std::int32_t array[]{2, 1, -2, 0, -1};
+    const std::int32_t array_all[]{2, 2, 2, 2, 2};
     const std::size_t length = 5;
+
+    assert(all_of(array_all, length, 2) == true);
 
     assert(all_of(nullptr, length, 2) == false);
     assert(any_of(nullptr, length, 2) == false);
