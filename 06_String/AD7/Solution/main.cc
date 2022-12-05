@@ -7,6 +7,7 @@
 
 #include "AdFunctions.hpp"
 #include "AdTypes.hpp"
+#include "DataLoader.hpp"
 
 #include "utils.hpp"
 
@@ -32,11 +33,12 @@ int main(int argc, char **argv)
     fs::path vehicle_filepath = data_filepath;
     vehicle_filepath /= "vehicle_data.json";
 
+    auto cycle = std::uint32_t{0};
     auto ego_vehicle = VehicleType{};
-    auto vehicles = NeighborVehiclesType{};
+    NeighborVehiclesType vehicles{};
 
-    init_ego_vehicle(ego_vehicle);
-    init_vehicles(vehicles);
+    init_vehicles(vehicle_filepath.string(), vehicles);
+    init_ego_vehicle(ego_filepath.string(), ego_vehicle);
 
     print_vehicle(ego_vehicle);
     print_neighbor_vehicles(vehicles);
@@ -67,6 +69,9 @@ int main(int argc, char **argv)
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+        cycle++;
+        load_cycle(cycle, vehicles);
     }
 
     return 0;

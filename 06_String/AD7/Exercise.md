@@ -1,42 +1,131 @@
 # Exercise
 
-After this video, we will implement a feature to load in *recorded* data of a test drive of our fictional autonomous car.  
-For that, we will read in JSON files.  
-To be able to read in the files, update the code from the refactoring video:
+For this exercise, we want to load a data log of a fictional test drive of our autonomous car.  
+The collected data is stored in the **data** folder.  
+There, the initial data of our ego vehicle is stored in **ego_data.json**, and the data of the other vehicles is stored in **vehicle_data.json**.  
+These data logs will always have exactly 1.000 iterations (log entries).
 
-- Add the argc, \*\*argv to the main function such that the user can input the data path, inside the data path the following files should be
-  - *ego_data* file
-  - *vehicle_data* file
-- If the user does not provide the data path just assume that these files are relative to the main file
-  - *./data/ego_data.json*
-  - *./data/vehicle_data.json*
+## JSON Library Example
 
-Note:
+To read in the json data we will use the most used C++ JSON library called **nlohman/json**.  
+For this, there is the header-only library file in the **nlohman** subdirectory.
 
-In this exercise, we will only update the *main.cc* file.  
-For the file paths, use the *filesystem* library.
+For example, the **ego_data.json** file has the content:
+
+```json
+{
+    "Lane": 2,
+    "Speed": 33.010941520630475
+}
+```
+
+To load the whole object, use the following code:
+
+```cpp
+#include <fstream>
+
+#include "nlohman/json.hpp"
+
+using json = nlohmann::json;
+
+std::ifstream ifs("ego_data.json");
+json parsed_data = json::parse(ifs);
+
+float speed_value = static_cast<float>(parsed_data["Speed"]);
+
+std::cout << speed_value << '\n'; // 33.0109415
+```
+
+## Code adaptations
+
+Delete the following functions from the previous **AdFunctions.cc** file:
+
+```cpp
+void init_ego_vehicle(VehicleType &ego_vehicle);
+
+void init_vehicles(NeighborVehiclesType &vehicles);
+```
+
+and implement the following functions in the DataLoader.hpp/.cpp:
+
+```cpp
+void init_ego_vehicle(std::string_view filepath, VehicleType &ego_vehicle);
+
+void init_vehicles(std::string_view filepath, NeighborVehiclesType &vehicles);
+```
+
+Instead of generating the data by just random numbers, you have to load the JSON data and fill it into the **vehicles** and **ego_vehicle** struct.
+
+- **init_ego_vehicle**
+  - Load the starting lane and starting speed from the json file
+  - The ID will still be *EGO_VEHICLE_ID* and the distance will still be 0
+- **init_vehicles**
+  - In these files, there will be the starting lane and a starting distance of the vehicle
+  - Only the speed is stored in every cycle (iteration)
+  - Load the whole json data into one big static struct
+
+```cpp
+static VehiclesData vehicles_data =
+    std::vector<std::vector<VehicleType>>(NUM_VEHICLES, std::vector<VehicleType>(NUM_ITERATIONS));
+```
+
+- This struct holds for every vehicle (6 in total) and every cycle (1000 in total) one large list of *VehicleType* structs
+  - So there are $6 * 1000 = 6000$ *VehicleType* structs
+  - Every entry of this struct will then hold as usual the
+    - id, lane, speed_mps, distance_m
+
+Afterward, implement the following function:
+
+```cpp
+void load_cycle(const std::uint32_t cycle, NeighborVehiclesType &vehicles);
+```
+
+- Load the data for the **cycle** from the global static data at the correct index
 
 ## Main Function
 
 ```cpp
 #include <chrono>
 #include <cstring>
+#include <filesystem>
 #include <iostream>
 #include <numeric>
 #include <thread>
 
 #include "AdFunctions.hpp"
 #include "AdTypes.hpp"
+#include "DataLoader.hpp"
 
 #include "utils.hpp"
 
-int main()
+namespace fs = std::filesystem;
+
+int main(int argc, char **argv)
 {
+    auto data_filepath = fs::path{};
+
+    if (argc < 2)
+    {
+        data_filepath /= fs::current_path();
+        data_filepath /= "data";
+    }
+    else
+    {
+        const auto data_path_str = std::string(argv[1]);
+        data_filepath = fs::path(data_path_str);
+    }
+
+    fs::path ego_filepath = data_filepath;
+    ego_filepath /= "ego_data.json";
+    fs::path vehicle_filepath = data_filepath;
+    vehicle_filepath /= "vehicle_data.json";
+
+    auto cycle = std::uint32_t{0};
     auto ego_vehicle = VehicleType{};
     auto vehicles = NeighborVehiclesType{};
 
-    init_ego_vehicle(ego_vehicle);
-    init_vehicles(vehicles);
+    init_vehicles(vehicle_filepath.string(), vehicles);
+    init_ego_vehicle(ego_filepath.string(), ego_vehicle);
 
     print_vehicle(ego_vehicle);
     print_neighbor_vehicles(vehicles);
@@ -64,6 +153,9 @@ int main()
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+        cycle++;
+        load_cycle(cycle, vehicles);
     }
 
     return 0;

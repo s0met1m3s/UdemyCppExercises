@@ -1,5 +1,6 @@
 #include <chrono>
 #include <cstring>
+#include <filesystem>
 #include <iostream>
 #include <numeric>
 #include <thread>
@@ -9,8 +10,28 @@
 
 #include "utils.hpp"
 
-int main()
+namespace fs = std::filesystem;
+
+int main(int argc, char **argv)
 {
+    auto data_filepath = fs::path{};
+
+    if (argc < 2)
+    {
+        data_filepath /= fs::current_path();
+        data_filepath /= "data";
+    }
+    else
+    {
+        const auto data_path_str = std::string(argv[1]);
+        data_filepath = fs::path(data_path_str);
+    }
+
+    fs::path ego_filepath = data_filepath;
+    ego_filepath /= "ego_data.json";
+    fs::path vehicle_filepath = data_filepath;
+    vehicle_filepath /= "vehicle_data.json";
+
     auto ego_vehicle = VehicleType{};
     auto vehicles = NeighborVehiclesType{};
 

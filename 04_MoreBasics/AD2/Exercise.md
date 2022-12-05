@@ -35,8 +35,8 @@ Ego Vehicle $E$
 
 Predict the distance in 2 seconds
 
-- $V_1$ will drive $2 s * 30 \frac{m}{s} = 60 m$ meters.
-- $E$ will drive $2 s * 25 \frac{m}{s} = 50 m$ meters.
+- $V_1$ will drive $1 s * 30 \frac{m}{s} = 30 m$ meters.
+- $E$ will drive $1 s * 25 \frac{m}{s} = 25 m$ meters.
 - The new relative distance will be $100 - (30 - 25) = 95$
 
 ## Main Function

@@ -29,7 +29,7 @@ void longitudinal_control(const VehicleType &front_vehicle, VehicleType &ego_veh
     - There is a vehicle in front of the ego vehicle
     - and the distance is below half speed (kph, "halbe tacho")
 - decrease_speed
-  - Decrease the ego vehicle speed by the **LONGITUDINAL_DIFFERENCE_PERCENTAGE**
+  - Decrease the ego vehicle speed by the constant: **LONGITUDINAL_DIFFERENCE_PERCENTAGE**
 
 ## Main Function
 
