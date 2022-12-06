@@ -96,7 +96,7 @@ void print_scene(const VehicleType &ego_vehicle,
     auto right_idx = std::size_t{0};
 
     const auto offset_m = std::int32_t{10};
-    const std::int32_t view_range_m = static_cast<std::int32_t>(VIEW_RANGE_M);
+    const auto view_range_m = static_cast<std::int32_t>(VIEW_RANGE_M);
 
     for (std::int32_t i = view_range_m; i >= -view_range_m; i -= offset_m)
     {
@@ -206,8 +206,7 @@ void compute_future_distance(VehicleType &vehicle,
                              const float ego_driven_distance_m,
                              const float seconds)
 {
-    const float driven_distance_m = vehicle.speed_mps * seconds;
-
+    const auto driven_distance_m = vehicle.speed_mps * seconds;
     vehicle.distance_m += driven_distance_m - ego_driven_distance_m;
 }
 
@@ -215,7 +214,7 @@ void compute_future_state(const VehicleType &ego_vehicle,
                           NeighborVehiclesType &vehicles,
                           const float seconds)
 {
-    const float ego_driven_distance_m = ego_vehicle.speed_mps * seconds;
+    const auto ego_driven_distance_m = ego_vehicle.speed_mps * seconds;
 
     compute_future_distance(vehicles.vehicles_left_lane[0],
                             ego_driven_distance_m,
@@ -239,7 +238,7 @@ void compute_future_state(const VehicleType &ego_vehicle,
 
 void decrease_speed(VehicleType &ego_vehicle)
 {
-    const float decrease =
+    const auto decrease =
         ego_vehicle.speed_mps * LONGITUDINAL_DIFFERENCE_PERCENTAGE;
 
     if ((ego_vehicle.speed_mps - decrease) >= 0.0F)
@@ -251,8 +250,8 @@ void decrease_speed(VehicleType &ego_vehicle)
 void longitudinal_control(const VehicleType &front_vehicle,
                           VehicleType &ego_vehicle)
 {
-    const float minimal_distance_m = mps_to_kph(ego_vehicle.speed_mps) / 2.0F;
-    const float front_distance_m = front_vehicle.distance_m;
+    const auto minimal_distance_m = mps_to_kph(ego_vehicle.speed_mps) / 2.0F;
+    const auto front_distance_m = front_vehicle.distance_m;
 
     if (front_distance_m < minimal_distance_m)
     {
@@ -289,4 +288,16 @@ const VehicleType *get_vehicle_array(const LaneAssociationType lane,
     }
 
     return vehicles_array;
+}
+
+LaneAssociationType get_lane_change_request(
+    const VehicleType &ego_vehicle,
+    const NeighborVehiclesType &vehicles)
+{
+}
+
+
+bool lateral_control(const LaneAssociationType lane_change_request,
+                     VehicleType &ego_vehicle)
+{
 }

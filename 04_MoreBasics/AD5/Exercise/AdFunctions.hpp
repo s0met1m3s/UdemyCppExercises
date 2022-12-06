@@ -34,3 +34,10 @@ void longitudinal_control(const VehicleType &front_vehicle,
 
 const VehicleType *get_vehicle_array(const LaneAssociationType lane,
                                      const NeighborVehiclesType &vehicles);
+
+LaneAssociationType get_lane_change_request(
+    const VehicleType &ego_vehicle,
+    const NeighborVehiclesType &vehicles);
+
+bool lateral_control(const LaneAssociationType lane_change_request,
+                     VehicleType &ego_vehicle);

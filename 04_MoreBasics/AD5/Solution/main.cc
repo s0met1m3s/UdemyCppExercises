@@ -41,9 +41,7 @@ int main()
             lateral_control(lane_change_request, ego_vehicle);
 
         if (lane_change_executed)
-        {
             printf("Executed lane change!");
-        }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
