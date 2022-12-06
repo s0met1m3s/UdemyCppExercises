@@ -3,9 +3,6 @@
 #include <string>
 #include <string_view>
 #include <vector>
-#include <utility>
-
-using WordCountPair = std::pair<std::string, std::size_t>;
 
 void clean_text(std::string &text);
 
