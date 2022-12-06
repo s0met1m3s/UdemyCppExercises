@@ -26,6 +26,7 @@ int main()
 
 void test_cases()
 {
-    const auto diff = std::fabs(calculate_pi(1'000'000) - 3.14159265358979323846);
+    const auto diff =
+        std::fabs(calculate_pi(1'000'000) - 3.14159265358979323846);
     assert(diff < 1e-04);
 }

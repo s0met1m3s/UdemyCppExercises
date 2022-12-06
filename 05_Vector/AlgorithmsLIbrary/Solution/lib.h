@@ -1,8 +1,8 @@
 #pragma once
 
-#include <vector>
 #include <cstddef>
 #include <cstdint>
+#include <vector>
 
 bool all_of(const std::vector<std::int32_t> &vector, const std::int32_t value);
 

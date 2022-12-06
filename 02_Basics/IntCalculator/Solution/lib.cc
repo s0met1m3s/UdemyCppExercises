@@ -2,7 +2,7 @@
 
 #include "lib.h"
 
-std::uint32_t modulo(std::uint32_t number_a, std::uint32_t number_b)
+std::uint32_t modulo(const std::uint32_t number_a, const std::uint32_t number_b)
 {
     if (number_b == 0)
     {

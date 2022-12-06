@@ -1,9 +1,9 @@
 #pragma once
 
-#include <type_traits>
+#include <algorithm>
 #include <string>
 #include <string_view>
-#include <algorithm>
+#include <type_traits>
 
 template <typename StringType, typename ViewType>
 struct is_char_based;

@@ -3,7 +3,7 @@
 
 #include "lib.h"
 
-double calculate_pi(std::uint32_t num_iterations)
+double calculate_pi(const std::uint32_t num_iterations)
 {
     double result = 0.0;
 

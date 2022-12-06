@@ -32,8 +32,7 @@ void compute_heading_degrees(
                    lat_velocities_mps.begin(),
                    heading_degrees.begin(),
                    [&](const auto v_long, const auto v_lat) {
-                       return (std::atan2(v_lat, v_long) / PI<float>) *
-                              180.0F;
+                       return (std::atan2(v_lat, v_long) / PI<float>)*180.0F;
                    });
 }
 

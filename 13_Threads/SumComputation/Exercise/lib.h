@@ -37,5 +37,4 @@ T parallel_sum_omp(std::vector<T> &vec)
 template <typename T, typename RandomIter>
 T range_sum_asyn(RandomIter start, RandomIter stop)
 {
-
 }

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 
 bool all_of(const std::int32_t *array,
             const std::size_t length,

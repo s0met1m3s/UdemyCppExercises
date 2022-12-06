@@ -1,7 +1,7 @@
 #pragma once
 
-#include <vector>
 #include <cstdint>
+#include <vector>
 
 void remove_duplicates(std::vector<std::int32_t> &vector);
 

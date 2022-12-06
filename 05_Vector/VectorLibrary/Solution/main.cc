@@ -1,8 +1,8 @@
+#include <cassert>
 #include <cstdint>
 #include <cstring>
 #include <iostream>
 #include <vector>
-#include <cassert>
 
 #include "lib.h"
 #include "utils.hpp"

@@ -1,11 +1,13 @@
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 
 #include "lib.h"
 
-bool all_of(const std::int32_t *array, const std::size_t length, const std::int32_t value)
+bool all_of(const std::int32_t *array,
+            const std::size_t length,
+            const std::int32_t value)
 {
-    if (array == nullptr)
+    if (array == nullptr || length == 0)
     {
         return false;
     }
@@ -21,9 +23,11 @@ bool all_of(const std::int32_t *array, const std::size_t length, const std::int3
     return true;
 }
 
-bool any_of(const std::int32_t *array, const std::size_t length, const std::int32_t value)
+bool any_of(const std::int32_t *array,
+            const std::size_t length,
+            const std::int32_t value)
 {
-    if (array == nullptr)
+    if (array == nullptr || length == 0)
     {
         return false;
     }
@@ -39,9 +43,11 @@ bool any_of(const std::int32_t *array, const std::size_t length, const std::int3
     return false;
 }
 
-bool none_of(const std::int32_t *array, const std::size_t length, const std::int32_t value)
+bool none_of(const std::int32_t *array,
+             const std::size_t length,
+             const std::int32_t value)
 {
-    if (array == nullptr)
+    if (array == nullptr || length == 0)
     {
         return false;
     }
@@ -57,9 +63,11 @@ bool none_of(const std::int32_t *array, const std::size_t length, const std::int
     return true;
 }
 
-std::size_t count(const std::int32_t *array, const std::size_t length, const std::int32_t value)
+std::size_t count(const std::int32_t *array,
+                  const std::size_t length,
+                  const std::int32_t value)
 {
-    if (array == nullptr)
+    if (array == nullptr || length == 0)
     {
         return 0;
     }

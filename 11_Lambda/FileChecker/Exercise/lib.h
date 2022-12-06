@@ -24,5 +24,4 @@ template <std::size_t N>
 bool file_extension_check(const std::array<std::string, N> &allowed_extension,
                           const fs::path &file)
 {
-
 }

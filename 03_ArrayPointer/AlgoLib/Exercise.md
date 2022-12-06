@@ -37,7 +37,7 @@ std::size_t count(const std::int32_t *array,
   - E.g. count([1, 1, 1], 3, 1) => 3
   - E.g. count([1, 1, 2], 3, 1) => 2
 
-Note: Make sure that the input pointers are valid.
+Note: Make sure that the input pointers are valid (not nullptr and length > 0).
 
 ## Main Function
 

@@ -35,6 +35,10 @@ void test_cases()
     assert(any_of(nullptr, length, 2) == false);
     assert(none_of(nullptr, length, 2) == false);
 
+    assert(all_of(array, 0, 2) == false);
+    assert(any_of(array, 0, 2) == false);
+    assert(none_of(array, 0, 2) == false);
+
     assert(count(array, length, 1) == 1);
     assert(count(array, length, -3) == 0);
 

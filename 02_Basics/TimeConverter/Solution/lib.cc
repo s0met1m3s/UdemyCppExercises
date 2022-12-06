@@ -2,22 +2,22 @@
 
 #include "lib.h"
 
-float convert_milliseconds_to_seconds(float millisconds)
+float convert_milliseconds_to_seconds(const float millisconds)
 {
     return millisconds / 1000.0F;
 }
 
-float convert_seconds_to_minutes(float seconds)
+float convert_seconds_to_minutes(const float seconds)
 {
     return seconds / 60.0F;
 }
 
-float convert_minutes_to_hours(float minutes)
+float convert_minutes_to_hours(const float minutes)
 {
     return minutes / 60.0F;
 }
 
-float convert_milliseconds_to_minutes(float millisconds)
+float convert_milliseconds_to_minutes(const float millisconds)
 {
     float seconds = convert_milliseconds_to_seconds(millisconds);
     float minutes = convert_seconds_to_minutes(seconds);
@@ -25,7 +25,7 @@ float convert_milliseconds_to_minutes(float millisconds)
     return minutes;
 }
 
-float convert_milliseconds_to_hours(float millisconds)
+float convert_milliseconds_to_hours(const float millisconds)
 {
     float seconds = convert_milliseconds_to_seconds(millisconds);
     float minutes = convert_seconds_to_minutes(seconds);
@@ -34,7 +34,7 @@ float convert_milliseconds_to_hours(float millisconds)
     return hours;
 }
 
-float convert_seconds_to_hours(float seconds)
+float convert_seconds_to_hours(const float seconds)
 {
     float minutes = convert_seconds_to_minutes(seconds);
     float hours = convert_minutes_to_hours(minutes);

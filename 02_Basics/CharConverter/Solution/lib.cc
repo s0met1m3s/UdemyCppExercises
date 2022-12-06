@@ -1,6 +1,6 @@
 #include "lib.h"
 
-bool is_numeric(char character)
+bool is_numeric(const char character)
 {
     if ((character >= '0') && (character <= '9'))
     {
@@ -10,7 +10,7 @@ bool is_numeric(char character)
     return false;
 }
 
-bool is_alpha(char character)
+bool is_alpha(const char character)
 {
     if (is_upper_case(character) || is_lower_case(character))
     {
@@ -20,12 +20,12 @@ bool is_alpha(char character)
     return false;
 }
 
-bool is_alpha_numeric(char character)
+bool is_alpha_numeric(const char character)
 {
     return (is_numeric(character) || is_alpha(character));
 }
 
-bool is_upper_case(char character)
+bool is_upper_case(const char character)
 {
     if ((character >= 'A') && (character <= 'Z'))
     {
@@ -35,7 +35,7 @@ bool is_upper_case(char character)
     return false;
 }
 
-bool is_lower_case(char character)
+bool is_lower_case(const char character)
 {
     if ((character >= 'a') && (character <= 'z'))
     {
@@ -46,7 +46,7 @@ bool is_lower_case(char character)
 }
 
 
-char to_upper_case(char character)
+char to_upper_case(const char character)
 {
     if (is_lower_case(character))
     {
@@ -56,7 +56,7 @@ char to_upper_case(char character)
     return character;
 }
 
-char to_lower_case(char character)
+char to_lower_case(const char character)
 {
     if (is_upper_case(character))
     {
