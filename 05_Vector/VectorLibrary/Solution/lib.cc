@@ -16,7 +16,6 @@ void remove_duplicates(std::vector<std::int32_t> &vector)
             if (current_value == vector[j])
             {
                 duplicate_index = j;
-                vector.pop_back();
                 break;
             }
         }
@@ -31,7 +30,7 @@ void remove_duplicates(std::vector<std::int32_t> &vector)
             vector[j] = vector[j + 1];
         }
 
-        vector[vector.size()] = 0;
+        vector.pop_back();
     }
 }
 
