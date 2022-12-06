@@ -33,6 +33,7 @@ int main()
 void test_cases()
 {
     auto vec = std::vector<std::int32_t>{1, 1, 2, 3, 3, 4};
+    auto vec_swap = std::vector<std::int32_t>{4, 1, 2, 3, 3, 1};
     auto vec_cpy = std::vector<std::int32_t>{1, 1, 2, 3, 3, 4};
     auto vec_del = std::vector<std::int32_t>{1, 2, 3, 4};
 
@@ -44,4 +45,7 @@ void test_cases()
     remove_duplicates(vec_cpy);
     assert(vectors_are_same(vec_cpy, vec_del) == true);
     assert(vectors_are_same(vec, vec_del) == false);
+
+    swap_boundary_values(vec);
+    assert(vectors_are_same(vec, vec_swap) == true);
 }
