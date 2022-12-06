@@ -16,7 +16,7 @@ With the following formula, you can compute $\frac{\pi}{4}$.
 Implement the formula in the function with $n$ = **num_iterations**.  
 Use a for-loop to sum up the values.
 
-$x = \frac{\pi}{4} = \sum_0^n \frac{1}{(4k + 1)} - \frac{1}{(4k + 3)}$
+$x = \frac{\pi}{4} = \sum_0^n \frac{1}{(4n + 1)} - \frac{1}{(4n + 3)}$
 
 At the end multiply by 4 before you return the value.  
 So the returned value will be an approximation of $\pi$ and not $\frac{\pi}{4}$.

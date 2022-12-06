@@ -7,9 +7,9 @@ double calculate_pi(const std::uint32_t num_iterations)
 {
     double result = 0.0;
 
-    for (std::uint32_t k = 0; k < num_iterations; k++)
+    for (std::uint32_t n = 0; n < num_iterations; n++)
     {
-        result += (1.0 / (4.0 * k + 1.0)) - (1.0 / (4.0 * k + 3.0));
+        result += (1.0 / (4.0 * n + 1.0)) - (1.0 / (4.0 * n + 3.0));
     }
 
     return result * 4.0;
