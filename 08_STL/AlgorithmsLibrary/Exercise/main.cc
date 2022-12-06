@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-#include "algo.hpp"
+#include "lib.h"
 #include "utils.hpp"
 
 int main()

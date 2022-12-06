@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include "StringFunctions.hpp"
+#include "lib.h"
 
 namespace mystd
 {

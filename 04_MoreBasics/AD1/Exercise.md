@@ -73,13 +73,6 @@ void print_neighbor_vehicles(const NeighborVehiclesType &vehicles);
 ## Main Function
 
 ```cpp
-#include <cstring>
-#include <iostream>
-#include <numeric>
-
-#include "AdFunctions.hpp"
-#include "AdTypes.hpp"
-
 int main()
 {
     auto ego_vehicle = VehicleType{};

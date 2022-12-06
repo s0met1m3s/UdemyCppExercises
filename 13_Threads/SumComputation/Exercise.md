@@ -28,24 +28,6 @@ Pseudo-code:
 ## Main Function
 
 ```cpp
-#include <algorithm>
-#include <future>
-#include <iostream>
-#include <numeric>
-#include <thread>
-#include <vector>
-
-#include "Timer.hpp"
-#include "utils.hpp"
-
-constexpr std::uint32_t NUM_RUNS = 1'000;
-
-template <typename T, typename RandomIter>
-T range_sum_asyn(RandomIter start, RandomIter stop)
-{
-    // ...
-}
-
 int main()
 {
     std::vector<std::int32_t> vector(30'000'000, 0);

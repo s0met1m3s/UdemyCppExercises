@@ -19,17 +19,6 @@ For the file paths, use the *filesystem* library.
 ## Main Function
 
 ```cpp
-#include <chrono>
-#include <cstring>
-#include <iostream>
-#include <numeric>
-#include <thread>
-
-#include "AdFunctions.hpp"
-#include "AdTypes.hpp"
-
-#include "utils.hpp"
-
 int main()
 {
     auto ego_vehicle = VehicleType{};

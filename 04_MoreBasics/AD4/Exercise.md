@@ -20,17 +20,6 @@ const VehicleType *get_vehicle_array(const LaneAssociationType lane, const Neigh
 ## Main Function
 
 ```cpp
-#include <chrono>
-#include <cstring>
-#include <iostream>
-#include <numeric>
-#include <thread>
-
-#include "AdFunctions.hpp"
-#include "AdTypes.hpp"
-
-#include "utils.hpp"
-
 int main()
 {
     auto ego_vehicle = VehicleType{};

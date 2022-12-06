@@ -1,14 +1,8 @@
-#include <algorithm>
 #include <iostream>
 #include <string>
 #include <string_view>
-#include <type_traits>
 
-template <typename StringType, typename ViewType>
-StringType to_upper_case(ViewType text);
-
-template <typename StringType, typename ViewType>
-StringType to_lower_case(ViewType text);
+#include "lib.h"
 
 int main()
 {
@@ -32,20 +26,4 @@ int main()
     // to_lower_case<std::u32string, std::u32string_view>(input_text_u32);
 
     return 0;
-}
-
-template <typename StringType, typename ViewType>
-StringType to_upper_case(ViewType text)
-{
-    auto result = StringType{text};
-    std::transform(result.begin(), result.end(), result.begin(), toupper);
-    return result;
-}
-
-template <typename StringType, typename ViewType>
-StringType to_lower_case(ViewType text)
-{
-    auto result = StringType{text};
-    std::transform(result.begin(), result.end(), result.begin(), tolower);
-    return result;
 }

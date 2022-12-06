@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include "StringFunctions.hpp"
+#include "lib.h"
 
 int main()
 {

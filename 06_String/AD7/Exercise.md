@@ -85,21 +85,6 @@ void load_cycle(const std::uint32_t cycle, NeighborVehiclesType &vehicles);
 ## Main Function
 
 ```cpp
-#include <chrono>
-#include <cstring>
-#include <filesystem>
-#include <iostream>
-#include <numeric>
-#include <thread>
-
-#include "AdFunctions.hpp"
-#include "AdTypes.hpp"
-#include "DataLoader.hpp"
-
-#include "utils.hpp"
-
-namespace fs = std::filesystem;
-
 int main(int argc, char **argv)
 {
     auto data_filepath = fs::path{};
