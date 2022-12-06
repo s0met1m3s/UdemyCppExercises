@@ -26,6 +26,4 @@ char *to_lower_case(char *text);
 
 std::size_t string_length(const char *text);
 
-char *char_search(char *text, const char character);
-
 bool string_equal(const char *string1, const char *string2);

@@ -18,7 +18,6 @@ int main()
     std::cout << "to_upper_case: " << to_upper_case(in_text) << '\n';
     std::cout << "to_lower_case: " << to_lower_case(in_text) << '\n';
     std::cout << "string_length: " << string_length(in_text) << '\n';
-    std::cout << "char_search: " << char_search(in_text, 'a') << '\n';
     std::cout << std::boolalpha;
     std::cout << "jan == jan: " << string_equal(in_text, compare_text1) << '\n';
     std::cout << "jan == ja: " << string_equal(in_text, compare_text2) << '\n';
@@ -37,6 +36,4 @@ void test_cases()
     assert(string_length(in_text) == std::string{in_text}.size());
     assert(string_equal(to_upper_case(in_text), "JANA"));
     assert(string_equal(to_lower_case(in_text), "jana"));
-    assert(*char_search(in_text, 'j') == in_text[0]);
-    assert(*char_search(in_text, 'J') == in_text[string_length(in_text)]);
 }

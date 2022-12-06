@@ -147,21 +147,6 @@ std::size_t string_length(const char *text)
     return length;
 }
 
-char *char_search(char *text, const char character)
-{
-    if (text == nullptr)
-    {
-        return nullptr;
-    }
-
-    while ((*text != character) && (*text != '\0'))
-    {
-        text++;
-    }
-
-    return text;
-}
-
 bool string_equal(const char *string1, const char *string2)
 {
     if (string1 == nullptr || string2 == nullptr)

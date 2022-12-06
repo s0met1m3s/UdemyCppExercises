@@ -103,10 +103,6 @@ std::size_t string_length(char *text)
 {
 }
 
-char *char_search(char *text, const char character)
-{
-}
-
 bool string_equal(const char *string1, const char *string2)
 {
 }
