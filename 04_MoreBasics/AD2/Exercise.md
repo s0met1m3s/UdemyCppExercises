@@ -13,14 +13,14 @@ void compute_future_state(const VehicleType &ego_vehicle,
 
 - print_scene
   - Output the vehicles at their postion (regarding the relative distance and lane)
-  - Every *row* of the console output has a size of 20 meters
+  - Every *row* of the console output has a size of 20 meters (this should be modifiable)
 
 ![vehicle](../../media/vehicle.png)
 
 - compute_future_state
   - Compute the position of a vehicles in **n** seconds
   - Assuming the vehicle has constant velocity (no change in the speed)
-  - The future distance of a vehicle is dependent on the ego vehicle
+  - Note: The future distance of a vehicle is dependent on the ego vehicle
 
 Example:
 
@@ -33,7 +33,7 @@ Ego Vehicle $E$
 
 - Speed = $25 \frac{m}{s}$
 
-Predict the distance in 2 seconds
+Predict the distance in 1 second
 
 - $V_1$ will drive $1 s * 30 \frac{m}{s} = 30 m$ meters.
 - $E$ will drive $1 s * 25 \frac{m}{s} = 25 m$ meters.

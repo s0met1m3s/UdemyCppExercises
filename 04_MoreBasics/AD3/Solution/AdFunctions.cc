@@ -93,6 +93,25 @@ void print_vehicle_speed(const VehicleType &vehicle, const char *name)
     std::cout << name << " : " << vehicle.speed_mps << " mps";
 }
 
+void print_vehicle_on_lane(const VehicleType *const vehicle,
+                           const float range_m,
+                           const float offset_m,
+                           char *string,
+                           std::size_t &idx)
+{
+    if ((vehicle != nullptr) && (range_m >= vehicle->distance_m) &&
+        (vehicle->distance_m > (range_m - offset_m)))
+    {
+        string[1] = 'V';
+        idx++;
+    }
+    else if ((vehicle != nullptr) &&
+             (std::abs(vehicle->distance_m) > VIEW_RANGE_M))
+    {
+        idx++;
+    }
+}
+
 void print_scene(const VehicleType &ego_vehicle,
                  const NeighborVehiclesType &vehicles)
 {
@@ -102,24 +121,12 @@ void print_scene(const VehicleType &ego_vehicle,
     auto center_idx = std::size_t{0};
     auto right_idx = std::size_t{0};
 
-    const auto offset_m = std::int32_t{10};
-    const std::int32_t view_range_m = static_cast<std::int32_t>(VIEW_RANGE_M);
+    const auto offset_m = std::uint32_t{10};
+    const auto view_range_m = static_cast<std::int32_t>(VIEW_RANGE_M);
 
-    for (std::int32_t i = view_range_m; i >= -view_range_m; i -= offset_m)
+    for (auto i = view_range_m; i >= -view_range_m; i -= offset_m)
     {
-        const float range_m = static_cast<float>(i);
-
-        const auto left_vehicle = (left_idx < NUM_VEHICLES_ON_LANE)
-                                      ? &vehicles.vehicles_left_lane[left_idx]
-                                      : nullptr;
-        const auto center_vehicle =
-            (center_idx < NUM_VEHICLES_ON_LANE)
-                ? &vehicles.vehicles_center_lane[center_idx]
-                : nullptr;
-        const auto right_vehicle =
-            (right_idx < NUM_VEHICLES_ON_LANE)
-                ? &vehicles.vehicles_right_lane[right_idx]
-                : nullptr;
+        const auto range_m = static_cast<float>(i);
 
         char left_string[]{"   "};
         char center_string[]{"   "};
@@ -131,43 +138,29 @@ void print_scene(const VehicleType &ego_vehicle,
             center_string[1] = 'E';
         }
 
-        if ((left_vehicle != nullptr) &&
-            (range_m >= left_vehicle->distance_m) &&
-            (left_vehicle->distance_m > (range_m - offset_m)))
+        if (left_idx < NUM_VEHICLES_ON_LANE)
         {
-            left_string[1] = 'V';
-            left_idx++;
+            print_vehicle_on_lane(&vehicles.vehicles_left_lane[left_idx],
+                                  range_m,
+                                  offset_m,
+                                  left_string,
+                                  left_idx);
         }
-        else if ((left_vehicle != nullptr) &&
-                 (std::abs(left_vehicle->distance_m) > VIEW_RANGE_M))
+        if (center_idx < NUM_VEHICLES_ON_LANE)
         {
-            left_idx++;
+            print_vehicle_on_lane(&vehicles.vehicles_center_lane[center_idx],
+                                  range_m,
+                                  offset_m,
+                                  center_string,
+                                  center_idx);
         }
-
-        if ((center_vehicle != nullptr) &&
-            (range_m >= center_vehicle->distance_m) &&
-            (center_vehicle->distance_m > (range_m - offset_m)))
+        if (right_idx < NUM_VEHICLES_ON_LANE)
         {
-            center_string[1] = 'V';
-            center_idx++;
-        }
-        else if ((center_vehicle != nullptr) &&
-                 (std::abs(center_vehicle->distance_m) > VIEW_RANGE_M))
-        {
-            center_idx++;
-        }
-
-        if ((right_vehicle != nullptr) &&
-            (range_m >= right_vehicle->distance_m) &&
-            (right_vehicle->distance_m > (range_m - offset_m)))
-        {
-            right_string[1] = 'V';
-            right_idx++;
-        }
-        else if ((right_vehicle != nullptr) &&
-                 (std::abs(right_vehicle->distance_m) > VIEW_RANGE_M))
-        {
-            right_idx++;
+            print_vehicle_on_lane(&vehicles.vehicles_right_lane[right_idx],
+                                  range_m,
+                                  offset_m,
+                                  right_string,
+                                  right_idx);
         }
 
         std::cout << i << "\t| " << left_string << " | " << center_string
@@ -183,8 +176,7 @@ void compute_future_distance(VehicleType &vehicle,
                              const float ego_driven_distance,
                              const float seconds)
 {
-    const float driven_distance = vehicle.speed_mps * seconds;
-
+    const auto driven_distance = vehicle.speed_mps * seconds;
     vehicle.distance_m += (driven_distance - ego_driven_distance);
 }
 
@@ -192,7 +184,7 @@ void compute_future_state(const VehicleType &ego_vehicle,
                           NeighborVehiclesType &vehicles,
                           const float seconds)
 {
-    const float ego_driven_distance = ego_vehicle.speed_mps * seconds;
+    const auto ego_driven_distance = ego_vehicle.speed_mps * seconds;
 
     compute_future_distance(vehicles.vehicles_left_lane[0],
                             ego_driven_distance,
@@ -216,7 +208,7 @@ void compute_future_state(const VehicleType &ego_vehicle,
 
 void decrease_speed(VehicleType &ego_vehicle)
 {
-    const float decrease_mps =
+    const auto decrease_mps =
         ego_vehicle.speed_mps * LONGITUDINAL_DIFFERENCE_PERCENTAGE;
 
     if ((ego_vehicle.speed_mps - decrease_mps) >= 0.0F)
@@ -228,8 +220,8 @@ void decrease_speed(VehicleType &ego_vehicle)
 void longitudinal_control(const VehicleType &front_vehicle,
                           VehicleType &ego_vehicle)
 {
-    const float minimal_distance_m = mps_to_kph(ego_vehicle.speed_mps) / 2.0F;
-    const float front_distance_m = front_vehicle.distance_m;
+    const auto minimal_distance_m = mps_to_kph(ego_vehicle.speed_mps) / 2.0F;
+    const auto front_distance_m = front_vehicle.distance_m;
 
     if (front_distance_m < 0.0F)
     {
