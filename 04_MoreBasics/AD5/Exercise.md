@@ -3,16 +3,19 @@
 Implement the following functions:
 
 ```cpp
-LaneAssociationType get_lane_change_request(const VehicleType &ego_vehicle, const NeighborVehiclesType &vehicles);
+LaneAssociationType get_lane_change_request(
+    const VehicleType &ego_vehicle,
+    const NeighborVehiclesType &vehicles);
 
-bool lateral_control(const LaneAssociationType lane_change_request, VehicleType &ego_vehicle);
+bool lateral_control(
+    const LaneAssociationType lane_change_request,
+    VehicleType &ego_vehicle);
 ```
 
 - get_lane_change_request
-  - Send a lane change request to the left or right nearby lane to avoid a crash of the ego vehicle with the incoming (behind) vehicle
-    - If there is enough space on the right lane to make a lane change
-    - Else if there is enough space on the left lane, send a request
-    - Else, don't do anything
+  - Send a lane change request to avoid a crash of the ego vehicle with the incoming (behind) vehicle
+    - Change to the neighbor lane that has the largest gap (free space)
+      - Only iff: $GapSize \geq (EgoSpeed(\frac{k}{h}) / 5)$
 - lateral_control
   - If there is a request from **get_lane_change_request** do a lane change
 

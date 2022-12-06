@@ -13,7 +13,7 @@ static VehiclesData vehicles_data = std::vector<std::vector<VehicleType>>(
 void init_ego_vehicle(std::string_view filepath, VehicleType &ego_vehicle)
 {
     std::ifstream ifs(filepath.data());
-    json parsed_data = json::parse(ifs);
+    auto parsed_data = json::parse(ifs);
 
     ego_vehicle.id = EGO_VEHICLE_ID;
     ego_vehicle.distance_m = 0.0F;
@@ -25,7 +25,7 @@ void init_ego_vehicle(std::string_view filepath, VehicleType &ego_vehicle)
 void init_vehicles(std::string_view filepath, NeighborVehiclesType &vehicles)
 {
     std::ifstream ifs(filepath.data());
-    json parsed_data = json::parse(ifs);
+    auto parsed_data = json::parse(ifs);
 
     for (std::size_t vehicle_idx = 0; vehicle_idx < NUM_VEHICLES; vehicle_idx++)
     {

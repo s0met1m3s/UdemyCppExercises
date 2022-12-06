@@ -27,9 +27,9 @@ int main(int argc, char **argv)
         data_filepath = fs::path(data_path_str);
     }
 
-    fs::path ego_filepath = data_filepath;
+    auto ego_filepath = data_filepath;
     ego_filepath /= "ego_data.json";
-    fs::path vehicle_filepath = data_filepath;
+    auto vehicle_filepath = data_filepath;
     vehicle_filepath /= "vehicle_data.json";
 
     auto ego_vehicle = VehicleType{};
@@ -62,9 +62,7 @@ int main(int argc, char **argv)
             lateral_control(lane_change_request, ego_vehicle);
 
         if (lane_change_executed)
-        {
             printf("Executed lane change!");
-        }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }

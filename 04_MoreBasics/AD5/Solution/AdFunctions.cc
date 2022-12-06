@@ -308,55 +308,38 @@ LaneAssociationType get_lane_change_request(
         case LaneAssociationType::RIGHT:
         case LaneAssociationType::LEFT:
         {
-            const auto target_lane = LaneAssociationType::CENTER;
             const auto center_vehicles =
-                get_vehicle_array(target_lane, vehicles);
-
-            const auto abs_front_center_distance_m =
-                std::abs(center_vehicles[0].distance_m);
-            const auto abs_rear_center_distance_m =
+                get_vehicle_array(LaneAssociationType::CENTER, vehicles);
+            const auto center_gap_size_m =
+                std::abs(center_vehicles[0].distance_m) -
                 std::abs(center_vehicles[1].distance_m);
 
-            if ((abs_front_center_distance_m > minimal_distance_m) &&
-                (abs_rear_center_distance_m > minimal_distance_m))
+            if (center_gap_size_m > minimal_distance_m)
             {
-                return target_lane;
+                return LaneAssociationType::CENTER;
             }
 
             break;
         }
         case LaneAssociationType::CENTER:
         {
-            auto target_lane = LaneAssociationType::RIGHT;
-
             const auto right_vehicles =
-                get_vehicle_array(target_lane, vehicles);
-
-            const auto abs_front_right_distance_m =
-                std::abs(right_vehicles[0].distance_m);
-            const auto abs_rear_right_distance_m =
+                get_vehicle_array(LaneAssociationType::RIGHT, vehicles);
+            const auto right_gap_size_m =
+                std::abs(right_vehicles[0].distance_m) -
                 std::abs(right_vehicles[1].distance_m);
 
-            if ((abs_front_right_distance_m > minimal_distance_m) &&
-                (abs_rear_right_distance_m > minimal_distance_m))
-            {
-                return target_lane;
-            }
+            const auto left_vehicles =
+                get_vehicle_array(LaneAssociationType::LEFT, vehicles);
+            const auto left_gap_size_m = std::abs(left_vehicles[0].distance_m) -
+                                         std::abs(left_vehicles[1].distance_m);
 
-            target_lane = LaneAssociationType::LEFT;
-            const auto left_vehicles = get_vehicle_array(target_lane, vehicles);
-
-            const auto abs_front_left_distance_m =
-                std::abs(left_vehicles[0].distance_m);
-            const auto abs_rear_left_distance_m =
-                std::abs(left_vehicles[1].distance_m);
-
-            if ((abs_front_left_distance_m > minimal_distance_m) &&
-                (abs_rear_left_distance_m > minimal_distance_m))
-            {
-                return target_lane;
-            }
-
+            if (right_gap_size_m > left_gap_size_m &&
+                right_gap_size_m > minimal_distance_m)
+                return LaneAssociationType::RIGHT;
+            else if (left_gap_size_m > right_gap_size_m &&
+                     left_gap_size_m > minimal_distance_m)
+                return LaneAssociationType::LEFT;
             break;
         }
         default:
