@@ -17,7 +17,7 @@ bool none_of(const std::int32_t *array,
 
 std::size_t count(const std::int32_t *array,
                   const std::size_t length,
-                  const std::int32_t value););
+                  const std::int32_t value);
 ```
 
 - All Of

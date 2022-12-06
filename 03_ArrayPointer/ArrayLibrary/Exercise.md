@@ -21,7 +21,9 @@ void rotate_right(std::int32_t *array, std::size_t length);
   - Rotate all elements of the array to the right
   - Rotate Right: [1, 2, 3] => [3, 1, 2]  
 
-Note: Make sure that the input pointers are valid.
+Note: Make sure that the input pointers are valid!
+
+Note: Assume that a number can be at most 2 times in the array!
 
 ## Main Function
 
