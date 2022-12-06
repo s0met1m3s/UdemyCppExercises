@@ -3,9 +3,12 @@
 #include <cstring>
 #include <iostream>
 #include <vector>
+#include <cassert>
 
-#include "algo.hpp"
+#include "algo.h"
 #include "utils.hpp"
+
+void test_cases();
 
 int main()
 {
@@ -29,5 +32,27 @@ int main()
     const auto sum = mystd::accumulate(vec1.begin(), vec1.end(), 0);
     std::cout << sum << '\n';
 
+    test_cases();
+
     return 0;
+}
+
+void test_cases()
+{
+    auto vec1 = std::vector<std::int32_t>(5, 0);
+    auto vec2 = std::vector<std::int32_t>(5, 0);
+    auto vec3 = std::vector<std::int32_t>(5, 0);
+    vec3.back() = 1;
+
+    assert(mystd::equal(vec1.begin(), vec1.end(), vec2.begin()) == true);
+    assert(mystd::equal(vec1.begin(), vec1.end(), vec3.begin()) == false);
+
+    mystd::fill_n(vec1.begin(), 5, 1);
+    mystd::fill_n(vec2.begin(), 5, 1);
+    assert(mystd::equal(vec1.begin(), vec1.end(), vec2.begin()) == true);
+
+    mystd::copy(vec1.begin(), vec1.end(), vec3.begin());
+    assert(mystd::equal(vec1.begin(), vec1.end(), vec3.begin()) == true);
+
+    assert(mystd::accumulate(vec1.begin(), vec1.end(), 0) == 5);
 }
