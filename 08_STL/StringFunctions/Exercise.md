@@ -42,23 +42,19 @@ int main()
 
     std::string str2 = "JanIstHier";
     std::cout << std::boolalpha << str2
-              << " starts_with: Jan = " << mystd::starts_with(str2, "Jan")
-              << '\n';
+              << " starts w/ Jan = " << mystd::starts_with(str2, "Jan") << '\n';
     std::cout << std::boolalpha << str2
-              << " starts_with: Ja = " << mystd::starts_with(str2, "Ja")
-              << '\n';
+              << " starts w/  Ja = " << mystd::starts_with(str2, "Ja") << '\n';
     std::cout << std::boolalpha << str2
-              << " starts_with: ja = " << mystd::starts_with(str2, "ja")
-              << '\n';
+              << " starts w/  ja = " << mystd::starts_with(str2, "ja") << '\n';
 
     std::string str3 = "JanWarHier";
     std::cout << std::boolalpha << str3
-              << " ends_with: Hier = " << mystd::ends_with(str3, "Hier")
-              << '\n';
+              << " ends w/ Hier = " << mystd::ends_with(str3, "Hier") << '\n';
     std::cout << std::boolalpha << str3
-              << " ends_with: Hie = " << mystd::ends_with(str3, "Hie") << '\n';
+              << " ends w/ Hie = " << mystd::ends_with(str3, "Hie") << '\n';
     std::cout << std::boolalpha << str3
-              << " ends_with: Hir = " << mystd::ends_with(str3, "Hir") << '\n';
+              << " ends w/ Hir = " << mystd::ends_with(str3, "Hir") << '\n';
 
     std::string str4 = "JanWarHier";
     std::cout << std::boolalpha << str4
@@ -69,8 +65,9 @@ int main()
               << " contains: jan = " << mystd::contains(str4, "jan") << '\n';
 
     std::string str5 = "HalloHallohaHallo";
-    std::cout << "num_occurences: " << mystd::num_occurences(str5, "Hallo")
-              << '\n';
+    std::cout << "occurences: " << mystd::num_occurences(str5, "Hallo") << '\n';
+
+    test_cases();
 
     return 0;
 }

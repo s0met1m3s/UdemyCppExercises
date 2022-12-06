@@ -1,7 +1,10 @@
+#include <cassert>
 #include <iostream>
 #include <string>
 
 #include "lib.h"
+
+void test_cases();
 
 int main()
 {
@@ -11,23 +14,19 @@ int main()
 
     std::string str2 = "JanIstHier";
     std::cout << std::boolalpha << str2
-              << " starts_with: Jan = " << mystd::starts_with(str2, "Jan")
-              << '\n';
+              << " starts w/ Jan = " << mystd::starts_with(str2, "Jan") << '\n';
     std::cout << std::boolalpha << str2
-              << " starts_with: Ja = " << mystd::starts_with(str2, "Ja")
-              << '\n';
+              << " starts w/  Ja = " << mystd::starts_with(str2, "Ja") << '\n';
     std::cout << std::boolalpha << str2
-              << " starts_with: ja = " << mystd::starts_with(str2, "ja")
-              << '\n';
+              << " starts w/  ja = " << mystd::starts_with(str2, "ja") << '\n';
 
     std::string str3 = "JanWarHier";
     std::cout << std::boolalpha << str3
-              << " ends_with: Hier = " << mystd::ends_with(str3, "Hier")
-              << '\n';
+              << " ends w/ Hier = " << mystd::ends_with(str3, "Hier") << '\n';
     std::cout << std::boolalpha << str3
-              << " ends_with: Hie = " << mystd::ends_with(str3, "Hie") << '\n';
+              << " ends w/ Hie = " << mystd::ends_with(str3, "Hie") << '\n';
     std::cout << std::boolalpha << str3
-              << " ends_with: Hir = " << mystd::ends_with(str3, "Hir") << '\n';
+              << " ends w/ Hir = " << mystd::ends_with(str3, "Hir") << '\n';
 
     std::string str4 = "JanWarHier";
     std::cout << std::boolalpha << str4
@@ -38,8 +37,34 @@ int main()
               << " contains: jan = " << mystd::contains(str4, "jan") << '\n';
 
     std::string str5 = "HalloHallohaHallo";
-    std::cout << "num_occurences: " << mystd::num_occurences(str5, "Hallo")
-              << '\n';
+    std::cout << "occurences: " << mystd::num_occurences(str5, "Hallo") << '\n';
+
+    test_cases();
 
     return 0;
+}
+
+void test_cases()
+{
+    assert(mystd::is_palindrom("anna") == true);
+    assert(mystd::is_palindrom("aNna") == false);
+
+    assert(mystd::ends_with("anna", "a") == true);
+    assert(mystd::ends_with("anna", "na") == true);
+    assert(mystd::ends_with("anna", "ann") == false);
+
+    assert(mystd::starts_with("anna", "a") == true);
+    assert(mystd::starts_with("anna", "na") == false);
+    assert(mystd::starts_with("anna", "ann") == true);
+
+    assert(mystd::contains("anna", "ann") == true);
+    assert(mystd::contains("anna", "nn") == true);
+    assert(mystd::contains("anna", "nna") == true);
+    assert(mystd::contains("anna", "ana") == false);
+
+    assert(mystd::num_occurences("anna", "a") == 2);
+    assert(mystd::num_occurences("anna", "n") == 2);
+    assert(mystd::num_occurences("anna", "nn") == 1);
+    assert(mystd::num_occurences("anna", "anna") == 1);
+    assert(mystd::num_occurences("anna", "annaa") == 0);
 }
