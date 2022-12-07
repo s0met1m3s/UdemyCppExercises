@@ -54,5 +54,5 @@ template <typename T>
     const auto x_s = x * c - y * s;
     const auto y_s = x * s + y * c;
 
-    return std::make_pair(x_s, y_s);
+    return {x_s, y_s};
 }

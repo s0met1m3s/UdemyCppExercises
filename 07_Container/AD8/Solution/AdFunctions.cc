@@ -36,7 +36,7 @@ void print_neighbor_vehicles(const NeighborVehiclesType &vehicles)
 void print_vehicle_on_lane(const VehicleType *const vehicle,
                            const float range_m,
                            const float offset_m,
-                           char *string,
+                           std::string &string,
                            std::size_t &idx)
 {
     if ((vehicle != nullptr) && (range_m >= vehicle->distance_m) &&
@@ -68,26 +68,26 @@ void print_scene(const VehicleType &ego_vehicle,
     {
         const auto range_m = static_cast<float>(i);
 
-        char left_string[]{"   "};
-        char center_string[]{"   "};
-        char right_string[]{"   "};
-        char *ego_string = nullptr;
+        auto left_string = std::string{"   "};
+        auto center_string = std::string{"   "};
+        auto right_string = std::string{"   "};
+        std::string *ego_string = nullptr;
 
         switch (ego_vehicle.lane)
         {
         case LaneAssociationType::LEFT:
         {
-            ego_string = left_string;
+            ego_string = &left_string;
             break;
         }
         case LaneAssociationType::CENTER:
         {
-            ego_string = center_string;
+            ego_string = &center_string;
             break;
         }
         case LaneAssociationType::RIGHT:
         {
-            ego_string = right_string;
+            ego_string = &right_string;
             break;
         }
         default:

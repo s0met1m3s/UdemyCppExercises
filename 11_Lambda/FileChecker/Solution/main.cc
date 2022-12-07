@@ -38,10 +38,9 @@ int main(int argc, char **argv)
     {
         std::cout << "File: " << file << '\n';
         std::cout << std::boolalpha;
-        std::cout << "is_c_header_file: " << is_c_header_file(file) << '\n';
-        std::cout << "is_c_source_file: " << is_c_source_file(file) << '\n';
-        std::cout << "is_cpp_header_file: " << is_cpp_header_file(file) << '\n';
-        std::cout << "is_cpp_source_file: " << is_cpp_source_file(file) << '\n'
-                  << '\n';
+        std::cout << "c_header_file: " << is_c_header_file(file) << '\n';
+        std::cout << "c_source_file: " << is_c_source_file(file) << '\n';
+        std::cout << "cpp_header_file: " << is_cpp_header_file(file) << '\n';
+        std::cout << "cpp_source_file: " << is_cpp_source_file(file) << '\n';
     }
 }

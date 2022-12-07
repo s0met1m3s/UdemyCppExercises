@@ -65,7 +65,7 @@ template <typename T>
 
     move_point(cx, cy, x_s, y_s);
 
-    return std::make_pair(x_s, y_s);
+    return {x_s, y_s};
 }
 
 template <std::size_t N>

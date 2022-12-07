@@ -29,8 +29,8 @@ Implement the following unit conversions and math operations with templated func
 
 - rotate_point
   - Rotates a 2D point $p = \begin{pmatrix}x\\y\end{pmatrix}$ based on a given rotation value $\theta$ (in radians)
-  - $M = \begin{pmatrix}cos(\theta) & sin(\theta)\\-sin(\theta) & cos(\theta)\end{pmatrix}$
-  - To rotate compute: $x' = Mx$
+  - $M = \begin{pmatrix}cos(\theta) & -sin(\theta)\\sin(\theta) & cos(\theta)\end{pmatrix}$
+  - To rotate compute: $p' = Mp$
   - The function should return a pair (the rotated x and y value)
   - Add a static assert to check:
     - The Input and Output must be a floating type

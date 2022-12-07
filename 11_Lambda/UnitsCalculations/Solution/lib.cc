@@ -43,8 +43,8 @@ void compute_accelerations(const std::array<float, NUM_ENTRIES> &velocities_mps,
 
     for (std::size_t i = 1; i < NUM_ENTRIES; ++i)
     {
-        accelerations_mps2[i] =
-            (velocities_mps[i] - velocities_mps[i - 1]) / TIME_SPAN_MS;
+        accelerations_mps2[i] = (velocities_mps[i] - velocities_mps[i - 1]) /
+                                ms_to_s<std::uint32_t, float>(TIME_SPAN_MS);
     }
 }
 
